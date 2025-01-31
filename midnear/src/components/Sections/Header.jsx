@@ -1,23 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation, Link } from 'react-router-dom'; 
+import React, { useEffect, useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom'; 
 import {motion, AnimatePresence} from 'framer-motion';
 import logo from "../../assets/img/logo/header_logo.svg";
-import Login from '../User/Login';
-import {motion, AnimatePresence} from 'framer-motion';
 import ShoppingCart from '../Cart/ShoppingCart';
 import frontImg from '../../assets/img/product/prod1.png'
 import ham from '../../assets/img/main_img/ham.svg'
 import close from '../../assets/img/product/close.svg'
 
-
 const Header = () => {
   const navigate = useNavigate();
-  const location = useLocation(); 
   const [activeSub1, setActiveSub1] = useState(false);
   const [activeSub2, setActiveSub2] = useState(false);
   const [activeSubCate1, setActiveSubCate1] = useState(false);
   const [activeSubCate2, setActiveSubCate2] = useState(false);
-  const [showLoginModal, setShowLoginModal] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isHamOpen, setHamOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -34,7 +29,6 @@ const Header = () => {
     },
   ]);
 
-
   const goHome = () => {
      navigate('/'); 
   };
@@ -42,6 +36,7 @@ const Header = () => {
   const openCate1 = () => {
     setActiveSub1(!activeSub1);
   };
+
 
   const openCate2 = () => {
     setActiveSub2(!activeSub2);
@@ -53,15 +48,6 @@ const Header = () => {
     setActiveSubCate2(!activeSubCate2);
   };
 
-  const toggleLoginModal = () => {
-    setShowLoginModal(!showLoginModal);
-  };
-
-  useEffect(() => {
-    setShowLoginModal(false);
-  }, [location.pathname]);
-
-  
   const toggleCart = () => {
     setIsCartOpen((prev)=>!prev);
   }
@@ -274,22 +260,6 @@ const Header = () => {
       )}
       </AnimatePresence>
       </div>
-
-      <div className="sc2">
-        <p className="SEARCH">SEARCH</p>
-        <p className="LOGIN" onClick={toggleLoginModal} >LOGIN</p>
-        <p className="ACCOUNT">ACCOUNT</p>
-        <p className="BAG" onClick={toggleCart}>
-          BAG <span>({cartList.length})</span>
-        </p>
-      </div>
-
-      {showLoginModal && (
-        <Login onClose={toggleLoginModal} />
-      )}
-
-    </div>
-    <AnimatePresence>
 
       <AnimatePresence>
         {isCartOpen && (

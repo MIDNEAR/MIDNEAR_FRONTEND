@@ -32,7 +32,6 @@ const FindID = () => {
         e.preventDefault();
         if (isPhoneValid && isNameValid) {
             setPhoneCodeInput(true);
-            setVerificationMessage('인증번호가 전송되었습니다.');
             setCodeError('');
         } else {
             handleValid();
