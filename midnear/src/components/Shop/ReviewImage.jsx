@@ -56,15 +56,16 @@ const ReviewImage = () => {
     <div className='ReviewImage'>
       <div className='top-el'>
         <div>
-          <img src={Back} className='back' onClick={()=>navigate(-1)}/>
-          <h2>돌아가기</h2>
+          <img src={Back} className='back-btn' onClick={()=>navigate(-1)}/>
+          <h2 className='title'>돌아가기</h2>
         </div>
         <p>리뷰 이미지 모아보기</p>
       </div>
+
       <div className='bottom-el'>
           <div className='all-imgList'>
               {allImages.slice(offset, offset + limit).map((it, index)=>(
-                  <div keu={index} className='image-box' >
+                  <div key={index} className='image-box' >
                       <img src={it} className='image'/>
                   </div>
               ))}

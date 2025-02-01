@@ -29,3 +29,14 @@
     align-items: center;
     border-bottom: 0.1rem solid var(--gray800);
 }   
+
+@media (max-width: 50rem){
+    .mypage {
+        display: none;
+    }
+
+    .mypage_menu {
+        margin-top: 5rem;
+        width: 28.2rem;
+    }
+}

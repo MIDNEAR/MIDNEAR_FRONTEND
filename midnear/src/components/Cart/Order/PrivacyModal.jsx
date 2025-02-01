@@ -1,7 +1,17 @@
 import React from 'react'
 import Close from '../../../assets/img/product/close.svg'
 
-const PrivacyModal = ({isOpen, closeModal}) => {
+const PrivacyModal = ({isOpen, closeModal, setIsChecked, isChecked}) => {
+    const handleAgree = () => {
+        setIsChecked((prev) => (prev.includes(2) ? prev : [...prev, 2])); // ID 2 추가
+        closeModal();
+      };
+    
+      const handleDisagree = () => {
+        setIsChecked((prev) => prev.filter((itemId) => itemId !== 2)); // ID 2 제거
+        closeModal();
+      };
+    
   return (
     <div className='PrivacyModal'>
     <div className='ShippingModal' style={{display:isOpen ? "flex" : "none"}}>
@@ -28,8 +38,8 @@ const PrivacyModal = ({isOpen, closeModal}) => {
                     </p>
                 </div>
                 <div className='modal-bottom'>
-                    <div>동의하지않음</div>
-                    <div>동의함</div>
+                    <div onClick={handleDisagree}>동의하지않음</div>
+                    <div onClick={handleAgree}>동의함</div>
                 </div>
             </div>
         </div>

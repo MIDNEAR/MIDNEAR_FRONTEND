@@ -1,5 +1,5 @@
 // 주문 내역
-.order_search {
+.search-bar-order {
     margin-top: 2rem;
     width: 70.2rem;
     height: 4.2rem;
@@ -7,6 +7,15 @@
     color: var(--gray700);
     padding-left: 1.5rem;
     font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+
+    .order_search {
+        width: 90%;
+        outline: none;
+    }
 }
 
 .order_title{
@@ -87,7 +96,7 @@
         padding: 0;
     }
 
-    .box_right {
+    .box_right, .box_right_detail, .box_right-select {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -97,8 +106,8 @@
 
         .order_detail {
             position: absolute; 
-            top: 0.8rem;
-            right: -2.5rem;
+            top: 0.6rem;
+            right: -0.6rem;
             font-size: 1rem;
             font-weight: 500;
             color: var(--black);
@@ -109,7 +118,6 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 1rem;
     
             .order_option {
                 width: 13.7rem;
@@ -123,42 +131,423 @@
                 border-radius: 0.5rem;
                 background-color: var(--white);
                 cursor: pointer;
+                margin: 1rem;
+
+                &:hover {
+                    cursor: pointer;
+                    background-color: #363636;
+                    color: var(--white);
+                }
+            }
+        }
+    }
+}
+
+.detail {
+    margin-top: 2.8rem;
+}
+
+.order_num {
+    display: flex;
+    gap: 2.4rem;
+}
+
+.order_info-top {
+    margin-top: 1.3rem;
+}
+
+.order_info-top {
+    width: 70.2rem;
+    border-top: 1px solid #F1F1F1;
+    border-bottom: 1px solid #F1F1F1;
+
+    .order_info__item {
+        display: flex;
+        margin-top: 8px;
+        margin-bottom: 8px;
+
+        .order_info__label {
+            width: 6.3rem;
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--gray700);
+            margin-right: 4.7rem;
+        }
+    
+        .order_info__value {
+            text-align: left;
+            width: 58.2rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+    
+        }
+    }
+}
+
+.payment-info {
+    margin-top: 2.8rem;
+
+    .payment-detail{
+        display: flex;
+    }
+
+    .payment-info__details{
+        margin-top: 1.3rem;
+        width: 70.2rem;
+        border-top: 1px solid #F1F1F1;
+        border-bottom: 1px solid #F1F1F1;
+        display: flex;
+        flex-direction: column;
+
+        .payment-info__item_left{
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            width: 35rem;
+            margin-top: 8px;
+            margin-bottom: 8px;
+        }
+
+        .payment-info__item_right {
+            display: flex;
+            justify-content: space-between;
+            width: 35rem;
+            flex-direction: column;
+            background-color: #E0E0E0;
+
+            .payment-info__item {
+                display: flex;
+                justify-content: space-between;
+                margin: 0.8rem;
+            }
+        }
+
+        .payment-info__label{
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--gray700);
+        }
+
+        .payment-info__value{
+            font-size: 1.0rem;
+            font-weight: 700;
+        }
+
+        .payment-info__value-highlight{
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+    }
+    
+    .order_section_line {
+        width: 70.2rem;
+        border: 0.1rem solid #F1F1F1;
+    }
+}
+
+.pament-bill {
+    margin-top: 2.6rem;
+
+    .payment-info__receipt{
+        margin-top: 1.3rem;
+        width: 70.2rem;
+        border-top: 1px solid #F1F1F1;
+        border-bottom: 1px solid #F1F1F1;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        
+        .payment-info__description{
+            font-size: 1.2rem;
+            color: var(--gray700);
+            margin-top: 2.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .payment-info__button {
+            width: 7.2rem;
+            height: 3.6rem;
+            color: var(--black);
+            background-color: var(--white);
+            border-radius: 0.5rem;
+            padding: 0.8rem;
+            border: 0.1rem solid #C2C2C2;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+    }
+}
+
+.submit_button_option {
+    margin-top: 4.8rem;
+    width: 70.2rem;
+    height: 4rem;
+    background-color: var(--white);
+    border: 0.1rem solid #363636;
+    transition: 0.3s;
+
+    &:hover {
+        cursor: pointer;
+        background-color: #363636;
+        color: var(--white);
+    }
+}
+
+.button_area {
+    margin-top: 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    width: 70.2rem;
+}
+
+.payment-info__button--delete, .payment-info__button--back {
+    color: var(--black);
+    background-color: var(--white);
+    border-radius: 0.5rem;
+    padding: 0.8rem;
+    border: 0.1rem solid #C2C2C2;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.array_list {
+    display: flex;
+
+    .Show_list {
+        margin-top: 2rem;
+        margin-right: 1rem;
+        cursor: pointer;
+        font-size: 1.2rem;
+        color: var(--gray700);
+        text-decoration: underline;
+      }
+      
+      .Show_list.valid {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: var(--black);
+        text-decoration: underline;
+      }
+      
+}
+
+.canceled_order {
+    margin-top: 20px;
+    width: 70.2rem;
+    height: 18.4rem;
+    border: 0.1rem solid #D4D4D4;
+    display: flex;
+    padding: 1.4rem;
+
+    .dot {
+        width: 0.4rem;
+        height: 0.4rem;
+        margin: 1rem;
+        background-color: var(--gray1100);
+        border-radius: 50%;
+    }
+
+
+        .order_state {
+            display: flex;
+            align-items: center;
+
+            .state {
+                font-size: 1.2rem;
+                font-weight: 700;
+                color: var(--black);
+            }
+
+            .date {
+                font-size: 1rem;
+                font-weight: 500;
+                color: #FF0000;
+            }
+        }
+
+    .order_info {
+        display: flex;
+        margin-top: 1.5rem;
+
+        img {
+            width: 9.9rem;
+            height: 9.9rem;
+        }
+
+        .goods_info {
+            padding: 1.1rem;
+
+            p {
+                width: 35.8rem;
+                font-size: 1.2rem;
+            }
+
+            .price {
+                display: flex;
+                align-items: center;
+                margin-top: 3rem;
+
+                span {
+                    font-size: 1.2rem;
+                    font-weight: 600;
+                }
+            }
+        }
+        
+    }
+
+    .order_detail {
+        font-size: 1rem;
+        font-weight: 500;
+        color: var(--black);
+        cursor: pointer;
+    }
+}
+
+.order_detail-canceled { 
+    margin-top: 0.6rem;
+    margin-left: 12rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--black);
+    cursor: pointer;
+}
+
+@media (max-width: 50rem){
+    .search-bar-order {
+        width: 33rem;
+    }
+    
+    .ordering_box, .ordered_box {
+        width: 33rem;
+
+        .box_left {
+            width: 20rem;
+
+            .order_info{
+                .goods_info{
+    
+                    p {
+                        width: 19.5rem;
+                    }
+                }
+            }
+        }
+    
+        .line {
+            display: none;
+        }
+    
+        .box_right {
+            margin-left: 15rem;
+
+            .order_detail {
+                width: 10rem;
+                
+            }
+            .box {
+                .order_option {
+                   display: none;
+                }
+            }
+        }
+
+        .box_right_detail {
+            position: relative;
+            top: 20rem;
+            right: 23.5rem;;
+        }
+
+        .box_right-select {
+            position: relative;
+            height: 3rem;
+            top: 21rem;
+            right: 21rem;;
+            margin: 0rem;
+
+            .box {
+                flex-direction: row;
+                width: 35rem;
+                margin: 0rem;
+
+                .order_option {
+                    width: 30rem;
+                }
             }
         }
     }
     
+    .detail {
+        width: 35rem;
+        margin-top: 23rem;
+    }
     
-}
+    .order_info-top {
+        margin-top: 1.3rem;
+    }
+    
+    .order_info-top {
+        width: 35rem;
+    
+        .order_info__item {
+            .order_info__label {
+                width: 18rem;
+            }
+        }
+    }
+    
+    .payment-info {
+    
+        .payment-info__details{
+            width: 35rem;
+    
+            .payment-info__item_left{
+                width: 35rem;
+            }
+    
+            .payment-info__item_right {
+                width: 35rem;
+            }
+        }
+        
+        .order_section_line {
+            width: 35rem;
+        }
+    }
+    
+    .pament-bill {
+        .payment-info__receipt{
+            width: 35rem;
+        }
+    }
+    
+    .button_area {
+        width: 35rem;
+    }
+    
+    .canceled_order {
+        width: 33rem;
+    
+        .order_info {
+            width: 20rem;
 
-.button_area{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 71.8rem;
-    gap: 1rem;
-    margin-top: 4rem;
-
-    .previous {
-        width: 7.1rem;
-        height: 3.6rem;
-        font-size: 1.2rem;
-        font-weight: 500;
-        border-radius: 0.5rem;
-        border: 0.1rem solid #C2C2C2;
-        color: #C2C2C2;
-        background-color: #E6E6E6;
-        cursor: pointer;
+            .goods_info {
+                p {
+                    width: 19.5rem;
+                }
+            }
+        }
+    }
+    
+    .order_detail-canceled { 
+        position: relative;
+        width: 10rem;
+        margin-top: 0rem;
+        margin-left: 0rem;
+        left: 4rem;
     }
 
-    .next {
-        width: 7.1rem;
-        height: 3.6rem;
-        font-size: 1.2rem;
-        font-weight: 500;
-        border-radius: 0.5rem;
-        border: 0.1rem solid #C2C2C2;
-        color: var(--black);
-        background-color: var(--white);
-        cursor: pointer;
+    .submit_button_option {
+        width: 33rem;
     }
 }

@@ -1,0 +1,417 @@
+.load_bar {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+
+    span{
+        font-size: 1.2rem;
+        font-weight: 700;
+    }
+
+    p {
+        font-size: 1.2rem;
+        font-weight: 500;
+    }
+
+    .load_bar_line {
+        width: 23.4rem;
+        height: 0rem;
+        border: 0.1rem solid #C2C2C2;
+    }
+
+    .load_bar_line_selected {
+        width: 23.4rem;
+        height: 0rem;
+        border: 0.1rem solid var(--black);
+    }
+}
+
+.optional_contents {
+    margin-top: 5rem;
+}
+
+
+.optional_next_level {
+    width: 70.2rem;
+    height: 4.4rem;
+    color: #646464;
+    background-color: #E6E6E6;
+    margin-top: 2.5rem;
+    transition: 0.3s;
+    cursor: pointer;
+
+    &:hover {
+        color: #E6E6E6;
+        background-color: #333333;
+    }
+}
+
+.order_option {
+    background-color: var(--white);
+    color: #333333;
+    border: 1px solid #ccc;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 1.2rem;
+    z-index: 100;
+    
+    &:hover{
+        background-color: #333333;
+        color: var(--white)
+      }
+  }
+
+.order_option.active {
+    background-color: #333333 !important; 
+    color: var(--white) !important;
+}
+
+.radio-text-loud-top {
+    font-size: 1.4rem;
+    font-weight: 800;
+}
+
+.radio-text-loud {
+    font-size: 1.4rem;
+    font-weight: 800;
+    margin-top: 2rem;
+    margin-left: 3rem;
+}
+
+.radio-seperate-line {
+    border: 0.1rem solid #E6E6E6;
+    margin-top: 1rem;
+}
+.more_detail_option {
+    margin-top: 2rem;
+
+    .button_section{
+        display: flex;
+        width: 70.2rem;
+        justify-content: space-between;
+        margin-top: 2rem;
+
+        .previous_level_min {
+            width: 34.4rem;
+            height: 4.4rem;
+            background-color: var(--white);
+            color: #646464;
+            border: 0.1rem solid;
+            font-size: 1.5rem;
+        }
+
+        .next_level_min {
+            width: 34.4rem;
+            height: 4.4rem;
+            background-color: #E6E6E6;
+            color: #646464;
+            transition: 0.3s;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+
+            &:hover{
+                background-color: #333333;
+                color: var(--white)
+              }
+        }
+    }
+}
+
+.exchange_box{
+    width: 70.2rem;
+    border: 0.1rem solid #D4D4D4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+
+    .dot {
+        width: 0.4rem;
+        height: 0.4rem;
+        margin: 1rem;
+        background-color: var(--gray1100);
+        border-radius: 50%;
+    }  
+
+    .box_top {
+        padding: 1rem;
+        width: 70.2rem;
+        margin-left: 3rem;
+
+        .order_state {
+            display: flex;
+            margin-left: 0.3rem;
+            margin-bottom: 0.5rem;
+            align-items: center;
+
+            .state {
+                font-size: 1.2rem;
+                font-weight: 700;
+                color: var(--black);
+            }         
+
+            .state-refund {
+                margin-top: 1rem;
+                font-size: 1.2rem;
+                font-weight: 700;
+                color: var(--black);
+            }
+
+            .date {
+                font-size: 1rem;
+                font-weight: 500;
+                color: #FF0000;
+            }
+        }
+
+        .order_info {
+            display: flex;
+            
+            img {
+                width: 9.9rem;
+                height: 9.9rem;
+            }
+    
+            .goods_info{
+                padding-left: 1.1rem;
+    
+                p {
+                    width: 35.8rem;
+                    font-size: 1.2rem;
+                }
+    
+                .price {
+                    display: flex;
+                    align-items: center;
+                    margin-top: 3rem;
+                    span {
+                        font-size: 1.2rem;
+                        font-weight: 600;
+                    }
+                }
+
+                .goods_name{
+                    font-size: 1.2rem;
+                    font-weight: 700;
+                }
+
+                .goods_price{
+                    font-size: 1.2rem;
+                    font-weight: 400;
+                }
+
+                .size{
+                    display: flex;
+
+                    li {
+                        font-size: 1.2rem;
+                        font-weight: 400;
+                        padding: 2rem;
+                        margin-left: -2rem;
+                    }
+                }
+
+                .color {
+                    font-size: 1.1rem;
+                    font-weight: 500;
+
+                    ul {
+                        display: flex;
+                    }
+                }
+
+             }
+        }
+    }
+
+    .color-detail {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+        margin-left: 10.8rem;
+      }
+      
+      .picture-detail {
+        width: 4rem;
+        height: 4rem;
+        background-color: var(--gray1100);
+      }
+      
+
+    .under_line {
+        width: 64.7rem;
+        border: 0.1rem solid #E6E6E6;
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .box_bottom {
+        padding: 1rem;
+        width: 70.2rem;
+        margin-left: 3rem;
+
+        p {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        span {
+            font-size: 1.2rem;
+            font-weight: 400;
+        }
+    }
+}
+
+.option_content_container {
+    margin-top: 3rem;
+}
+
+.order_title-refund {
+    margin-top: 1rem;
+    font-size: 1.2rem;
+    font-weight: 400;
+    text-decoration: underline;
+    color: var(--gray700);
+}
+
+.goods_value, .refund_value {
+    display: flex;
+    justify-content: flex-end;
+    width: 64rem;
+
+
+    .label, .amount  {
+        font-size: 1.2rem;
+        font-weight: 700;
+        text-align: right;
+        width: 100px;
+        margin-top: 1rem;
+    }
+    
+    .amount-discount{
+        font-size: 1.2rem;
+        font-weight: 700;
+        text-align: right;
+        width: 100px;
+        margin-top: 1rem;
+        color: #FF0000;
+    }
+}
+
+.box_bottom {
+    .order_state_option {
+        display: flex;
+        justify-content: space-between;
+        width: 64rem;
+        margin-bottom: 5rem;
+    
+        .state-option-refund, .state-amount-refund{
+            font-size: 1.2rem;
+            font-weight: 800;
+        }
+    }
+}
+
+@media (max-width: 50rem){
+    .load_bar {
+        gap: 7rem;
+
+        .load_bar_line {
+            display: none;
+        }
+    
+        .load_bar_line_selected {
+            display: none;
+        }
+    }
+    
+    .optional_next_level {
+        width: 33rem;
+        margin-top: 8rem;
+        z-index: 1000;
+    }
+    
+    .order_option {
+        margin-left: 30rem;
+        
+        &:hover{
+            background-color: #333333;
+            color: var(--white)
+          }
+      }
+    
+    .radio-seperate-line {
+        width: 33rem;
+    }
+
+    .more_detail_option {
+        .button_section{
+            width: 33rem;
+            gap: 1rem;
+    
+            .previous_level_min {
+                width: 34.4rem;
+                height: 4.4rem;
+            }
+    
+            .next_level_min {
+                width: 34.6rem;
+                height: 4.6rem;
+            }
+        }
+    }
+    
+    .exchange_box{
+        width: 33rem;
+
+        .box_top {
+            width: 33rem;
+    
+            .order_info {
+                display: flex;
+        
+                .goods_info{
+                    p {
+                        width: 18rem;
+                        font-size: 1.2rem;
+                    }
+                 }
+            }
+        }
+    
+        .color-detail {
+            gap: 0.7rem;
+          }
+          
+    
+        .under_line {
+            width: 31rem;
+        }
+    
+        .box_bottom {
+            width: 33rem;
+        }
+    }
+    
+
+    .order_title-refund {
+        width: 29rem;
+        font-size: 1rem;
+        margin-bottom: 1rem;
+    }
+    
+    .goods_value, .refund_value {
+        width: 28rem;
+    }
+    
+    .box_bottom {
+        .order_state_option {
+            width: 28rem;
+        }
+    }
+}

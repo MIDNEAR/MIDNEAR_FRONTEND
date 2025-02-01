@@ -6,10 +6,17 @@ import { DelModal } from './DelModal';
 const SelectAdd = () => {    
     const navigate = useNavigate();
     const [selectedAddress, setSelectedAddress] = useState(null);
+    const [selectedId, setSelectedId] = useState(null);
     
     const [isModalOpen, setIsModalOpen] = useState(false);    
-    const openModal = () => setIsModalOpen(true);
-    const closeModal = () => setIsModalOpen(false);
+    const openModal = (id) => {
+        setSelectedId(id); 
+        setIsModalOpen(true);
+    };
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setSelectedId(null);
+    };
 
     const selectAdd = () => {
         navigate('/order/delivery/select-address');
@@ -18,10 +25,16 @@ const SelectAdd = () => {
     const newAdd = () => {
         navigate('/order/delivery/new-address');
     };
-    const addressList = [
+
+    const changeAdd = () => {
+        navigate('/order/delivery/member');
+    };
+    const [addressList, setAddressList] = useState([
         {   
             id: 1,
             name: '홍길동',
+            destination:'집',
+            isDefault: 1,
             number: '010-1233-1222',
             firstAdd: '서울특별시 서대문구 성산로 8길 9-9 (연희동)',
             secondAdd: 'ㅇㅇ아파트 109동 109호(종 1234)',
@@ -30,12 +43,19 @@ const SelectAdd = () => {
         {   
             id: 2,
             name: '홍길동',
+            destination: '회사',
+            isDefault: 0,
             number: '010-1233-1222',
             firstAdd: '서울특별시 서대문구 성산로 8길 9-9 (연희동)',
             secondAdd: 'ㅇㅇ아파트 109동 109호(종 1234)',
             postNum: 123098,
         }
-    ]
+    ]);
+    
+    const deleteAddress = () => {
+        setAddressList((prev) => prev.filter((address) => address.id !== selectedId));
+        closeModal();
+    };
 
   return (
     <div className={`address ${isModalOpen ? 'modal-open' : ''}`}>
@@ -69,13 +89,18 @@ const SelectAdd = () => {
                     <div className='left'>
                         <div className='userInfo'>
                         <div>
-                            <p className='b_txt'>{item.name}</p>
+                            <div className='desti-info'>
+                                <p className='b_txt'>{item.name}</p>
+                                {item.isDefault === 1 && (
+                                    <div>기본</div>
+                                )}
+                                <div>{item.destination}</div>
+                            </div>
                             <p className='g_txt'>{item.number}</p>
                         </div>
                         <div className='edit'>
-                            <Link to='/order/delivery/edit-address'><div className='edit-btn'>수정</div></Link>
-                            <div className='edit-btn' onClick={openModal}>삭제</div>
-                            <DelModal isOpen={isModalOpen} closeModal={closeModal} />
+                            <div className='edit-btn' onClick={() => openModal(item.id)}>삭제</div>
+                            <DelModal isOpen={isModalOpen} closeModal={closeModal} deleteAddress={deleteAddress} />
                         </div>
                         </div>
                     
@@ -86,7 +111,7 @@ const SelectAdd = () => {
                 </label>
                 </div>
                 ))}
-                <button className='btn'  onClick={newAdd}>배송지 추가하기</button>
+                <button className='add-btn'  onClick={changeAdd}>기본 배송지 변경하기</button>
             </div>
         </div>
         

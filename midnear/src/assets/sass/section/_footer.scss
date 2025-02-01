@@ -1,23 +1,52 @@
-.footer{
+.footer {
     display: flex;
     margin: 0 1rem;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     height: 2.22vh;
-    font-size:0.83vh;
+    font-size: 0.83vh;
     color: #444444;
-    .info{
+
+    .info {
         display: flex;
-        margin-left: 5px;
-        gap: 5px;
+        margin-left: .5rem;
+        gap: .5rem;
         flex: 1;
         white-space: pre-wrap;
-
     }
-    .doc{
+
+    .doc {
         display: flex;
-        width: 12.9rem;
-        gap: 30px;
-        p{font-weight: 600;}
+        width: 20rem;
+        justify-content: space-around;
+
+        p {
+            font-weight: 600;
+        }
+    }
+
+    @media (max-width: 500px) {
+        margin: 0 .2rem;
+        height: 2.4rem;
+        display: flex;
+        justify-content: space-between;
+        .info {
+            display: flex;
+            width: 20rem;
+            p {
+               
+                text-overflow: clip;
+                white-space: nowrap;
+                overflow: scroll;
+            }
+        }
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
+        .doc {
+    
+            width: 16rem;
+        }
     }
 }

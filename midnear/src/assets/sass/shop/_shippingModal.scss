@@ -1,8 +1,8 @@
 .ShippingModal{
     position: fixed;
-    top:0;
+    top:4.8rem;
     left: 0;
-    height: 100vh;
+    height: calc(100vh - 4.8rem);
     width: 100%;
     display: flex;
     justify-content: center;
@@ -46,7 +46,14 @@
             justify-content: center;
             padding: 2.4rem 0;
 
-             p{white-space: pre-wrap; width: 110.4rem;}
+             p{
+                white-space: pre-wrap; 
+                width: 110.4rem; 
+                letter-spacing: 0.1rem;
+                font-size: 1.2rem;
+                font-weight: 500;
+                line-height: 1.7;
+            }
         }
     }
 }
@@ -105,6 +112,7 @@
             position: absolute;
             right: 1.5rem;
             bottom: 1.5rem;
+            cursor: pointer;
         }
     }
         }

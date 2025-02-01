@@ -29,6 +29,9 @@
             width: 1.3rem;
             height: 1.1rem;
         }
+        .triangle.open{
+            transform: rotate(180deg);
+        }
 
         .selected{
             border: solid 0.1rem var(--gray800);

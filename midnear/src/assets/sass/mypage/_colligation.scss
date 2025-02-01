@@ -1,0 +1,143 @@
+.option_box {
+    display: flex;
+    width: 78.9rem;
+    gap: 1.5rem;
+
+    .detail_box {
+        width: 38.8rem;
+        height: 12.7rem;
+        border: 0.1rem solid #C2C2C2;
+        padding: 2rem;
+        margin-top: 4rem;
+
+        .detail_box-title{
+            font-size: 2rem;
+            font-weight: 400;
+        }
+
+        .detail_box-contents{
+            margin-top: 3rem;
+            font-size: 2rem;
+            font-weight: 800;
+        }
+    }
+}
+
+.current_cupon_list {
+    font-size: 2rem;
+    font-weight: 400;
+    margin-top: 5.5rem;
+}
+
+.current_quantity{
+    font-size: 3.2rem;
+    font-weight: 800;
+    margin-top: 2.5rem;
+}
+
+.point_list-holding {
+    border-bottom: 0.1rem solid #C2C2C2;
+    border-top: 0.1rem solid #C2C2C2;
+    margin-top: 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 81.8rem;
+
+    .information{
+        margin-top: 1.5rem;
+        margin-bottom: 1.5rem;
+        width: 66.3rem;
+
+        .point_list-holding-title{
+            font-size: 2rem;
+            font-weight: 800;
+            color: #646464;
+        }
+
+        .point_list-holding-content{
+            font-size: 2rem;
+            font-weight: 400;
+            color: #646464;
+        }
+
+    }
+
+    .amount{
+        font-size: 2rem;
+        font-weight: 800;
+    }
+}
+
+.coupon_box-holding{
+    width: 78.9rem;
+    height: 15.5rem;
+    border: 0.1rem solid #C2C2C2;
+    padding: 2rem;
+    margin-top: 4rem;
+
+    .coupon_box-holding-title {
+        font-size: 2rem;
+        font-weight: 800;
+    }
+
+    .coupon_box-holding-mid-title{
+        margin-top: 2rem;
+        font-size: 1.5rem;
+        font-weight: 800;
+    }
+
+    .coupon_box-holding-date {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 2rem;
+
+        .d-day_expiration{
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: #646464;
+        }
+
+        .limit_amount{
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: #646464;
+        }
+    }
+
+}
+
+@media (max-width: 50rem){
+    .option_box {
+        width: 33rem;
+    }
+    
+    .point_list-holding {
+        width: 33rem;
+    
+        .information{
+            width: 33rem;
+    
+            .point_list-holding-title{
+                font-size: 1.2rem;
+            }
+    
+            .point_list-holding-content{
+                font-size: 1.2rem;
+                width: 27rem;
+            }
+    
+        }
+    
+        .amount{
+            font-size: 1.2rem;
+            width: 8rem;
+            margin-left: 1rem;
+        }
+    }
+    
+    .coupon_box-holding{
+        width: 33rem;
+    }
+}

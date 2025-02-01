@@ -66,6 +66,7 @@
         .ownersComment{
             display: flex;
             flex-direction: column;
+            margin-bottom: 0;
             .top{
                 display: flex;
                 align-items: center;
@@ -78,7 +79,7 @@
                 }
             }
             .bottom{
-                margin-top:1rem;
+                margin: 0.5rem 0 1rem;
             }
         }
     }
@@ -93,6 +94,7 @@
 /*이미지 모아보기*/
 .ReviewImage{
     min-height: 95.37vh;
+    margin-bottom: 5rem;
     display: flex;
     flex-direction: column;
     .top-el{
@@ -105,27 +107,30 @@
             align-items: center;
             margin-bottom: 2.6rem;
 
-            h2{
+            .title{
                 font-size: 2rem;
                 font-weight: bold;
+                margin: 0;
             }
         }
         p{
             font-weight: bold;
             font-size:1.2rem;
         }
-        .back{
+        .back-btn{
             width: 2.4rem;
             height: 2.4rem;
-            margin-right: 1rem;
+            margin: 0.11rem 1rem 0 0;
             cursor: pointer;
         }
     }
 
     .bottom-el{
         margin-top: 2.6rem;
+        min-height: 83rem;
         padding: 0;
-        min-height: 74rem;
+        display: flex;
+        flex-direction: column;
         justify-content: space-between;
 
         .all-imgList{

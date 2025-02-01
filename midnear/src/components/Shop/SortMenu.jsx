@@ -36,7 +36,9 @@ const SortMenu = () => {
     <div className="sort-dropdown" ref={ref}>
       <div className="selected" onClick={removeHandler}>
         <div className='option'>{options.find(option => option.value === select).label}</div>
-        <div className='triangle'><img src={triangle}></img></div>
+        <div className={`triangle ${isOpen ? 'open' : ''}`}>
+          <img src={triangle} alt='triangle'/>
+        </div>
       </div>
 
       {isOpen && (

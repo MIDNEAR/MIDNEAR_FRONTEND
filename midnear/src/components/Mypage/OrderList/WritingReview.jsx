@@ -37,7 +37,7 @@ const WritingReview = () => {
                                 작성하신 후기는 미드니어 이용자들에게 제공됩니다.
                             </li>
                             <li className='caution_content'>
-                                아래에 해당할 경우 적립금 지급이 보류되며, 이미 지급받으셨더라도 2차 검수를 통해 적립금을 회수할 수 있습니다. 또한 일부 후기는 
+                                아래에 해당할 경우 적립금 지급이 보류되며, 이미 지급 받으셨더라도 2차 검수를 통해 적립금을 회수할 수 있습니다. 또한 일부 후기는 
                                 <br /> 
                                 조건에 따라 비노출 처리 됩니다.
                             </li>
@@ -81,16 +81,16 @@ const WritingReview = () => {
                     </div>
 
                     <div className='star_collection'>
-                        {stars.map((isFilled, index) => (
-                            <div
-                                key={index}
-                                className="star"
-                                onClick={() => toggleStar(index)}
-                                style={{
-                                    backgroundImage: `url(${isFilled ? '/assets/img/orderlist/star_fill.svg' : '/assets/img/orderlist/star.svg'})`,
-                                }}
-                            />
-                        ))}
+                    {stars.map((isFilled, index) => (
+                    <div
+                        key={index}
+                        className="star"
+                        onClick={() => toggleStar(index)}
+                        style={{
+                        backgroundImage: `url(${isFilled ? filledstar : star})`,
+                        }}
+                    />
+                    ))}
                     </div>
 
 
@@ -104,14 +104,19 @@ const WritingReview = () => {
                 </div>
 
                 <textarea
-                placeholder="다른 회원들이 도움받을 수 있도록 상품에 대한 의견을 자세히 공유해주세요"
+                placeholder="다른 회원들이 도움받을 수 있도록 상품에 대한 의견을 자세히 공유해 주세요."
                 />
 
                 <div className='gray_text'>20자 이상</div>
 
                 <div className='mypage_small_text'>사진 첨부</div>
-                <label htmlFor="file-upload" className="image_input_label"></label>
-                <input type='file' className='image_input'></input>
+                <label htmlFor="file-upload" className="image_input_label">파일 선택</label>
+                <input
+                    id="file-upload"
+                    type="file"
+                    className='image_input'
+                    style={{ display: 'none' }}
+                />
 
                 <div className='submit_field'>
                     <div className='check_field'>

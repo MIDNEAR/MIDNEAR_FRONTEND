@@ -1,6 +1,7 @@
 .prod-detail{
     display: flex;
     height: calc(100vh - 4.63vh);
+    margin-bottom: 5rem;
     overflow: hidden;
     padding: 2.4rem 0;
 
@@ -32,7 +33,11 @@
         .basic{
             display: flex;
             margin-bottom: 6.9rem;
-            .info{ width: 20rem; }
+            .info{ 
+                width: 20rem; 
+                display: flex;
+                flex-direction: column;
+            }
             .name{ font-weight: bold; }            
             /* 할인시 중앙 라인 표시
             .price{text-decoration:line-through;}
@@ -57,10 +62,12 @@
                    
                 } 
             }
+            /* 할인표시 기본 */
+            .discount{display: none;}
         }
         
         .color{ font-size: 11px; }
-        .img-list{
+        .other-color{
             display: flex;
             margin-top:1rem;
             margin-bottom: 1.8rem;
@@ -98,6 +105,7 @@
                 
                 .title{ 
                     display: flex; 
+                    align-items: center;
                     p, .down{
                         cursor: pointer;
                     }
@@ -129,6 +137,9 @@
                 
             }
         }
+        /* 품절 박스 기본 */
+        .soldout{display: none;}
+
         .with-item{
             display: flex;
             img{
@@ -139,4 +150,5 @@
             }
         }
     }
+    
 }

@@ -83,14 +83,14 @@
 
     .certi_btn, .pw_check {
         font-size: 1.2rem;
-        width: 5.3rem;
-        height: 2rem;
+        padding: 0.5rem;
         color: var(--gray700);
         background-color: var(--gray100);
         border-radius: 0.3rem;
         position: absolute;
         top: 2.7rem;
         right: 0.5rem;
+        transition: 0.3s;
 
         &:hover {
             cursor: pointer;
@@ -191,3 +191,8 @@
         font-weight: 600;
         margin-top: 3.3rem;
     }
+
+.field_container_content{
+    display: flex;
+    flex-direction: column;
+}

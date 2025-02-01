@@ -1,201 +1,287 @@
-.info{   
-    display: flex;
-    justify-content: center; 
-    .step-header{
-        .delivery-info{
-            color: var(--black);
-            border-bottom: 1px solid var(--black);
-        }
-    }
-    .container{
-        gap: 12.5rem;
-        min-height: calc(100vh - 4.63vh);
-    }
-    .empty, .order_content{width: 29.4rem;}
-    .info_content{
-        width: 36.1rem;
-        display: flex;
-        flex-direction: column;
-    }
-}
-.bottom{
-    display: flex;
-    flex-direction: column;
-    margin: 5rem 0 2rem;
-    .title{
-        font-size: 1.2rem;
-        font-weight: 700;
-        margin-left: 1rem;
-    }
-    
-}
-.post_code{
-    display: flex;
-    justify-content: space-between;
-    border-bottom: solid 0.1rem var(--gray300);
-    padding: 1rem;
-    margin-top: 2.5rem;
-    .text{
-        font-size: 1.2rem;
-    }
-    .search{
-        width: 8.4rem;
-        height: 2rem;
-        border-radius: 0.3rem;
-        background-color: #333333;
-        color: var(--white);
+/* 회원 비회원 공통*/
+.member,
+.no-member {
+
+
+    .info {
         display: flex;
         justify-content: center;
-        align-items: center;
-        font-size:1.2rem;
-        cursor: pointer;
-    }
-}
-.check{
-    width: 36.1rem;
-    height: 3rem;
-    display: flex;
-    align-items: center;
-    .checkbox{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 1.8rem;
-        height: 1.8rem;
-        border: solid 0.1rem var(--gray300);
-        border-radius: 0.2rem;
-        cursor: pointer;
-        img{
-            width: 1.3rem;
-            height: 1.1rem;
+
+        .step-header {
+            .delivery-info {
+                color: var(--black);
+                border-bottom: 1px solid var(--black);
+            }
         }
-    }
-    p{
-        font-size: 1.2rem;
-        margin-left: 1rem;
-    }
-    .privacy{
-        text-decoration: underline;
-        cursor: pointer;
-    }
-}
-.add-btn, .btn{
-    width: 36.1rem;
-    height: 4rem;
-    font-size: 1.2rem;
-    font-weight: 500;
-    color: var(--black);
-    border: 0.1rem solid var(--gray500);
-    outline: none;
-    margin-top: 6rem;
-    background-color: var(--white);
-    cursor: pointer;
-}
-.btn{margin-bottom: 2rem;}
-.member{
-    .info_content{
-        .add-btn, .btn{
-            margin-top: 2.5rem;
+
+        .container {
+            gap: 12.5rem;
+            min-height: calc(100vh - 4.63vh);
+            margin-bottom: 5rem;
         }
-        .add-btn:hover{
-            background-color: #333333;
-            border: 0.1rem solid #333333;
-            color: var(--white);
+
+        .empty,
+        .order_content {
+            width: 29.4rem;
         }
-    }
-    .use-coupon{
-        display: flex;
-        margin-bottom: 2.2rem;
-        z-index: 10;
-    }
-    .point{
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        flex-grow: 1;
-        padding-bottom: 2rem;
-        .mid_text_ex{
-            font-size: 1.2rem;
-            color: var(--gray700);
-            margin-bottom: 0.3rem;
+
+        .info_content {
+            width: 36.1rem;
+            display: flex;
+            flex-direction: column;
         }
-        .use-point{
+
+        .bottom {
+            display: flex;
+            flex-direction: column;
+            margin: 5rem 0 2rem;
+
+            .title {
+                font-size: 1.2rem;
+                font-weight: 700;
+                margin-left: 1rem;
+            }
+
+        }
+
+        .post_code {
             display: flex;
             justify-content: space-between;
-            .use-text{
-                width: 28.4rem;
-                height: 2.5rem;
-                border: solid 0.1rem var(--gray1100);
-                padding: 1rem;
+            border-bottom: solid 0.1rem var(--gray300);
+            padding: 1rem;
+            margin-top: 2.5rem;
+
+            .text {
                 font-size: 1.2rem;
             }
-            .use-btn{
-                width: 7.1rem;
-                height: 2.5rem;
+
+            .search {
+                width: 8.4rem;
+                height: 2rem;
+                border-radius: 0.3rem;
                 background-color: #333333;
+                color: var(--white);
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                color: var(--white);
                 font-size: 1.2rem;
-                padding-top: 0.2rem;
+                cursor: pointer;
             }
         }
-    }
-}
-.default_add{
-    width: 35.1rem;
-    height: 19.4rem;
-    background-color: var(--gray1100);
-    padding: 1.6rem;
-    margin-top: 2.4rem;
-    display: flex;
-    flex-direction: column;
-    .b_txt{
-        font-weight: bold;
-        font-size: 1.2rem;
-        color: var(--black);
-    }
-    .g_txt{
-        color: var(--gray700);
-        margin-top: 0.6rem;
-    }
-    .m_txt{
-        color: var(--gray700);
-        margin-top: 1.2rem;
-    }
-    .memo{
-        font-size: 1.2rem;
-        width: 31.9rem;
-        height: 2.7rem;
-        border: solid 0.1rem var(--gray700);
-        background-color: var(--white);
-        display: flex;
-        align-items: center;
-        padding-left: 1rem;
-        margin-top: 0.4rem;
-    }
-    .userInfo{
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 0.8rem;
-        .change-btn{
-            width: 6.3rem;
-            height: 2.8rem;
-            border-radius: 0.5rem;
-            border: solid 0.1rem var(--gray700);
-            background-color: var(--white);
-            color: var(--gray700);
+
+        .check {
+            width: 36.1rem;
+            height: 3rem;
             display: flex;
-            justify-content: center;
             align-items: center;
+
+            .checkbox {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 1.8rem;
+                height: 1.8rem;
+                border: solid 0.1rem var(--gray300);
+                border-radius: 0.2rem;
+                cursor: pointer;
+
+                img {
+                    width: 1.3rem;
+                    height: 1.1rem;
+                }
+            }
+
+            p {
+                font-size: 1.2rem;
+                margin-left: 1rem;
+            }
+
+            .privacy {
+                text-decoration: underline;
+                cursor: pointer;
+            }
+        }
+
+        .add-btn,
+        .btn {
+            width: 36.1rem;
+            height: 4rem;
             font-size: 1.2rem;
-            font-weight: 600;
-            padding-top: 0.2rem;
+            font-weight: 500;
+            color: var(--black);
+            border: 0.1rem solid var(--gray500);
+            outline: none;
+            background-color: var(--white);
+        }
+
+        .btn {
+            margin-bottom: 3rem;
+            cursor: default;
+        }
+
+        .btn.enabled {
+            cursor: pointer;
+            background-color: #333333;
+            color: var(--white);
+
         }
     }
 
-}
-input{
-    outline: none;
+    /* 비회원만 */
+    .no-member {
+        .info_content {
+            .btn {
+                margin-top: 3rem;
+            }
+        }
+    }
+
+    /* 회원만 */
+    .member {
+        .info_content {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+            .add-btn {
+                margin-top: 2.5rem;
+                cursor: pointer;
+
+                &:hover {
+                    background-color: #333333;
+                    color: var(--white);
+                }
+            }
+
+            .btn {
+                margin-top: 0;
+            }
+        }
+
+        .point {
+            display: flex;
+            flex-direction: column;
+            height: 20.3rem;
+
+            .use-coupon {
+                display: flex;
+                margin-bottom: 2.2rem;
+                position: relative;
+                z-index: 10;
+            }
+
+            .mid_text_ex {
+                font-size: 1.2rem;
+                color: var(--gray700);
+            }
+
+            .use-point {
+                display: flex;
+                justify-content: space-between;
+                margin: 0.3rem 0;
+
+                .use-text {
+                    width: 28.4rem;
+                    height: 2.5rem;
+                    border: solid 0.1rem var(--gray1100);
+                    padding: 1rem;
+                    font-size: 1.2rem;
+                }
+
+                .use-btn {
+                    width: 7.1rem;
+                    height: 2.5rem;
+                    background-color: #333333;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    color: var(--white);
+                    font-size: 1.2rem;
+                    padding-top: 0.2rem;
+                    cursor: pointer;
+                }
+            }
+
+            .error {
+                min-height: 2rem;
+                padding-left: 0.5rem;
+                font-size: 1.1rem;
+                color: #FF0000;
+            }
+        }
+
+        .info .only-order .fee {
+            border: none;
+        }
+
+        .info .only-order .use-point {
+            display: flex;
+            border-bottom: solid 1px var(--gray500);
+        }
+    }
+
+    .default_add {
+        margin-left: 0.5rem;
+        width: 35.1rem;
+        height: 19.4rem;
+        background-color: var(--gray1100);
+        padding: 1.6rem;
+        margin-top: 2.4rem;
+        display: flex;
+        flex-direction: column;
+
+        .b_txt {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: var(--black);
+        }
+
+        .g_txt {
+            color: var(--gray700);
+            margin-top: 0.6rem;
+        }
+
+        .m_txt {
+            color: var(--gray700);
+            margin-top: 1.2rem;
+        }
+
+        .memo {
+            font-size: 1.2rem;
+            width: 31.9rem;
+            height: 2.7rem;
+            border: solid 0.1rem var(--gray700);
+            background-color: var(--white);
+            display: flex;
+            align-items: center;
+            padding-left: 1rem;
+            margin-top: 0.4rem;
+        }
+
+        .userInfo {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.8rem;
+
+            .change-btn {
+                width: 6.3rem;
+                height: 2.8rem;
+                border-radius: 0.5rem;
+                border: solid 0.1rem var(--gray700);
+                background-color: var(--white);
+                color: var(--gray700);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 1.2rem;
+                font-weight: 600;
+                padding-top: 0.2rem;
+            }
+        }
+
+    }
+
+    input {
+        outline: none;
+    }
 }

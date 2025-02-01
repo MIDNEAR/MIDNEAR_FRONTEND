@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import SortMenu from './SortMenu'
 import frontImg from '../../assets/img/product/prod1.png'
 import backImg from '../../assets/img/product/prod2.png'
-import star from '../../assets/img/product/star.svg'
+import emptyStar from '../../assets/img/product/star.svg'
+import fillStar from '../../assets/img/product/fillStar.svg'
 import rvDown from '../../assets/img/product/rvDown.svg'
 import rvUp from '../../assets/img/product/rvUp.svg'
 
@@ -38,7 +39,7 @@ const ShowReview = () => {
         { 
           userId: "sbukkki",          
           date: "1일 전",
-          star: "5",
+          star: 5,
           color: "RED",
           size: "M",          
           image: [frontImg, backImg,frontImg, backImg,frontImg],
@@ -48,7 +49,7 @@ const ShowReview = () => {
         { 
             userId: "maedariku",          
             date: "1일 전",
-            star: "5",
+            star: 3,
             color: "RED",
             size: "XL",          
             image: [frontImg, backImg],
@@ -79,20 +80,20 @@ const ShowReview = () => {
                 <SortMenu />
             </div>
         </div>
-        {reviewList.map((item)=>(
-            <div className='review'>
+        {reviewList.map((item, index)=>(
+            <div className='review' key={index}>
                 <div className='horizon'></div>
                 <div className='nickname'>
                    <p>{transUserId(item.userId)}</p>
                    <p>{item.date}</p>
                 </div>
                 <div className='star'>
-                  <img src={star}/>
-                  <img src={star}/>
-                  <img src={star}/>
-                  <img src={star}/>
-                  <img src={star}/>
-                  <p>{item.star}</p>
+                  {Array.from({length: item.star}).map((_,index)=>
+                  <img src={fillStar} key={index} />
+                  )}
+                  {Array.from({length: 5 - item.star}).map((_,index)=>
+                  <img src={emptyStar} key={index} />
+                  )}
                 </div>
                 <div className='buyInfo'>
                    <p>{item.color}</p>
@@ -102,7 +103,7 @@ const ShowReview = () => {
                 </div>
                 <div className='userImgList'>
                    {item.image.map((_, index)=>(
-                    <img src={item.image[index]} className='userImg'/>
+                    <img src={item.image[index]} key={index} className='userImg'/>
                    ))}
                 </div>
                 <div className='comment'>

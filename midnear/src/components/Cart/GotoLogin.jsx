@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import kakao from '../../assets/img/user/login/kakao_logo.svg'
 import naver from '../../assets/img/user/login/naver_logo.svg'
 import google from '../../assets/img/user/login/google_logo.svg'
@@ -8,6 +8,9 @@ import OrderList from './OrderList';
 
 
 const GotoLogin = () => {
+    const location = useLocation();
+    const items = location.state?.items || [];
+
     const navigate = useNavigate();
 
     const goToFindID = () => {
@@ -23,6 +26,7 @@ const GotoLogin = () => {
     <StepHeader />
     <div className='container'>
         <div className='empty'></div>
+
         <div className='login_content'>
                     <div className='login'>
                         <div className='mid_text'>LOGIN</div>
@@ -64,12 +68,13 @@ const GotoLogin = () => {
                             <div className='mid_text'>비회원 구매</div>
                             <div className='min_text_ex'>비회원으로도 결제가 가능합니다. 아래 버튼을 눌러 결제를 진행해 주세요.</div>
                         </div>
-                        <Link to='/order/delivery/no-member'><button className='user_btn'>비회원 구매 진행</button></Link>
+                        <Link to='/order/delivery/no-member' state= {{ items: items }} ><button className='user_btn'>비회원 구매 진행</button></Link>
                     </div>
         </div>
-        <OrderList />
         
-        </div>
+        <div className='order_content'> </div>       
+        
+    </div>
     </div>
   )
 }

@@ -1,0 +1,112 @@
+.inquiry-form {
+    max-width: 78.9rem;
+    margin: 0 auto;
+  
+    h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 2rem;
+    }
+  
+    form {
+      display: flex;
+      flex-direction: column;
+  
+      input[type="text"],
+      textarea {
+        width: 78.9rem;
+        height: 3rem;
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+        border: 0.1rem solid #C2C2C2;
+        font-size: 1.2rem;
+        font-weight: 400;
+        outline: none;
+      }
+  
+      textarea {
+        height: 56.4rem;
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+        border: 0.1rem solid #C2C2C2;
+        font-size: 1.2rem;
+        resize: none;
+        outline: none;
+        
+      }
+
+      .submit_field-ask {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 2rem;
+        
+
+        .check_field-ask {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+      
+          .check-ask {
+            appearance: none; 
+            width: 1.8rem;
+            height: 1.8rem;
+            border: 0.1rem solid var(--gray300);
+            border-radius: 0.2rem;
+            cursor: pointer;
+            background-color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+          
+          .check-ask:checked {
+            background-color: var(--white);
+          }
+          
+          .check-ask:checked::after {
+            content: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="12" height="10" viewBox="0 0 12 10" fill="none"%3E%3Cpath d="M1 5L4 9L11 1" stroke="%23585858" stroke-width="1.5"/%3E%3C/svg%3E');
+            width: 1rem;
+            height: 1.7rem;
+          }
+      
+          p {
+            font-size: 1.2rem;
+            color: #333;
+            margin: 0;
+          }
+        }
+      
+        .ask_submit {
+          width: 14rem;
+          height: 4rem;
+          padding: 10px;
+          background-color: var(--white);
+          color: #646464;
+          text-align: center;
+          border: 0.1rem solid #C2C2C2;
+          font-size: 1.2rem;
+          transition: 0.3s;
+          cursor: pointer;
+  
+          &:hover {
+            background-color: #333333;
+            color: var(--white)
+          }
+        }
+      }
+    }
+      
+  }
+  
+  @media (max-width: 50rem){
+    .inquiry-form {
+      max-width: 33rem;
+    
+      form {
+        input[type="text"],
+        textarea {
+          width: 33rem;
+        }
+      }
+    }
+  }

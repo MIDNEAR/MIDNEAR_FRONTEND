@@ -32,8 +32,8 @@ const ProdDetail = () => {
           frontImg: frontImg,
           backImg: backImg,
           name: "CUTE SWEATER",
-          price: "\u20A9 39,900",
-          dcPrice: "\u20A9 35,100",
+          price: 39000,
+          dcPrice: 35100,
           coupon: "10%할인쿠폰적용가",
           soldout: "SOLD OUT"
         },
@@ -90,18 +90,20 @@ const ProdDetail = () => {
         </div>
         <div className='right-info'>
           <div className='empty'></div>
+
           <div className='basic'>
             <div className='info'>
               <p className='name'>{dummyList[0].name}</p>
-              <p className='price'>{dummyList[0].price}</p>
-              {/**<div className='discount'>
-                  <p className='dc-price'>{dummyList[0].dcPrice}</p>
+              <p className='price'>&#xffe6; {dummyList[0].price.toLocaleString('ko-KR')}</p>
+              {/** 기본 display none 해당 상품이 할인 기간일 때 flex */}
+               <div className='discount'>
+                  <p className='dc-price'>&#xffe6; {dummyList[0].dcPrice.toLocaleString('ko-KR')}</p>
                   <p className='coupon'>{dummyList[0].coupon}</p>
-              </div>*/}
+              </div>
             </div>
             <div className='size'>
-              {size.map((item)=>(
-                <div className={selectSize === item ? 'bold' : ''} onClick={() => {
+              {size.map((item, index)=>(
+                <div key={index} className={selectSize === item ? 'bold' : ''} onClick={() => {
                   setSelectSize((prev) => (prev === item ? null : item));
                 }}>{item}</div>
               ))}
@@ -109,21 +111,23 @@ const ProdDetail = () => {
           </div>
 
           <div className='color'>BLACK</div>
-          <div className='img-list'>
+          <div className='other-color'>
             <Link to="/products/detail"><img src={dummyList[0].frontImg} /></Link>          
             <Link to="/products/detail"><img src={dummyList[0].backImg} /></Link>
           </div>
-          {/**<div className='soldout'>SOLD OUT</div>*/}
-          
+
+          {/** 기본 display none 해당 상품이 품절 상태면 flex */}
+          <div className='soldout'>SOLD OUT</div>
+          {/** 기본 display flex 해당 상품이 품절 상태면 none */}
           <div className='box'>구매하기</div>
           <div className='box'>장바구니 담기</div>
           
           <div className='detail-box'>
-            {information.map((item)=>(
-              <div className='detail' >
+            {information.map((item, index)=>(
+              <div key={index} className='detail' >
                 <div className='title'>
-                <p className={`${isSelected === item.name ? 'bold' : ''} ${isSelected === item.name ? 'display' : item.name}`} onClick={()=>showDetail(item)}>{item.name}</p>
-                <img src={isSelected === item.name ? up : down}
+                  <p className={`${isSelected === item.name ? 'bold' : ''} ${isSelected === item.name ? 'display' : item.name}`} onClick={()=>showDetail(item)}>{item.name}</p>
+                  <img src={isSelected === item.name ? up : down}
                     className={`down ${isSelected === item.name ? 'display' : item.name}`} onClick={()=>showDetail(item)}/>
                 </div>
                 <motion.div
@@ -133,7 +137,7 @@ const ProdDetail = () => {
                     variants={variants}
                     transition={{duration:0.3}}
                 >
-                  <p>{item.content}</p>
+                  <div>{item.content}</div>
                 </motion.div>
                 
               </div>
