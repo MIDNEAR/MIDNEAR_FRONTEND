@@ -33,6 +33,7 @@ import ExchangeReson from './components/Mypage/OrderList/Exchange/ExchangeReson'
 import RefundReson from './components/Mypage/OrderList/Refund/RefundReson';
 import ExchangeDone from './components/Mypage/OrderList/Exchange/ExchangeDone';
 import RefundDone from './components/Mypage/OrderList/Refund/RefundDone';
+
 import Ask from './components/Mypage/CustomerService/Ask';
 import AskedList from './components/Mypage/CustomerService/AskedList';
 import AskDetail from './components/Mypage/CustomerService/AskDetail';
@@ -54,11 +55,12 @@ import MagazineList from './components/Magazine/MagazineList';
 import MagazinDetail from './components/Magazine/MagazinDetail';
 import MypageMenu from './components/Mypage/MypageMenu';
 
+
 function App() {
   const location = useLocation();
   const isManagerRoute = location.pathname.startsWith('/manager');
   return (
-    <BrowserRouter>
+    <>
       {isManagerRoute ? <ManagerHeader /> : <Header />}
 
       <Routes>
@@ -82,6 +84,7 @@ function App() {
         <Route path="/mypage/orderlist/option/ordercancel/done" element={<OrderCancelDone />} />
         <Route path="/mypage/cancellist" element={<CanceledOrder />} />
         <Route path="/mypage/" element={<MypageMenu />} />
+
         <Route path="/mypage/question/create" element={<Ask />} />
         <Route path="/mypage/question/list" element={<AskedList />} />
         <Route path="/mypage/question/detail" element={<AskDetail/>} />
@@ -89,8 +92,10 @@ function App() {
         <Route path="/mypage/colligation/cupon" element={<CuponList/>} />
         <Route path="/mypage/colligation/point" element={<PointList/>} />
         
+        
         <Route path='/shop/:category/:subCategory' element={<AllShop />} />
         <Route path='/shop/:category' element={<AllShop />} />
+
         <Route path="user/join" element={<Join />} />
         <Route path='user/login' element={<Login />} />
         <Route path='user/find/id' element={<FindID />} />
@@ -101,6 +106,7 @@ function App() {
         <Route path='user/find/pw/change' element={<UntilChange />} />
         <Route path='/user/change/success' element={<ChangeSuccess />} />
         <Route path='/user/join/success' element={<SuccessJoin />} />
+        
         <Route path='/products/detail' element={<ProdDetail />} />        
         <Route path='/review/images' element={<ReviewImage />} />  
         <Route path='/order/login' element={<GotoLogin />} />    
@@ -112,14 +118,23 @@ function App() {
         <Route path='/order/delivery/select-address' element={<SelectAdd />} />  
         <Route path='/others/magazine' element={<MagazineList />} />
         <Route path='/others/magazine/detail' element={<MagazinDetail />} />
+
         {/* 관리자 페이지 */}
+
         <Route path="/manager/*" element={<Manager />}/>
         <Route path="/manager/Goods/Detail/:name" element={<Detail />} />
         <Route path='*' element={<None />}/>
+
       </Routes>
       <Footer />
-    </BrowserRouter>
+    </>
   );
 }
 
-export default App;
+const RootApp = () => (
+  <BrowserRouter basename="/">
+    <App />
+  </BrowserRouter>
+);
+
+export default RootApp;
