@@ -1,5 +1,6 @@
 input{ outline: none;}
 .Magazine{
+    margin-bottom: 5rem;
     .container{
         flex-direction: column;
         justify-content: flex-start;
@@ -175,6 +176,7 @@ input{ outline: none;}
             margin-bottom: 10rem;
             .magazine-list{
                 height: auto;
+                min-height: 60rem;
                 overflow-y: hidden;
                 width: 100%;
                 padding-bottom: 1rem;
