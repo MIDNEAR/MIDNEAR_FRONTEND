@@ -147,8 +147,8 @@ const Header = ({ onLinkClick }) => {
           <div className='sc-container'>
             <div className="sc1">
 
-              <div className="SHOP">
-                <p className={` ${activeSub1 ? 'bold' : ''}`} onClick={openCate1}>
+              <div className="SHOP" onClick={openCate1}>
+                <p className={`sub_title ${activeSub1 ? 'bold' : ''}`}>
                   SHOP
                 </p>
                 <div className={`sub ${activeSub1 ? 'display' : ''}`}>
@@ -173,8 +173,8 @@ const Header = ({ onLinkClick }) => {
                 </div>
               </div>
 
-              <div className="OTHERS">
-                <p className={` ${activeSub2 ? 'bold' : ''}`} onClick={openCate2}>
+              <div className="OTHERS" onClick={openCate2}>
+                <p className={`sub_title ${activeSub2 ? 'bold' : ''}`} >
                   OTHERS
                 </p>
                 <div className={`sub ${activeSub2 ? 'display' : ''}`}>
