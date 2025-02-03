@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import eye from '../../assets/img/user/login/eye.svg';
 import noneye from '../../assets/img/user/login/eye_open.svg';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import Provision from './Modal/Provision';
 
 
 const Join = () => {
@@ -26,6 +27,8 @@ const Join = () => {
 
     const [termsAccepted, setTermsAccepted] = useState(false);
     const [privacyAccepted, setPrivacyAccepted] = useState(false);
+    const [showTermsModal, setShowTermsModal] = useState(false);
+    const [showPrivacyModal, setShowPrivacyModal] = useState(false);
 
     const [isSubmitEnabled, setIsSubmitEnabled] = useState(false);
 
@@ -107,7 +110,7 @@ const Join = () => {
 
     const handleJoinSubmit = () => {
         if (validateInputs() && codeSent && isSubmitEnabled) {
-            navigate ('/user/join/success');
+            navigate('/user/join/success');
         }
     };
 
@@ -119,6 +122,25 @@ const Join = () => {
             input = `${input.slice(0, 3)}-${input.slice(3, 7)}-${input.slice(7)}`;
         }
         setPhone(input);
+    };
+
+    const handleTermsAgree = () => {
+        setTermsAccepted(true);
+        setShowTermsModal(false);
+    };
+
+    const handleTermsDisagree = () => {
+        setShowTermsModal(false);
+    };
+
+
+    const handlePrivacyAgree = () => {
+        setPrivacyAccepted(true);
+        setShowPrivacyModal(false);
+    };
+
+    const handlePrivacyDisagree = () => {
+        setShowPrivacyModal(false);
     };
 
     return (
@@ -210,14 +232,37 @@ const Join = () => {
 
                 <div className='provision'>
                     <div className='agree_contents'>
-                        <input type='checkbox' className='keep_login' checked={termsAccepted}
-                        onChange={(e) => setTermsAccepted(e.target.checked)} />
-                        <p>[필수] 이용약관 동의</p>
+                        <input
+                            type='checkbox'
+                            className='keep_login'
+                            checked={termsAccepted}
+                            onChange={(e) => setTermsAccepted(e.target.checked)}
+                        />
+                        <p onClick={() => setShowTermsModal(true)}>[필수] 이용약관 동의</p>
+                        {showTermsModal && (
+                            <Provision
+                                name={'이용약관'}
+                                onAgree={handleTermsAgree}
+                                onDisagree={handleTermsDisagree}
+                            />
+                        )}
                     </div>
+
                     <div className='agree_contents'>
-                        <input type='checkbox' className='keep_login' checked={privacyAccepted}
-                        onChange={(e) => setPrivacyAccepted(e.target.checked)} />
-                        <p>[필수] 개인정보처리방침 동의</p>
+                        <input
+                            type='checkbox'
+                            className='keep_login'
+                            checked={privacyAccepted}
+                            onChange={(e) => setPrivacyAccepted(e.target.checked)}
+                        />
+                        <p onClick={() => setShowPrivacyModal(true)}>[필수] 개인정보처리방침 동의</p>
+                        {showPrivacyModal && (
+                            <Provision
+                                name={'개인정보처리방침'}
+                                onAgree={handlePrivacyAgree}
+                                onDisagree={handlePrivacyDisagree}
+                            />
+                        )}
                     </div>
                 </div>
 

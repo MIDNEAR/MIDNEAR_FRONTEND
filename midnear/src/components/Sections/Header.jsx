@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation, Link } from 'react-router-dom'; 
-import {motion, AnimatePresence} from 'framer-motion';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import logo from "../../assets/img/logo/header_logo.svg";
 import Login from '../User/Login';
 import ShoppingCart from '../Cart/ShoppingCart';
@@ -10,9 +10,9 @@ import close from '../../assets/img/product/close.svg'
 import MobileHeader from './MobileHeader';
 
 
-const Header = ({onLinkClick}) => {
+const Header = ({ onLinkClick }) => {
   const navigate = useNavigate();
-  const location = useLocation(); 
+  const location = useLocation();
   const [activeSub1, setActiveSub1] = useState(false);
   const [activeSub2, setActiveSub2] = useState(false);
   const [activeSubCate1, setActiveSubCate1] = useState(false);
@@ -53,7 +53,7 @@ const Header = ({onLinkClick}) => {
 
 
   const goHome = () => {
-     navigate('/'); 
+    navigate('/');
   };
 
   const openCate1 = () => {
@@ -78,15 +78,15 @@ const Header = ({onLinkClick}) => {
     setShowLoginModal(false);
   }, [location.pathname]);
 
-  
+
   const toggleCart = () => {
-    setIsCartOpen((prev)=>!prev);
+    setIsCartOpen((prev) => !prev);
   }
 
   const cartVariants = {
     hidden: { x: "43.7rem" },
     visible: { x: 0 },
-    exit: { x: "43.7rem",  transition: { duration: 1, ease: "easeInOut" }  } 
+    exit: { x: "43.7rem", transition: { duration: 1, ease: "easeInOut" } }
   };
   const backgroundVariants = {
     hidden: { opacity: 0 },
@@ -99,50 +99,50 @@ const Header = ({onLinkClick}) => {
     exit: { y: "-100%", opacity: 0, transition: { duration: 0.5, ease: "easeIn" } },
   };
 
-  
+
   const openHamList = () => {
     setHamOpen(true);
   };
   const closeHamList = () => {
     setHamOpen(false);
-    setActiveSub1(false);  
-    setActiveSub2(false); 
-    setActiveSubCate1(false); 
+    setActiveSub1(false);
+    setActiveSub2(false);
+    setActiveSubCate1(false);
     setActiveSubCate2(false);
-};
+  };
 
-  useEffect(()=>{
-    const checkMax =() => {
+  useEffect(() => {
+    const checkMax = () => {
       setIsMobile(window.innerWidth <= 500);
     };
     checkMax();
     window.addEventListener("resize", checkMax);
     return () => window.removeEventListener("resize", checkMax);
-},[]);
+  }, []);
 
-const mobileCart = () => {
-  closeHamList();
-  toggleCart();
-}
+  const mobileCart = () => {
+    closeHamList();
+    toggleCart();
+  }
   return (
     <div className='header-container'>
-    <div className={`header ${isHamOpen ? 'border' : ''}`}>
+      <div className={`header ${isHamOpen ? 'border' : ''}`}>
 
         <div className='mobile-header'>
           <div className={`logo ${isHamOpen ? 'show' : ''}`} onClick={goHome}>
             <img src={logo} alt="logo" />
           </div>
-            <div className={`open-ham ${isHamOpen ? 'show' : ''}`} >
-              <div className={`close ${isHamOpen ? 'show' : ''}`} onClick={closeHamList}>
-                <img src={close} alt='close' />
-              </div>
-              <div className='hamBar' onClick={openHamList}>
-                <img src={ham} alt='ham' />
-              </div>
+          <div className={`open-ham ${isHamOpen ? 'show' : ''}`} >
+            <div className={`close ${isHamOpen ? 'show' : ''}`} onClick={closeHamList}>
+              <img src={close} alt='close' />
             </div>
+            <div className='hamBar' onClick={openHamList}>
+              <img src={ham} alt='ham' />
+            </div>
+          </div>
         </div>
 
-      
+
         {!isMobile && (
           <div className='sc-container'>
             <div className="sc1">
@@ -155,12 +155,12 @@ const mobileCart = () => {
                   <Link to="/shop/all">ALL SHOP</Link>
                   <Link to="/shop/new">NEW</Link>
                   <div className="newCloth">
-                      <p onClick={openSubCate1}>NEW CLOTH</p>
-                      <div className={`newCloth-sub ${activeSubCate1 ? 'display' : ''}`}>
-                        <Link to="/shop/newCloth/all">ALL</Link>
-                        <Link to="/shop/newCloth/top">TOP</Link>
-                        <Link to="/shop/newCloth/bottom">BOTTOM</Link>
-                      </div>
+                    <p onClick={openSubCate1}>NEW CLOTH</p>
+                    <div className={`newCloth-sub ${activeSubCate1 ? 'display' : ''}`}>
+                      <Link to="/shop/newCloth/all">ALL</Link>
+                      <Link to="/shop/newCloth/top">TOP</Link>
+                      <Link to="/shop/newCloth/bottom">BOTTOM</Link>
+                    </div>
                   </div>
                   <div className="second">
                     <p onClick={openSubCate2}>SECOND</p>
@@ -183,11 +183,13 @@ const mobileCart = () => {
                 </div>
               </div>
             </div>
-            
+
             <div className="sc2">
               <p className="SEARCH">SEARCH</p>
-              <p className="LOGIN">LOGIN</p>
-              <p className="ACCOUNT">ACCOUNT</p>
+              <p className="LOGIN" onClick={toggleLoginModal}>
+                LOGIN
+              </p>
+              <Link to='/user/join' className="ACCOUNT">ACCOUNT</Link>
               <p className="BAG" onClick={toggleCart}>
                 BAG <span>({cartList.length})</span>
               </p>
@@ -195,9 +197,9 @@ const mobileCart = () => {
             {showLoginModal && (
               <Login onClose={toggleLoginModal} />
             )}
-          </div>       
+          </div>
         )}
-        
+
         <AnimatePresence>
           {isHamOpen && isMobile && (
             <motion.div
@@ -207,14 +209,14 @@ const mobileCart = () => {
               exit="exit"
               variants={hamVariants}
             >
-                <MobileHeader {...subStates} mobileCart={mobileCart} toggleCart={toggleCart} onLinkClick={onLinkClick}/>
+              <MobileHeader {...subStates} mobileCart={mobileCart} toggleCart={toggleCart} onLinkClick={onLinkClick} />
             </motion.div>
           )}
         </AnimatePresence>
       </div>
 
 
-     
+
 
       <AnimatePresence>
         {isCartOpen && (
@@ -227,17 +229,17 @@ const mobileCart = () => {
               variants={backgroundVariants}
             />
             <motion.div
-            className={`cart_content ${isCartOpen ? 'open' : ''}`}
+              className={`cart_content ${isCartOpen ? 'open' : ''}`}
               initial="hidden"
               animate="visible"
               exit="exit"
               variants={cartVariants}
-              transition={{ type: "tween", duration: 1, }} 
+              transition={{ type: "tween", duration: 1, }}
             >
-              <ShoppingCart toggleCart={toggleCart} cartList={cartList} isCartOpen={isCartOpen}/>
+              <ShoppingCart toggleCart={toggleCart} cartList={cartList} isCartOpen={isCartOpen} />
             </motion.div>
-            </>
-          )}   
+          </>
+        )}
       </AnimatePresence>
     </div>
   );
