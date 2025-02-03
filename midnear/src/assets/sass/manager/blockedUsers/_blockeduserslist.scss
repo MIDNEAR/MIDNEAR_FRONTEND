@@ -1,13 +1,12 @@
-.container {
+
+.blackuser_list {
   padding: 1.25vw;
   box-sizing: border-box;
   background-color: var(--white);
   display: flex;
   flex-direction: column;
   width: 88.13vw;
-}
 
-.blackuser_list{
   input[type="checkbox"] {
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -35,14 +34,16 @@
       outline: none;
     }
   }
+
   .title {
     font-size: 0.78vw;
     font-weight: bold;
     justify-content: flex-start;
     white-space: nowrap;
   }
-  
+
 }
+
 .header1 {
   display: flex;
   justify-content: space-between;
@@ -56,7 +57,7 @@
   align-items: center;
   justify-content: flex-end;
   width: 100%;
-// 
+  // 
 }
 
 .dropdown,
@@ -82,9 +83,11 @@
 .dropdown {
   width: 3.75vw;
 
-  padding-right: 30px; /* 화살표와의 간격 */
+  padding-right: 30px;
+  /* 화살표와의 간격 */
   padding-left: 10px;
-  appearance: none; /* 기본 드롭다운 화살표 숨김 */
+  appearance: none;
+  /* 기본 드롭다운 화살표 숨김 */
   -webkit-appearance: none;
   -moz-appearance: none;
   height: 2.5vh;
@@ -93,12 +96,14 @@
 
 /* ▼ 기호 추가 */
 .dropdown-container::after {
-  content: " ▼"; /* ▼ 기호를 추가 */
+  content: " ▼";
+  /* ▼ 기호를 추가 */
   position: absolute;
   right: 10px;
   top: 50%;
   transform: translateY(-50%);
-  pointer-events: none; /* 클릭 방지 */
+  pointer-events: none;
+  /* 클릭 방지 */
 
 }
 
@@ -129,7 +134,8 @@
 }
 
 
-.table th, td {
+.table th,
+td {
 
   font-size: 0.63vw;
   height: 3.75vh;
@@ -145,15 +151,37 @@
 }
 
 
-.table th:nth-child(1) { width: 9.84vw; }
-.table th:nth-child(2) { width: 62.99vw; }
-.table th:nth-child(3) { width: 10.63vw; }
-.table th:nth-child(4) { width: 2.5vw; }
+.table th:nth-child(1) {
+  width: 9.84vw;
+}
 
-.table td:nth-child(1) { width: 9.84vw; }
-.table td:nth-child(2) { width: 62.99vw; }
-.table td:nth-child(3) { width: 10.63vw; }
-.table td:nth-child(4) { width: 2.5vw; }
+.table th:nth-child(2) {
+  width: 62.99vw;
+}
+
+.table th:nth-child(3) {
+  width: 10.63vw;
+}
+
+.table th:nth-child(4) {
+  width: 2.5vw;
+}
+
+.table td:nth-child(1) {
+  width: 9.84vw;
+}
+
+.table td:nth-child(2) {
+  width: 62.99vw;
+}
+
+.table td:nth-child(3) {
+  width: 10.63vw;
+}
+
+.table td:nth-child(4) {
+  width: 2.5vw;
+}
 
 
 .table tr {
@@ -199,6 +227,7 @@
   border-right: 0.05vw solid var(--gray800);
   border-bottom: 0.05vw solid var(--gray800);
   background-color: var(--white);
+
   &:focus {
     outline: none;
   }
