@@ -1,19 +1,19 @@
 .M-detail{
     .Magazine{
-    .container{
-        overflow-y: auto;
-        &::-webkit-scrollbar{
-            display: none;
+        .container{
+            overflow-y: auto;
+            &::-webkit-scrollbar{
+                display: none;
+            }
+        }
+        .top{margin-bottom: 0;}
+        .bottom{
+            margin-bottom: 3rem;
+            .magazine-list{
+                display: flex;
+            }
         }
     }
-    .top{margin-bottom: 0;}
-    .bottom{
-        margin-bottom: 3rem;
-        .magazine-list{
-            display: flex;
-        }
-    }
-}
 }
 .magazine-detail{
     display: flex;
@@ -45,6 +45,10 @@
             width: auto;
             height: 70.1rem;
         }
+    }
+    .p-container{
+        width: 120rem;
+        justify-content: flex-start;
     }
     .content{
         font-size:1.6rem;
@@ -81,6 +85,7 @@
             flex-direction: row;
             width: auto;
             height: auto;
+            min-height: 50rem;
             padding-bottom: 3rem;
             margin-bottom: 2.4rem;
             gap: 1rem;
@@ -96,6 +101,7 @@
                 aspect-ratio: 3 / 4;
             }
         }
+        .p-container{width: auto;}
         .content{
             font-size:1.6rem;
             white-space: pre-wrap;

@@ -1,13 +1,13 @@
 import React, {useState, useEffect, useRef} from 'react'
 import triangle from '../../assets/img/product/triangle.svg'
 
-const SortMenu = () => {
+const SortMenu = ({SortChange}) => {
     const [isOpen, setIsOpen] = useState(false);
     const [select, setSelect] = useState('latest')
     const ref = useRef(null);
     const options = [
         {value: 'latest', label: '최신순'},
-        {value: 'popular', label: '인기순'},
+        {value: 'popularity', label: '인기순'},
     ];
 
     // 드롭다운 메뉴
@@ -16,8 +16,10 @@ const SortMenu = () => {
     }
     const handleSelect = (value) =>{
         setSelect(value);
+        SortChange(value);
         setIsOpen(false);
     }
+    
     useEffect(() => {
         const onClick = (e) => {            
         if(ref.current !== null && !ref.current.contains(e.target)){
