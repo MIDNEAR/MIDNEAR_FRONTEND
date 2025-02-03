@@ -2,7 +2,7 @@ import React from 'react';
 
 const CanceledItem = ({ state, date, image, info, price, quantity, actions }) => {
   return (
-    <div className="ordering_box">
+    <div className="canceled_order">
       <div className="box_left">
         <div className="order_state">
           <span className="state">{state}</span>

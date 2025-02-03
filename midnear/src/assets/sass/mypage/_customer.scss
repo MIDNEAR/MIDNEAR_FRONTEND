@@ -98,3 +98,15 @@
       
   }
   
+  @media (max-width: 50rem){
+    .inquiry-form {
+      max-width: 33rem;
+    
+      form {
+        input[type="text"],
+        textarea {
+          width: 33rem;
+        }
+      }
+    }
+  }

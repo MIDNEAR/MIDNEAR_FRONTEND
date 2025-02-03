@@ -16,6 +16,10 @@ body {
     width: 100%;
     box-sizing: border-box;
     height: 100%;
+    font-size: 62.5% !important;
+}
+
+.container { 
     @media (max-width: 500px) {
         overflow-x: hidden;
         width: 100vw;
@@ -27,6 +31,16 @@ body {
     min-height: calc(100vh - 4.63vh - 2.22vh);
     //전체 높이 - 헤더 높이 - 푸터 높이
     margin: 0 auto;
+    background: var(--white);
+}
+
+.none{
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    >h1{
+        color: var(--gray700);
+    }
     background-color: var(--white);
     box-sizing: border-box;
     @media (max-width: 500px) {
@@ -36,6 +50,5 @@ body {
         padding: 0;
         min-height: calc(100vh - 4.63vh - 2.22vh);
     }
-
 
 }

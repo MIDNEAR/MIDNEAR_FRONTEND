@@ -1,0 +1,64 @@
+.search_result{
+    margin-top: 3rem;
+    height: 40rem;
+    border: 1px solid var(--gray300);
+    position: relative;
+    width: 100%;
+   
+    .wrap{
+        display: flex;
+        flex-direction: column;
+        overflow-x: scroll;
+        white-space: nowrap;
+        width: max-content;
+        scrollbar-width: 1rem;
+       
+    }
+   
+    .hd{     
+        display: inline-flex;
+        .cate{
+            display: flex;
+            >div{
+                background-color: var(--gray300);
+                height: 3.6rem;
+                justify-content: center;
+                align-items: center;
+                display: flex;
+                border: 1px solid #c2c2c2;
+                color: #646464;
+
+            }
+            .select{
+                width: 3.6rem;
+            }
+            .order_number{
+                width: 27rem;
+            }
+            .order_status{
+                width: 10rem;
+            }
+            .claim_status{
+                width: 20rem;
+            }
+            .date{
+                width: 15.8rem;
+            }
+            .name{
+                width: 50rem;
+            }
+            .option_info{
+                width: 30rem;
+            }
+            .amount{
+                width: 7rem;
+            }
+            .price, .sum, .buyer_name, .buyer_id, .receiver_name, .deliver_date, .buyer_contact{
+                width: 18rem;
+            }
+            .buyer_place{
+                width: 80rem;
+            }
+        }
+    }
+}

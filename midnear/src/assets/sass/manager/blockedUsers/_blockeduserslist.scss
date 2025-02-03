@@ -1,0 +1,273 @@
+
+.blackuser_list {
+  padding: 1.25vw;
+  box-sizing: border-box;
+  background-color: var(--white);
+  display: flex;
+  flex-direction: column;
+  width: 88.13vw;
+
+  input[type="checkbox"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    margin-top: 15px;
+
+    &:checked::after {
+      content: "✓";
+      font-size: 16px;
+      color: var(--black);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .title {
+    font-size: 0.78vw;
+    font-weight: bold;
+    justify-content: flex-start;
+    white-space: nowrap;
+  }
+
+}
+
+.header1 {
+  display: flex;
+  justify-content: space-between;
+  white-space: nowrap;
+}
+
+
+.controls {
+  display: flex;
+  gap: 0.63vw;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+  // 
+}
+
+.dropdown,
+.search-bar {
+  font-size: 0.63vw;
+  border: 0.05vw solid var(--gray800);
+  height: 2.5vh;
+}
+
+.square-box {
+  font-size: 0.63vw;
+  border: 0.05vw solid var(--gray900);
+  height: 2.5vh;
+}
+
+/* 드롭다운을 감싸는 컨테이너 */
+.dropdown-container {
+  position: relative;
+  width: 3.75vw;
+}
+
+/* 드롭다운 스타일 */
+.dropdown {
+  width: 3.75vw;
+
+  padding-right: 30px;
+  /* 화살표와의 간격 */
+  padding-left: 10px;
+  appearance: none;
+  /* 기본 드롭다운 화살표 숨김 */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  height: 2.5vh;
+
+}
+
+/* ▼ 기호 추가 */
+.dropdown-container::after {
+  content: " ▼";
+  /* ▼ 기호를 추가 */
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  /* 클릭 방지 */
+
+}
+
+.search-bar {
+  width: 9.38vw;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.search-box {
+  display: flex;
+}
+
+.square-box {
+  color: var(--white);
+  background-color: var(--gray900);
+  width: 4.06vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+
+.table th,
+td {
+
+  font-size: 0.63vw;
+  height: 3.75vh;
+  line-height: 3.75vh;
+  text-align: center;
+  border: 0.05vw solid var(--gray800);
+}
+
+.table th {
+  background-color: var(--gray300);
+
+  font-size: 0.6vw;
+}
+
+
+.table th:nth-child(1) {
+  width: 9.84vw;
+}
+
+.table th:nth-child(2) {
+  width: 62.99vw;
+}
+
+.table th:nth-child(3) {
+  width: 10.63vw;
+}
+
+.table th:nth-child(4) {
+  width: 2.5vw;
+}
+
+.table td:nth-child(1) {
+  width: 9.84vw;
+}
+
+.table td:nth-child(2) {
+  width: 62.99vw;
+}
+
+.table td:nth-child(3) {
+  width: 10.63vw;
+}
+
+.table td:nth-child(4) {
+  width: 2.5vw;
+}
+
+
+.table tr {
+  height: 3.75vh;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 0.42vw;
+  align-items: center;
+  padding-left: 39.06vw;
+  background-color: var(--white);
+}
+
+.pagination button {
+  font-size: 0.63vw;
+  border: none;
+  cursor: pointer;
+  padding: 0.26vh;
+  background-color: var(--white);
+  color: var(--gray900);
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.pagination button.active {
+  color: var(--black);
+}
+
+.pagination button:disabled {
+  cursor: not-allowed;
+  color: var(--gray800);
+}
+
+.bul-action-buttons {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  border-top: 0.05vw solid var(--gray800);
+  border-right: 0.05vw solid var(--gray800);
+  border-bottom: 0.05vw solid var(--gray800);
+  background-color: var(--white);
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.bul-action-buttons button {
+  font-size: 0.63vw;
+  width: 3.87vw;
+  height: 3.33vh;
+  cursor: pointer;
+  background-color: var(--gray900);
+  border-left: 0.05vw solid var(--gray800);
+  color: var(--white);
+}
+
+.bul-action-buttons button:hover {
+  background-color: var(--black);
+  color: var(--white);
+}
+
+.selected-list {
+  margin-top: 1.85vh;
+}
+
+.selected-list ul {
+  list-style: none;
+  padding: 0;
+}
+
+.selected-list li {
+  margin-bottom: 0.46vh;
+}
+
+.pageandaction {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.48vh;
+}
+
+.table-container {
+  margin-top: 0.56vh;
+}

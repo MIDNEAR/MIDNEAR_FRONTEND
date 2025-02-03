@@ -39,7 +39,7 @@ const OrderDetail = () => {
 
                             <div className='line' />
 
-                            <div className='box_right'>
+                            <div className='box_right_detail'>
                                 <div className='box'>
                                     <button className='order_option'>배송조회</button>
                                     <Link to="/mypage/orderlist/option" className='order_option'>교환, 반품 신청</Link>

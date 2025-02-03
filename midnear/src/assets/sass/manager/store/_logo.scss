@@ -1,0 +1,60 @@
+.manager .logo{
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    .file {
+        width: 100%;
+        align-items: baseline;
+        margin-bottom: 2rem;
+
+        h5 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+        }
+
+        label {
+            width: 47.8rem;
+            justify-content: center;
+            align-items: center;
+            display: flex;
+            height: 3.6rem;
+            border: 0.1rem solid var(--gray300);
+            color: var(--gray600);
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+    }
+
+    p {
+        font-size: 1rem;
+        color: var(--gray600);
+        text-decoration: underline;
+        margin-top: 0.5rem;
+    }
+
+    .image {
+        img {
+            height: 52rem;
+            margin: 20px 0;
+        }
+    }
+
+    .btn {
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        width: 8rem;
+        height: 4.8rem;
+        background-color: var(--gray700);
+        color: var(--white);
+        font-size: 1.5rem;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .btn:hover {
+        color: var(--white);
+        background-color: var(--black);
+    }
+}

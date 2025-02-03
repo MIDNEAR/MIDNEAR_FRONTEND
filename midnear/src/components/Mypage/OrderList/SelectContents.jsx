@@ -66,7 +66,7 @@ const SelectContents = () => {
 
                 <div className='line' />
 
-                <div className='box_right'>
+                <div className='box_right-select'>
                     <div className='box'>
                     <button
                         className={`order_option ${selectedOption === 'exchange' ? 'active' : ''}`}

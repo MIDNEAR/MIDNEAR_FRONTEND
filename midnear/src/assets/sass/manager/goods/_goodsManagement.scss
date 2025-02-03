@@ -1,0 +1,292 @@
+.goodsManagement {
+    .hd {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 2rem;
+
+      
+    }
+
+    .table {
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+        margin-bottom: 1rem;
+
+        .category {
+            flex: 3;
+        }
+
+        .name {
+            flex: 3;
+        }
+
+        .color {
+            flex: 2.5;
+        }
+
+        .price {
+            flex: 2;
+        }
+
+        .dis_persent {
+            flex: 1;
+        }
+
+        .dis_price {
+            flex: 2;
+        }
+
+        .status {
+            flex: 1;
+        }
+
+        .size {
+            flex: 10;
+        }
+
+        .day {
+            flex: 5;
+        }
+
+        .check {
+            flex: 0.8;
+        }
+
+        .header {
+            display: flex;
+            height: auto;
+
+            div {
+                height: 3.6rem;
+                display: flex;
+                background-color: var(--gray800);
+                justify-content: center;
+                align-items: center;
+                border: 1px solid var(--gray300);
+            }
+        }
+
+        .row {
+            display: flex;
+
+            >div {
+                min-height: 3.6rem;
+                justify-content: center;
+                align-items: center;
+                border: 1px solid var(--gray300);
+                display: flex;
+            }
+
+            >input {
+                min-height: 3.6rem;
+                justify-content: center;
+                align-items: center;
+                border: 1px solid var(--gray300);
+                display: flex;
+                cursor: pointer;
+            }
+
+            input[type="checkbox"] {
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                appearance: none;
+                width: 100%;
+                height: 100%;
+                position: relative;
+
+                &:checked::after {
+                    content: "✓";
+                    font-size: 16px;
+                    color: var(--black);
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    text-align: center;
+                }
+
+                &:focus {
+                    outline: none;
+                }
+            }
+        }
+    }
+
+    .paging {
+        display: flex;
+        bottom: 3rem;
+        width: 10rem;
+        left: calc(50% - 5rem);
+        position: absolute;
+        justify-content: space-around;
+        img {
+            width: 4px;
+        }
+        .pages{
+            color: #8B8B8B;
+            cursor: pointer;
+        }
+        .pages:hover{
+            color: #000;
+        }
+    }
+
+    .btns {
+        display: flex;
+        justify-content: end;
+        gap: 4rem;
+
+        .changes,
+        .select {
+            display: flex;
+            height: 3.6rem;
+
+            >.btn {
+                padding: 0 1.5rem;
+                background-color: #fff;
+                color: var(--black);
+                border: 1px solid var(--gray300);
+            }
+
+            >.btn:hover {
+                color: var(--white);
+                background-color: #646464;
+            }
+
+        }
+    }
+}
+
+.search_wrap {
+    display: flex;
+    gap: 1rem;
+
+    >div {
+        color: var(--gray600);
+    }
+
+    .terms .inner,
+    .sort .inner,
+    .category {
+        border: 0.1rem solid var(--gray800);
+        height: 2.4rem;
+        justify-content: center;
+        align-items: center;
+        padding: 0 1rem;
+        display: flex;
+        gap: 1rem;
+        position: relative;
+
+        p {
+            font-size: 1.2rem;
+            font-weight: normal;
+        }
+
+        img {
+            width: 1.3rem;
+            height: 1.1rem;
+        }
+    }
+
+    .terms .inner,
+    .sort .inner {
+        width: 7.8rem;
+
+    }
+
+    .terms,
+    .sort {
+        .options {
+            width: 7.8rem;
+            position: absolute;
+            z-index: 10;
+            background-color: var(--gray800);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            p {
+                height: 2.4rem;
+                padding: 0 1rem;
+                display: flex;
+                align-items: center;
+                width: inherit;
+            }
+
+            p:hover {
+                background-color: #000;
+                color: #fff;
+
+            }
+
+        }
+    }
+
+    .category {
+        justify-content: space-between;
+        padding: 0;
+        align-items: center;
+
+        .cate_name {
+            width: 11.2rem;
+            background-color: #646464;
+            color: #fff;
+
+            p {
+                justify-content: center;
+                align-items: center;
+                display: flex;
+                font-size: 1.2rem;
+                font-weight: normal;
+                height: 2.4rem;
+            }
+
+            .options {
+                width: 11.2rem;
+                position: absolute;
+                z-index: 10;
+                background-color: #646464;
+                color: #fff;
+                cursor: pointer;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+
+                p {
+                    height: 2.4rem;
+                    padding: 0 1rem;
+                    display: flex;
+                    align-items: center;
+                    width: inherit;
+                }
+
+                p:hover {
+                    background-color: #000;
+                    color: #fff;
+
+                }
+
+            }
+        }
+
+        .ip_wrap {
+            input {
+                padding: 0 .5rem;
+                color: var(--gray600);
+                font-size: 1.2rem;
+                font-weight: normal;
+            }
+
+            img {
+                height: 18px;
+                width: 18px;
+                margin-right: .5rem;
+            }
+        }
+    }
+}

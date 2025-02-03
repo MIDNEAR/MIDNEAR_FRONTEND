@@ -96,7 +96,7 @@
         padding: 0;
     }
 
-    .box_right {
+    .box_right, .box_right_detail, .box_right-select {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -308,4 +308,246 @@
     border: 0.1rem solid #C2C2C2;
     font-size: 1.2rem;
     font-weight: 600;
+}
+
+.array_list {
+    display: flex;
+
+    .Show_list {
+        margin-top: 2rem;
+        margin-right: 1rem;
+        cursor: pointer;
+        font-size: 1.2rem;
+        color: var(--gray700);
+        text-decoration: underline;
+      }
+      
+      .Show_list.valid {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: var(--black);
+        text-decoration: underline;
+      }
+      
+}
+
+.canceled_order {
+    margin-top: 20px;
+    width: 70.2rem;
+    height: 18.4rem;
+    border: 0.1rem solid #D4D4D4;
+    display: flex;
+    padding: 1.4rem;
+
+    .dot {
+        width: 0.4rem;
+        height: 0.4rem;
+        margin: 1rem;
+        background-color: var(--gray1100);
+        border-radius: 50%;
+    }
+
+
+        .order_state {
+            display: flex;
+            align-items: center;
+
+            .state {
+                font-size: 1.2rem;
+                font-weight: 700;
+                color: var(--black);
+            }
+
+            .date {
+                font-size: 1rem;
+                font-weight: 500;
+                color: #FF0000;
+            }
+        }
+
+    .order_info {
+        display: flex;
+        margin-top: 1.5rem;
+
+        img {
+            width: 9.9rem;
+            height: 9.9rem;
+        }
+
+        .goods_info {
+            padding: 1.1rem;
+
+            p {
+                width: 35.8rem;
+                font-size: 1.2rem;
+            }
+
+            .price {
+                display: flex;
+                align-items: center;
+                margin-top: 3rem;
+
+                span {
+                    font-size: 1.2rem;
+                    font-weight: 600;
+                }
+            }
+        }
+        
+    }
+
+    .order_detail {
+        font-size: 1rem;
+        font-weight: 500;
+        color: var(--black);
+        cursor: pointer;
+    }
+}
+
+.order_detail-canceled { 
+    margin-top: 0.6rem;
+    margin-left: 12rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--black);
+    cursor: pointer;
+}
+
+@media (max-width: 50rem){
+    .search-bar-order {
+        width: 33rem;
+    }
+    
+    .ordering_box, .ordered_box {
+        width: 33rem;
+
+        .box_left {
+            width: 20rem;
+
+            .order_info{
+                .goods_info{
+    
+                    p {
+                        width: 19.5rem;
+                    }
+                }
+            }
+        }
+    
+        .line {
+            display: none;
+        }
+    
+        .box_right {
+            margin-left: 15rem;
+
+            .order_detail {
+                width: 10rem;
+                
+            }
+            .box {
+                .order_option {
+                   display: none;
+                }
+            }
+        }
+
+        .box_right_detail {
+            position: relative;
+            top: 20rem;
+            right: 23.5rem;;
+        }
+
+        .box_right-select {
+            position: relative;
+            height: 3rem;
+            top: 21rem;
+            right: 21rem;;
+            margin: 0rem;
+
+            .box {
+                flex-direction: row;
+                width: 35rem;
+                margin: 0rem;
+
+                .order_option {
+                    width: 30rem;
+                }
+            }
+        }
+    }
+    
+    .detail {
+        width: 35rem;
+        margin-top: 23rem;
+    }
+    
+    .order_info-top {
+        margin-top: 1.3rem;
+    }
+    
+    .order_info-top {
+        width: 35rem;
+    
+        .order_info__item {
+            .order_info__label {
+                width: 18rem;
+            }
+        }
+    }
+    
+    .payment-info {
+    
+        .payment-info__details{
+            width: 35rem;
+    
+            .payment-info__item_left{
+                width: 35rem;
+            }
+    
+            .payment-info__item_right {
+                width: 35rem;
+            }
+        }
+        
+        .order_section_line {
+            width: 35rem;
+        }
+    }
+    
+    .pament-bill {
+        .payment-info__receipt{
+            width: 35rem;
+        }
+    }
+    
+    .button_area {
+        width: 35rem;
+    }
+    
+    .canceled_order {
+        width: 33rem;
+    
+        .order_info {
+            width: 20rem;
+
+            .goods_info {
+                p {
+                    width: 19.5rem;
+                }
+            }
+        }
+    }
+    
+    .order_detail-canceled { 
+        position: relative;
+        width: 10rem;
+        margin-top: 0rem;
+        margin-left: 0rem;
+        left: 4rem;
+    }
+
+    .submit_button_option {
+        width: 33rem;
+    }
 }

@@ -1,0 +1,107 @@
+.blocked-users-container {
+    width: 88.125vw;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: var(--white);
+    height: 25.56vh;
+  
+    h2 {
+      font-size: 18px;
+    }
+  }
+  
+  .input-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+  
+    input {
+      flex: 1;
+      padding: 0.93vh;
+      border: 0.093vw solid var(--gray300);
+      font-size: 12px;
+      height: 3.33vh;
+      border-right: none;
+    }
+  
+    input:focus {
+      outline: none;
+    }
+  
+    button {
+      width: 2.5vw;
+      height: 3.33vh;
+      background-color: var(--gray900);
+      color: var(--white);
+      border: 0.093vw solid var(--gray300);
+      cursor: pointer;
+      border-left: none;
+      font-size: 12px;
+    }
+  
+    button:hover {
+      background-color: var(--black);
+    }
+  }
+  
+  .b-select {
+    width: 100%;
+    padding-left: 0.93vh;
+    border: 0.093vw solid var(--gray300);
+    font-size: 12px;
+    height: 3.33vh;
+  
+    &:focus {
+      outline: none;
+    }
+  
+    &:not([value='']) {
+      color: black;
+    }
+  }
+  
+  .filtered-ids {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 8px;
+    border: 0.093vw solid var(--gray300);
+    max-height: 18.52vh;
+    overflow-y: auto;
+    background-color: var(--white);
+    position: absolute;
+    width: 88.125vw;
+    z-index: 999;
+  
+    li {
+      padding: 0.74vh;
+      cursor: pointer;
+      background-color: var(--white);
+      margin-bottom: 4px;
+  
+      &:hover {
+        background-color: var(--black);
+        color: var(--white);
+      }
+    }
+  }
+  
+  .register-btn {
+    width: 4.17vw;
+    height: 4.44vh;
+    padding: 0.93vh;
+    background-color: var(--gray900);
+    color: var(--white);
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    margin-top: 5px;
+  
+    &:disabled {
+      background-color: var(--gray300);
+      cursor: not-allowed;
+    }
+  
+    &:hover {
+      background-color: var(--black);
+    }
+  }

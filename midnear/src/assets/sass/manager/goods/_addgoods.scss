@@ -1,0 +1,236 @@
+.add_goods {
+    gap: 2rem;
+    display: flex;
+    flex-direction: column;
+
+    .container {
+        padding: 2.5rem;
+        height: auto;
+    }
+
+    .title {
+        font-size: 1.5rem;
+    }
+
+    .goods_name {
+        height: 12rem;
+
+        input {
+            margin: 1rem 0;
+            border: 1px solid var(--gray300);
+            height: 3.6rem;
+            padding: 0 1rem;
+            font-size: 1.2rem;
+            color: var(--gray600);
+        }
+    }
+
+    >.wrap {
+        width: inherit;
+        display: flex;
+        gap: 2rem;
+
+        >.info {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+
+            textarea {
+                margin-top: 1.5rem;
+                resize: none;
+                padding: 1rem;
+                height: 10rem;
+                border: 1px solid var(--gray300);
+            }
+        }
+
+        .price {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            min-width: 33rem;
+            background-color: var(--white);
+
+            input[type="number"]::-webkit-inner-spin-button,
+            input[type="number"]::-webkit-outer-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+
+            input[type="number"] {
+                -moz-appearance: textfield;
+            }
+
+            >.input {
+                display: flex;
+                border: 1px solid var(--gray300);
+                width: 28.8rem;
+                height: 3.8rem;
+                justify-content: space-between;
+                align-items: center;
+
+
+                >input {
+                    width: 20rem;
+                    height: 3.6rem;
+                    padding: 0 1rem;
+                    font-size: 1.2rem;
+                    flex: 1;
+
+                }
+
+
+
+                >p {
+                    width: 3.6rem;
+                    height: 3.8rem;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    font-weight: bold;
+                    color: var(--gray600);
+                    border: 1px solid var(--gray300);
+                }
+            }
+
+            .discount {
+                display: flex;
+                flex-direction: column;
+
+                >.wrap {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    gap: 1rem;
+
+                    >.discount_price {
+                        display: flex;
+                        color: red;
+                        font-weight: 600;
+                        font-size: 1.2rem;
+                    }
+
+                    .btns {
+                        display: flex;
+                        gap: .5rem;
+
+                        .on {
+                            color: var(--white);
+                            background-color: var(--black);
+                        }
+
+                        div {
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            padding: 0 1rem;
+                            height: 2.4rem;
+                            cursor: pointer;
+                            border: 1px solid var(--gray300);
+                        }
+
+                        div:hover {
+                            color: var(--white);
+                            background-color: var(--black);
+                        }
+                    }
+
+
+                    >p {
+                        font-weight: bold;
+                        color: #000;
+                        font-size: 1.2rem;
+                        margin: 0;
+                        padding: 0;
+                    }
+
+                    >.input {
+                    
+                        border: 1px solid var(--gray300);
+                        min-width: 5.5rem;
+                        width: auto;
+                        padding: 0 .5rem;
+                        height: 2.4rem;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+
+                        input {
+                            width: 3rem;
+                            text-align: center;
+                            font-size: 1.4rem;
+                        }
+
+                        p {
+                            margin: 0 .2rem;
+                            display: flex;
+                            width: fit-content;
+                        }
+
+                    }
+                }
+
+                p {
+                    font-size: 1.2rem;
+                    font-weight: bold;
+                    color: var(--gray600);
+                }
+
+                .term {
+                    display: flex;
+                    gap: 1rem;
+                    margin: 1rem 0;
+                    align-items: center;
+                    justify-content: space-between;
+
+                    >p {
+                        font-weight: bold;
+                        color: #000;
+                        font-size: 1.2rem;
+                        margin: 0;
+                        padding: 0;
+                    }
+
+                    .dates {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+
+                        span {
+                            margin: 0 1rem;
+                            width: 1rem;
+                        }
+
+                        .start,
+                        .end {
+                            cursor: pointer;
+                            height: 2.4rem;
+                            padding: 0 .5rem;
+                            font-weight: 600;
+                            font-size: 1.1rem;
+                            width: 10rem;
+                            border: 1px solid var(--gray300);
+                        }
+                    }
+
+                }
+            }
+        }
+
+        .info {
+            flex: 1;
+            background-color: var(--white);
+        }
+    }
+
+    .sizeguide {
+        textarea {
+            margin-top: 1.5rem;
+            resize: none;
+            padding: 1rem;
+            height: 10rem;
+            border: 1px solid var(--gray300);
+        }
+    }
+}

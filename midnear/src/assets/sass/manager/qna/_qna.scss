@@ -1,0 +1,251 @@
+.qna-container {
+    padding: 1.25vw;
+    box-sizing: border-box;
+    background-color: var(--white);
+    display: flex;
+    flex-direction: column;
+    input[type="checkbox"] {
+        width: 1.5vw;
+        height: 1vw;
+        cursor: pointer;
+    
+        &:checked::after {
+            width: 1.5vw;
+            height: 1vw;
+            content: "✓";
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--black);
+        }
+    
+        &:focus {
+            outline: none;
+        }
+    }
+}
+  
+.qna-header1 {
+    display: flex;
+    justify-content: space-between;
+}
+  
+.qna-title {
+    font-size: 1.2vw;
+    font-weight: bold;
+}
+  
+.qna-controls {
+    display: flex;
+    gap: 0.63vw;
+    align-items: center;
+
+    .qna-dropdown {
+        font-size: 12px;
+        border: 0.05vw solid var(--gray800);
+        height: 2.5vh;
+        padding: 2px;
+        width: 78px;
+        &:focus {
+            outline: none;
+        }
+    }
+
+
+    
+    .qna-search-box {
+        display: flex;
+        align-items: center;
+      
+        .qna-square-box {
+            background-color: var(--gray900);
+            border: 0.05vw solid var(--gray800);
+            color: var(--white);
+            padding: 0 1vw;
+            height: 2.5vh;
+            width: 78px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            font-size: 12px;
+        }
+      
+        .qna-search-bar {
+            border: 0.05vw solid var(--gray800);
+            height: 2.5vh;
+            padding: 0 0.5vw;
+            margin-left: -0.05vw;
+            &:focus {
+                outline: none;
+            }
+        }
+    }
+}
+  
+.qna-controls {
+    display: flex;
+    gap: 0.63vw;
+    align-items: center;
+
+    .qna-dropdown {
+        font-size: 12px;
+        border: 0.05vw solid var(--gray800);
+        height: 2.5vh;
+        padding: 0.2vw;
+        &:focus {
+            outline: none;
+        }
+    }
+
+    .qna-search-box {
+        display: flex;
+        align-items: center;
+      
+        .qna-square-box {
+            background-color: var(--gray900);
+            border: 0.05vw solid var(--gray800);
+            color: var(--white);
+            padding: 0 1vw;
+            height: 2.5vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+        }
+      
+        .qna-search-bar {
+            border: 0.05vw solid var(--gray800);
+            height: 2.5vh;
+            padding: 0 0.5vw;
+            margin-left: -0.05vw;
+            &:focus {
+                outline: none;
+            }
+        }
+    }
+}
+  
+.qna-table-container {
+    margin-top: 1vh;
+
+    .qna-table {
+        width: 100%;
+        border-collapse: collapse;
+
+        th, td {
+            border: 0.05vw solid var(--gray300);
+            text-align: center;
+            font-size: 12px;
+            height: 3.75vh;
+        }
+
+        th {
+            background-color: var(--gray800);
+            color: var(--black);
+            font-weight: bold;
+        }
+
+        td {
+            background-color: var(--white);
+            color: var(--black);
+        }
+
+        th:nth-child(1),
+        td:nth-child(1) {
+            width: 6.51vw; 
+        }
+
+        th:nth-child(2),
+        td:nth-child(2) {
+            width: 9.79vw; 
+        }
+
+        th:nth-child(3),
+        td:nth-child(3) {
+            width: 45.52vw;
+        }
+
+        th:nth-child(4),
+        td:nth-child(4) {
+            width: 10.63vw; 
+        }
+
+        th:nth-child(5),
+        td:nth-child(5) {
+            width: 5.47vw; 
+        }
+
+        th:nth-child(6),
+        td:nth-child(6) {
+            width: 5.52vw; 
+        }
+
+        th:nth-child(7),
+        td:nth-child(7) {
+            width: 2.50vw; 
+        }
+    }
+}
+  
+.qna-pagination {
+    margin-top: 2vh;
+    display: flex;
+    justify-content: center;
+    gap: 0.5vw;
+
+    button {
+        font-size: 12px;
+        padding: 0.5vh 1vw;
+        border: none;
+        background-color: var(--white);
+        color: var(--gray800);
+        cursor: pointer;
+
+        &.active {
+            color: var(--black);
+        }
+
+        &:disabled {
+            cursor: not-allowed;
+            color: var(--gray800);
+        }
+    }
+}
+
+
+
+.qna-btn-group {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+    align-self: flex-end;
+}
+
+.qna-action-buttons {
+    margin-top: 2vh;
+    display: flex;
+    justify-content: flex-end;
+    height: 36px;
+
+    button {
+        font-size: 12px;
+        padding: 0.5vh 1vw;
+        background-color: var(--white);
+        border: 0.1vw solid var(--gray800);
+        cursor: pointer;
+
+        &:hover {
+            background-color: var(--black);
+            color: var(--white);
+        }
+    }
+
+    .qna-delete-btn {
+        background-color: var(--gray900);
+        color: var(--white);
+        border: 0.1vw solid var(--gray900);
+    }
+
+
+}

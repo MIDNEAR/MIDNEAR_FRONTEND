@@ -40,7 +40,7 @@
         left: calc(50% - 600px);
         position: absolute;
         height: 4.63vh;
-       
+
 
         .SHOP,
         .OTHERS {
@@ -49,14 +49,15 @@
             height: 4.63vh;
             justify-content: center;
             align-items: center;
-            p{
+
+            p {
                 margin-right: 2.4rem;
-                
+
             }
 
             .sub {
                 display: none;
-                
+
                 height: 4.63vh;
                 justify-content: center;
                 align-items: center;
@@ -68,17 +69,18 @@
                 align-items: center;
                 justify-content: center;
                 height: 100%;
-        
-  
+
+
             }
         }
 
         .SHOP:hover,
         .OTHERS:hover {
-            >p{
+            >p {
                 font-weight: bold;
             }
-            > a {
+
+            >a {
                 font-weight: bold;
                 margin-right: 2.4rem;
             }
@@ -88,44 +90,53 @@
             }
 
 
-            .second:hover, .newCloth:hover {
-                .second ,.newCloth{
+            .second:hover,
+            .newCloth:hover {
+
+                .second,
+                .newCloth {
 
                     display: flex;
                 }
+
                 .newCloth {
                     display: flex;
                 }
 
-                .second-sub , .newCloth-sub{
+                .second-sub,
+                .newCloth-sub {
 
                     display: flex;
                 }
             }
         }
 
-        .sub > a:hover {
+        .sub>a:hover {
             font-weight: bold;
         }
 
 
-        .second a:hover, .newCloth a:hover {
+        .second a:hover,
+        .newCloth a:hover {
             font-weight: bold;
         }
 
 
-        .second, .newCloth {
+        .second,
+        .newCloth {
             position: relative;
             display: flex;
             height: 4.63vh;
             justify-content: center;
             align-items: center;
-            p:hover{
+
+            p:hover {
                 font-weight: bold;
             }
 
 
-            .second-sub, .newCloth-sub {
+            .second-sub,
+            .newCloth-sub {
                 display: flex;
 
                 position: absolute;
@@ -146,10 +157,10 @@
                 a:hover {
                     font-weight: bold;
                 }
-               
+
             }
 
-            div:first-child{
+            div:first-child {
 
                 padding-top: 0.65vh;
             }
@@ -177,7 +188,8 @@
         display: flex !important;
     }
 
-    .SHOP .second-sub:hover ~ .sub , .SHOP .newCloth-sub:hover ~ .sub{
+    .SHOP .second-sub:hover~.sub,
+    .SHOP .newCloth-sub:hover~.sub {
         display: flex;
     }
 
@@ -196,16 +208,15 @@
     align-items: center;
     border-bottom: var(--gray300) 1px solid;
     position: relative;
-    cursor: pointer;
     font-size: 1.11vh;
     overflow: visible;
     z-index: 2;
 
     .logo {
         display: flex;
-        flex: 1;
         min-width: 10rem;
-
+        margin-left: 3rem;
+        cursor: pointer;
         img {
             display: flex;
             height: 3.7vh;
@@ -214,6 +225,34 @@
 
         }
     }
+
+
+    .goUser {
+        cursor: pointer;
+        width: 8.5rem;
+        height: 2.4rem;
+        background-color: #333;
+        color: var(--white);
+        font-size: 1rem;
+        margin: 0 1rem;
+        border-radius: .5rem;
+        justify-content: center;
+        align-items: center;
+        letter-spacing: 5%;
+        font-weight: normal;
+        display: flex;
+    }
+    .logout{
+        flex: 1;
+        display: flex;
+        justify-content: end;
+        margin:  0 2rem;
+        p{
+            display: flex;
+            cursor: pointer;
+        }
+    }
+
 }
 
 @media (max-width: 50rem){
@@ -339,4 +378,5 @@
         
     }
     .header.border{border-bottom:none}
+
 }

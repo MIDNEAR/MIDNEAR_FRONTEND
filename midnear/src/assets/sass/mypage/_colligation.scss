@@ -107,3 +107,37 @@
     }
 
 }
+
+@media (max-width: 50rem){
+    .option_box {
+        width: 33rem;
+    }
+    
+    .point_list-holding {
+        width: 33rem;
+    
+        .information{
+            width: 33rem;
+    
+            .point_list-holding-title{
+                font-size: 1.2rem;
+            }
+    
+            .point_list-holding-content{
+                font-size: 1.2rem;
+                width: 27rem;
+            }
+    
+        }
+    
+        .amount{
+            font-size: 1.2rem;
+            width: 8rem;
+            margin-left: 1rem;
+        }
+    }
+    
+    .coupon_box-holding{
+        width: 33rem;
+    }
+}

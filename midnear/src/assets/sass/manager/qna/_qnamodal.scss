@@ -1,0 +1,116 @@
+.qm-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(var(--black), 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    font-size: 12px;
+}
+
+.qm-modal-content {
+    background-color: var(--white);
+    padding: 2vw;
+    border-radius: 1vw;
+    width: 50vw;
+    height: 80vh;
+    box-shadow: 0 0.4vw 0.8vw rgba(var(--black), 0.2);
+    position: relative;
+    overflow-y: auto;
+}
+
+.qm-modal-content h2 {
+    margin-bottom: 2vw;
+    font-size: 24px;
+    color: var(--black);
+}
+
+.qm-modal-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 2vw;
+}
+
+.qm-modal-table td {
+    padding-left: 1.2vw;
+    height: 3.75vh;
+    text-align: left;
+}
+
+.qm-modal-table .qm-left-column {
+    background-color: var(--gray800);
+    color: var(--black);
+    width: 15vw;
+}
+
+.qm-modal-table td:nth-child(2) {
+    background-color: var(--white);
+    color: var(--gray1000);
+}
+
+.qm-divider {
+    margin: 2vw 0;
+    border-top: 1px solid var(--gray200);
+}
+
+textarea {
+    width: 100%;
+    height: 20vh;
+    padding: 1vw;
+    border: 1px solid var(--gray200);
+    border-radius: 0.5vw;
+    font-size: 14px;
+    line-height: 1.5;
+    resize: none;
+}
+
+.qm-button {
+    padding: 1vw 2vw;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 0;
+}
+
+.qm-submit-btn {
+    background-color: var(--gray900);
+    color: var(--white);
+    font-size: 12px;
+    border-radius: 0;
+    writing-mode: unset;
+    transform: unset;
+    text-align: center;
+    display: inline-block;
+    white-space: nowrap;
+    align-self: flex-end;
+}
+
+.qm-submit-btn:hover {
+    background-color: var(--gray1000);
+}
+
+.qm-close-btn {
+    position: absolute;
+    top: 0.5vw;
+    right: 0.5vw;
+    background-color: transparent;
+    color: var(--gray1000);
+    border: none;
+    cursor: pointer;
+}
+
+.qm-modal-content .qm-content {
+    margin-top: 2vw;
+}
+
+.qm-editor-container {
+    display: flex;
+    gap: 1vw;
+    align-items: center;
+    width: 100%;
+    flex-direction: column;
+}

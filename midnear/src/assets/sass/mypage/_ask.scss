@@ -229,3 +229,45 @@
     width: 75rem;
   }
 }
+
+@media (max-width: 50rem){
+  .inquiry-list-container {
+    width: 33rem;
+  }
+  
+  .search-bar-container {
+    width: 33rem;
+  }
+
+  .search-bar {
+    width: 18rem;
+  }
+  
+  .inquiry-item {
+    width: 33rem;
+  }
+  
+  .lock-icon {
+    margin-right: 6px;
+  }
+
+.inquiry_detail_option{
+  width: 33rem;
+
+  .inquiry_list{
+    width: 10rem;
+  }
+
+  .comment.active {
+    background-color: #333333;
+    color: var(--white)
+  }
+}
+
+.comment_section {
+  width: 33rem;
+  p {
+    width: 29rem;
+  }
+}
+}

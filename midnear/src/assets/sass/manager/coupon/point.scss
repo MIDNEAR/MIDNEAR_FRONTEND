@@ -1,0 +1,270 @@
+.payment-container {
+    width: 88vw; /* 배경 가로 길이 맞추기 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: var(--white); /* 배경 색상 */
+}
+
+.payment-header {
+    width: 100%;
+    margin-bottom: 20px;
+    text-align: start;
+    display: flex;
+    justify-content: space-between;
+}
+
+.payment-header h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+
+}
+
+.payment-header h3 {
+    font-size: 1rem;
+
+}
+
+.payment-fields {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.payment-fields label {
+    font-size: 1.5rem;
+    margin-bottom: 8px;
+    display: block;
+    font-weight: 500;
+
+}
+
+.payment-fields input {
+    width: 80vw;
+    padding: 10px;
+    margin-bottom: 12px;
+    font-size: 1rem;
+    border: 1px solid var(--gray300);
+    background-color: var(--white);
+}
+
+.payment-button {
+    width: 80px; /* 지급 버튼 너비 */
+    height: 48px; /* 지급 버튼 높이 */
+    padding: 10px 20px;
+    font-size: 1.5rem;
+    background-color: var(--gray900);
+    color: var(--white);
+    border: 1px solid var(--gray300);
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.payment-button:hover {
+    background-color: var(--black); /* hover 시 배경 색상 변화 */
+    border-color: var(--gray800); /* hover 시 테두리 색상 변화 */
+}
+
+.payment-action-buttons {
+    // margin-top: 2vh;
+    display: flex;
+    justify-content: flex-end;
+    height: 36px;
+
+    button {
+        font-size: 12px;
+        padding: 0.5vh 1vw;
+        background-color: var(--white);
+        border: 0.1vw solid var(--gray800);
+        cursor: pointer;
+
+        &:hover {
+            background-color: var(--black);
+            color: var(--white);
+        }
+    }
+
+    .qna-delete-btn {
+        background-color: var(--gray900);
+        color: var(--white);
+        border: 0.1vw solid var(--gray900);
+    }
+
+
+}
+
+.payment-action-buttons2 {
+    display: flex;
+    justify-content: flex-end;
+    height: 36px;
+
+    button,
+    label {
+        font-size: 12px;
+        padding: 0.5vh 1vw;
+        background-color: var(--white);
+        border: 0.1vw solid var(--gray800);
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    button {
+        &:hover {
+            background-color: var(--black);
+            color: var(--white);
+        }
+    }
+
+    label {
+        margin-right: 1vw;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    input[type="radio"] {
+        margin-right: 0.5vw;
+    }
+
+    .qna-delete-btn {
+        background-color: var(--gray900);
+        color: var(--white);
+        border: 0.1vw solid var(--gray900);
+    }
+}
+
+.cp-table-container {
+    display: flex;
+    align-items: flex-start;
+}
+
+.cp-user-table {
+    border-collapse: collapse;
+    width: auto;
+}
+
+.cp-user-table th,
+.cp-user-table td {
+    border: 1px solid #ddd;
+    text-align: center;
+    width: 300px; 
+    height: 35px; 
+}
+/* 체크박스 스타일 변경 */
+.cp-user-table td input[type="checkbox"] {
+    appearance: none; /* 기본 체크박스 스타일 제거 */
+    width: 16px;
+    height: 16px;
+    border: none; 
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* 체크되었을 때 스타일 */
+.cp-user-table td input[type="checkbox"]:checked {
+    border: none; 
+    position: relative;
+}
+
+/* 체크된 상태에서 ✓ 아이콘 표시 */
+.cp-user-table td input[type="checkbox"]:checked::after {
+    content: '✓'; /* 체크된 상태에서 아이콘 표시 */
+    // font-size: 14px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: bold;
+}
+
+.cp-pagination {
+    display: flex;
+    justify-content: center;
+    gap: 0.42vw;
+    align-items: center;
+    background-color: var(--white);
+  }
+  
+  .cp-pagination button {
+    font-size: 0.63vw;
+    border: none;
+    cursor: pointer;
+    padding: 0.26vh;
+    background-color: var(--white);
+    color: var(--gray900);
+    &:focus {
+      outline: none;
+    }
+  }
+  
+  .cp-pagination button.active {
+    color: var(--black);
+  }
+  
+  .cp-pagination button:disabled {
+    cursor: not-allowed;
+    color: var(--gray800);
+  }
+
+
+  .payment-fields-review {
+    width: 100%;
+    align-items:  flex-start;
+    text-align: start;
+    display: flex;
+    flex-direction: column;}
+
+.payment-fields-review label {
+    align-items:  flex-start;
+    text-align: start;
+    font-size: 1.5rem;
+    margin-bottom: 8px;
+    display: block;
+    font-weight: 500;
+
+}
+
+.payment-fields-review input {
+    width: 100%;
+    font-size: 1rem;
+    border: 1px solid var(--gray300);
+    background-color: var(--white);
+}
+
+.payment-fields-review {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.input-group span {
+    width: 70px;
+    font-size: 1.5rem;
+    text-align: right;
+    align-items: center;
+}
+
+.input-group input {
+    width: 161px;  /* 가로 길이 161px */
+
+    text-align: right;
+}
+
+.input-group .currency {
+    font-weight: bold;
+
+}
+
+.couponpercent {
+    width: 10%;
+}

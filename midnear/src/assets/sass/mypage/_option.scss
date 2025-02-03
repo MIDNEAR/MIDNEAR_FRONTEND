@@ -307,3 +307,102 @@
         }
     }
 }
+
+@media (max-width: 50rem){
+    .load_bar {
+        gap: 7rem;
+
+        .load_bar_line {
+            display: none;
+        }
+    
+        .load_bar_line_selected {
+            display: none;
+        }
+    }
+    
+    .optional_next_level {
+        width: 33rem;
+        margin-top: 8rem;
+        z-index: 1000;
+    }
+    
+    .order_option {
+        margin-left: 30rem;
+        
+        &:hover{
+            background-color: #333333;
+            color: var(--white)
+          }
+      }
+    
+    .radio-seperate-line {
+        width: 33rem;
+    }
+
+    .more_detail_option {
+        .button_section{
+            width: 33rem;
+            gap: 1rem;
+    
+            .previous_level_min {
+                width: 34.4rem;
+                height: 4.4rem;
+            }
+    
+            .next_level_min {
+                width: 34.6rem;
+                height: 4.6rem;
+            }
+        }
+    }
+    
+    .exchange_box{
+        width: 33rem;
+
+        .box_top {
+            width: 33rem;
+    
+            .order_info {
+                display: flex;
+        
+                .goods_info{
+                    p {
+                        width: 18rem;
+                        font-size: 1.2rem;
+                    }
+                 }
+            }
+        }
+    
+        .color-detail {
+            gap: 0.7rem;
+          }
+          
+    
+        .under_line {
+            width: 31rem;
+        }
+    
+        .box_bottom {
+            width: 33rem;
+        }
+    }
+    
+
+    .order_title-refund {
+        width: 29rem;
+        font-size: 1rem;
+        margin-bottom: 1rem;
+    }
+    
+    .goods_value, .refund_value {
+        width: 28rem;
+    }
+    
+    .box_bottom {
+        .order_state_option {
+            width: 28rem;
+        }
+    }
+}

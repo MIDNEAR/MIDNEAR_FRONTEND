@@ -12,18 +12,20 @@ import PasswordChange from './components/Mypage/UserInformation/PasswordChange';
 import WritingReview from './components/Mypage/OrderList/WritingReview';
 import OrderListBasic from './components/Mypage/OrderList/OrderListBasic';
 import OrderDetail from './components/Mypage/OrderList/OrderDetail';
+import OrderCancelStart from './components/Mypage/OrderList/OrderCancel/OrderCancelStart';
+import OrderCancelReaon from './components/Mypage/OrderList/OrderCancel/OrderCancelReaon';
+import OrderCancelDone from './components/Mypage/OrderList/OrderCancel/OrderCancelDone';
+import CanceledOrder from './components/Mypage/OrderList/CanceledOrder';
 import Join from './components/User/Join';
 import Login from './components/User/Login';
 import FindID from './components/User/FindID';
 import FindPW from './components/User/FindPW';
 import ChangePW from './components/User/ChangePW';
-
 import Successful from './components/User/FindID/Successful';
 import Failed from './components/User/FindID/Failed';
 import UntilChange from './components/User/FindPW/UntilChange';
 import ChangeSuccess from './components/User/FindPW/ChangeSuccess';
 import SuccessJoin from './components/User/Join/SuccessJoin';
-
 import AllShop from './components/Shop/AllShop';
 import ProdDetail from './components/Shop/ProdDetail';
 import SelectContents from './components/Mypage/OrderList/SelectContents';
@@ -31,6 +33,7 @@ import ExchangeReson from './components/Mypage/OrderList/Exchange/ExchangeReson'
 import RefundReson from './components/Mypage/OrderList/Refund/RefundReson';
 import ExchangeDone from './components/Mypage/OrderList/Exchange/ExchangeDone';
 import RefundDone from './components/Mypage/OrderList/Refund/RefundDone';
+
 import Ask from './components/Mypage/CustomerService/Ask';
 import AskedList from './components/Mypage/CustomerService/AskedList';
 import AskDetail from './components/Mypage/CustomerService/AskDetail';
@@ -46,8 +49,11 @@ import NoMemInfo from './components/Cart/Order/NoMemInfo';
 import MemInfo from './components/Cart/Order/MemInfo';
 import NewAddress from './components/Cart/Order/NewAddress';
 import SelectAdd from './components/Cart/Order/SelectAdd';
+import None from './components/Sections/None';
+import Detail from './components/Manager/Goods/Detail';
 import MagazineList from './components/Magazine/MagazineList';
 import MagazinDetail from './components/Magazine/MagazinDetail';
+import MypageMenu from './components/Mypage/MypageMenu';
 
 
 function App() {
@@ -73,6 +79,12 @@ function App() {
         <Route path="/mypage/orderlist/option/refund" element={<RefundReson />} />
         <Route path="/mypage/orderlist/option/exchange/done" element={<ExchangeDone />} />
         <Route path="/mypage/orderlist/option/refund/done" element={<RefundDone />} />
+        <Route path="/mypage/orderlist/option/ordercancel/application" element={<OrderCancelStart />} />
+        <Route path="/mypage/orderlist/option/ordercancel" element={<OrderCancelReaon />} />
+        <Route path="/mypage/orderlist/option/ordercancel/done" element={<OrderCancelDone />} />
+        <Route path="/mypage/cancellist" element={<CanceledOrder />} />
+        <Route path="/mypage/" element={<MypageMenu />} />
+
         <Route path="/mypage/question/create" element={<Ask />} />
         <Route path="/mypage/question/list" element={<AskedList />} />
         <Route path="/mypage/question/detail" element={<AskDetail/>} />
@@ -108,7 +120,11 @@ function App() {
         <Route path='/others/magazine/detail' element={<MagazinDetail />} />
 
         {/* 관리자 페이지 */}
-        <Route path="/manager/*" element={<Manager />} />
+
+        <Route path="/manager/*" element={<Manager />}/>
+        <Route path="/manager/Goods/Detail/:name" element={<Detail />} />
+        <Route path='*' element={<None />}/>
+
       </Routes>
       <Footer />
     </>
@@ -116,7 +132,7 @@ function App() {
 }
 
 const RootApp = () => (
-  <BrowserRouter>
+  <BrowserRouter basename="/">
     <App />
   </BrowserRouter>
 );

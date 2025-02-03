@@ -227,3 +227,25 @@
         } 
     }
 }
+
+@media (max-width: 50rem){
+    .field_container {
+        width: 33rem;
+    }
+
+    .field_container_content {
+        margin: 0rem;
+    }
+    
+    .mypage_input_field {
+        width: 33rem;
+    }
+    
+    .mypage_input_field_top {
+        width: 33rem;; 
+    }
+    
+    .submit_button {
+        width: 33rem;
+    }
+}

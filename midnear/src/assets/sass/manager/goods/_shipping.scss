@@ -1,0 +1,41 @@
+.shipping_return{
+    .top{
+        margin-bottom: 2rem;
+        .input{
+            margin: 1rem 0;
+            display: flex;
+            gap: 1rem;
+            input{
+                border: 1px solid var(--gray300);
+                height: 3.6rem;
+                padding: 0 1rem;
+                font-size: 1.2rem;
+                color: var(--gray600);
+            }
+            .left{
+               flex: 1;
+            }
+            .right{
+                flex: 3;
+            }
+        }
+    }
+    .bot{
+        textarea{
+            margin: 1rem 0;
+            height: 58rem;
+            padding: 1rem;
+            font-size: 1.2rem;
+            color: var(--gray600);
+            border: 1px solid var(--gray300);
+            resize: none;
+        }
+    }
+    .btn{
+        height: 4.8rem;
+        width: 8rem;
+        margin: 1rem auto;
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+}
