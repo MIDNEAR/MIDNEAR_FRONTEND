@@ -4,6 +4,7 @@ import noneye from '../../assets/img/user/login/eye_open.svg';
 import { useNavigate, Link } from 'react-router-dom';
 import Provision from './Modal/Provision';
 import axios from 'axios';
+import SuccessJoin from './Join/SuccessJoin';
 
 const Join = () => {
     const navigate = useNavigate();
@@ -149,20 +150,19 @@ const Join = () => {
 
 
     const handleJoinSubmit = () => {
-        if (validateInputs()&& certification) {
+        setSignup(true);
+        if (validateInputs() && certification) {
             axios
                 .post(`${DOMAIN}/user/signup`, {
                     name: name,
                     id: id,
                     password: password,
                     phoneNumber: phone,
-                   
+
                 })
                 .then((response) => {
                     if (response.status === 200) {
                         setSignup(true);
-                        navigate('/user/join/success');
-
                     }
                 })
                 .catch((error) => {
@@ -170,7 +170,7 @@ const Join = () => {
                     alert(error.message);
                 });
         }
-        else{
+        else {
 
         }
     };
@@ -332,7 +332,7 @@ const Join = () => {
                     style={{
                         color: isSubmitEnabled ? 'var(--white)' : 'inherit',
                         backgroundColor: isSubmitEnabled ? 'var(--red_main)' : 'inherit',
-  
+
                     }}
                     onClick={handleJoinSubmit}
 
@@ -340,6 +340,7 @@ const Join = () => {
                     회원가입
                 </button>
             </div>
+            {signup && <SuccessJoin usename={name} userid={id} />}
         </div>
     );
 };
