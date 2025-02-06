@@ -19,6 +19,7 @@
 .env.production.local
 /midnear/.env
 midnear/.env
+midnear/.env
 
 npm-debug.log*
 yarn-debug.log*
