@@ -195,8 +195,9 @@
         flex: 1;
         z-index: 2;
 
-        p:hover {
+        a:hover, p:hover {
             font-weight: bold;
+            cursor: pointer;
         }
     }
 
@@ -418,9 +419,11 @@
                 width: 100%;
                 padding-left: 3.6rem;
                 display: flex;
+                cursor: pointer;
                 align-items: center;
                 border-bottom: solid 0.1rem var(--gray800);
             }
+       
         }
 
     }
