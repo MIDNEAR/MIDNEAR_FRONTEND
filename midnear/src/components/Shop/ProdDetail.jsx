@@ -1,17 +1,31 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion'
-import { Link } from 'react-router-dom';
-import frontImg from '../../assets/img/product/prod1.png'
-import backImg from '../../assets/img/product/prod2.png'
+import React, { useState, useEffect } from 'react';
+import { color, motion } from 'framer-motion'
+import { Link, useLocation } from 'react-router-dom';
+import axios from 'axios';
 import down from '../../assets/img/product/down.svg'
 import up from '../../assets/img/product/up.svg'
 import ShippingModal from './ShippingModal';
 import ShowReview from './ShowReview';
 
 const ProdDetail = () => {
+     const DOMAIN = process.env.REACT_APP_DOMAIN;
+     const location = useLocation();
+     const pageSize = location.state?.items || 1; 
+     const params = new URLSearchParams(location.search);
+     const colorId = params.get('colorId');
+
      const [selectSize, setSelectSize] = useState(null); 
      const [isSelected, setIsSelected] = useState(null);     
      const [isModalOpen, setIsModalOpen] = useState(false);
+     const [prod, setProd] = useState(null);     
+     const [images, setImages] = useState([]);
+     const [withItems, setWithItems] = useState([]);
+     const [otherColors, setOtherColors] = useState([]);
+     const [prodName, setProdName] = useState(null);
+     const [size, setSize] = useState([]);
+     const [isSale, setIsSale] = useState(false);
+     const [isSoldOut, setIsSoldOut] = useState(false);
+     const today = new Date();
 
      const openModal = () => setIsModalOpen(true);
      const closeModal = () => setIsModalOpen(false);
@@ -26,27 +40,77 @@ const ProdDetail = () => {
       visible: { height: "auto", opacity: 1,  marginBottom: "2.7rem", marginTop: "1rem", zIndex: 1},
       };
 
-     const dummyList = [
-        { 
-          id: 1,
-          frontImg: frontImg,
-          backImg: backImg,
-          name: "CUTE SWEATER",
-          price: 39000,
-          dcPrice: 35100,
-          coupon: "10%할인쿠폰적용가",
-          soldout: "SOLD OUT"
-        },
-     ]
-     const size = ['S', 'M', 'L', 'XL'];
+     const loadProdDetail = async() => {
+        await axios.get(`${DOMAIN}/product/detail`, {
+          params: {colorId: colorId},
+        })
+        .then((res) => {
+          if(res.status === 200){
+            setProd(res.data.data);
+            setImages(res.data.data.images);
+            setOtherColors(res.data.data.colors);
+            setProdName(res.data.data.productName);
+
+            const findColor = res.data.data.colors.find(color => color.productColorId === Number(colorId));
+            if (findColor) {
+              const sizeArray = findColor.sizes.map(size => size.size);
+              setSize(sizeArray); 
+              console.log(findColor.saleStatus);
+              if(findColor.saleStatus === "품절"){
+                setIsSoldOut(true);
+              } else {
+                setIsSoldOut(false);
+              }
+            }
+
+            const discountStartDate = res.data.data.discountStartDate;
+            const discountEndDate = res.data.data.discountEndDate;      
+            if (discountStartDate === null || discountEndDate === null) {
+              setIsSale(false);
+            } else {
+              const startDate = new Date(discountStartDate);
+              const endDate = new Date(discountEndDate);
+              if (startDate <= today && endDate >= today) {
+                setIsSale(true); 
+              } else {
+                setIsSale(false);
+              }
+            }
+
+          };
+        })
+        .catch((error) => {
+          console.error('상품 디테일 로드 실패:', error.response || error.message);
+        })
+     };
+
+     const coordinates = async() => {
+      await axios.get(`${DOMAIN}/product/coordinates`, {
+        params: {productColorId: colorId},
+      })
+      .then((res) => {
+        if(res.status === 200){
+            setWithItems(res.data.data);
+        };
+      })
+      .catch((error) => {
+        console.error('위드 아이템 로드 실패:', error.response || error.message);
+      })
+     }
+
+     useEffect(() => {
+      loadProdDetail();
+      coordinates();
+     },[colorId]);
+    
      const information = [
       {
         name: 'DETAILS',
-        content: 'Classic fit shirt in brushed cotton flannel.\n\n\nFeatures a patch pocket,\nfront button closure and topstitching along the seams.\nMidnear stock flag label stitched at the side.\n\n- Longsleeve\n- Collared neckline\n- Buttoned front closure and cuffs\n- Single patch pocket\n- Back yoke\n- Curved hem\n- Classic fit\n- Unisex\n- Material: 100% cotton\n- Imported'
+        content: (<>{prod &&(<>{prod.detail}</>)}</>)
       },
       {
         name: 'SIZE GUIDE',
-        content: 'S- 어깨 48 기장 70 소매 64 가슴55\nM- 어깨 48 기장 70 소매 64 가슴55\nL- 어깨 48 기장 70 소매 64 가슴55\nXL- 어깨 48 기장 70 소매 64 가슴55'
+        content: (<>{prod &&(<>{prod.sizeGuide}</>)}</>)
       },
       {
         name: 'SHIPPING & RETURNS',
@@ -64,41 +128,46 @@ const ProdDetail = () => {
         content: (
           <>
           <div className='with-item'>
-          <Link to="/products/detail"><img src={dummyList[0].frontImg} /></Link>          
-          <Link to="/products/detail"><img src={dummyList[0].backImg} /></Link>
+            {withItems[0] !== null ? (
+              <>
+              {withItems.map((item, index)=>(
+              <Link to={`/products/detail?colorId=${item.productColorId}`}  key={index}>
+                <img src={item.frontImageUrl} alt='withItem' />
+              </Link>
+              ))}
+              </>
+            ): (<p>코디된 상품이 없습니다.</p>)}
           </div>
           </>
         )
       },
       {
         name: 'REVIEW',
-        content: (
-        <>
-        <ShowReview />
-        </>
-        )
+        content: ( <> <ShowReview productName={prodName}/> </> )
       }
      ]
      
 
   return (
     <div className='container'>
-      <div className='prod-detail'>
-        <div className='left-img'>
-          <img src={dummyList[0].frontImg}/>
-          <img src={dummyList[0].backImg}/>
-        </div>
+      { prod && (
+        <div className='prod-detail'>
+          <div className='left-img'>
+            {images.map((item, index) => (
+                <img src={item} alt='image' key={index}/>
+            ))}
+          </div>
         <div className='right-info'>
           <div className='empty'></div>
 
           <div className='basic'>
             <div className='info'>
-              <p className='name'>{dummyList[0].name}</p>
-              <p className='price'>&#xffe6; {dummyList[0].price.toLocaleString('ko-KR')}</p>
-              {/** 기본 display none 해당 상품이 할인 기간일 때 flex */}
-               <div className='discount'>
-                  <p className='dc-price'>&#xffe6; {dummyList[0].dcPrice.toLocaleString('ko-KR')}</p>
-                  <p className='coupon'>{dummyList[0].coupon}</p>
+              <p className='name'>{prod.productName}</p>
+              <p className={`price ${isSale ? 'display' : ''}`}>&#xffe6; {prod.price.toLocaleString('ko-KR')}</p>
+              
+              <div className={`discount ${isSale ? 'display' : ''}`}>
+                <p className='dc-price'>&#xffe6; {prod.discountPrice.toLocaleString('ko-KR')}</p>
+                <p className='coupon'>{prod.discountRate}% 할인가</p>
               </div>
             </div>
             <div className='size'>
@@ -110,17 +179,21 @@ const ProdDetail = () => {
             </div>
           </div>
 
-          <div className='color'>BLACK</div>
+          <div className='color'>{prod.currentColor}</div>
           <div className='other-color'>
-            <Link to="/products/detail"><img src={dummyList[0].frontImg} /></Link>          
-            <Link to="/products/detail"><img src={dummyList[0].backImg} /></Link>
+            {otherColors.map((item, index) => (
+              <Link to={`/products/detail?colorId=${item.productColorId}`}  key={index}>
+                <img src={item.mainImage} alt='image' />
+              </Link>  
+            ))}
+                      
           </div>
 
           {/** 기본 display none 해당 상품이 품절 상태면 flex */}
-          <div className='soldout'>SOLD OUT</div>
+          <div className={`soldout ${isSoldOut ? 'display' : ''}`}>SOLD OUT</div>
           {/** 기본 display flex 해당 상품이 품절 상태면 none */}
-          <div className='box'>구매하기</div>
-          <div className='box'>장바구니 담기</div>
+          <div className={`box ${isSoldOut ? 'display' : ''}`}>구매하기</div>
+          <div className={`box ${isSoldOut ? 'display' : ''}`}>장바구니 담기</div>
           
           <div className='detail-box'>
             {information.map((item, index)=>(
@@ -145,6 +218,7 @@ const ProdDetail = () => {
           </div>
         </div>
       </div>
+    )}
     </div>
   )
 }
