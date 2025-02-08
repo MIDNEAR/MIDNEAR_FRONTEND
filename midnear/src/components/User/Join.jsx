@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import eye from '../../assets/img/user/login/eye.svg';
 import noneye from '../../assets/img/user/login/eye_open.svg';
-import { useNavigate } from 'react-router-dom';
-
+import { useNavigate, Link } from 'react-router-dom';
+import Provision from './Modal/Provision';
+import axios from 'axios';
+import SuccessJoin from './Join/SuccessJoin';
 
 const Join = () => {
     const navigate = useNavigate();
@@ -21,13 +23,19 @@ const Join = () => {
     const [passwordError, setPasswordError] = useState('');
     const [confirmPasswordError, setConfirmPasswordError] = useState('');
     const [phoneError, setPhoneError] = useState('');
-    const [codeError, setCodeError] = useState('');
     const [codeSent, setCodeSent] = useState(false);
+    const [certification, setCertification] = useState(false);
+    const [codeCheck, setCodeCheck] = useState(false);
 
     const [termsAccepted, setTermsAccepted] = useState(false);
     const [privacyAccepted, setPrivacyAccepted] = useState(false);
+    const [showTermsModal, setShowTermsModal] = useState(false);
+    const [showPrivacyModal, setShowPrivacyModal] = useState(false);
 
     const [isSubmitEnabled, setIsSubmitEnabled] = useState(false);
+    const [signup, setSignup] = useState(false);
+
+    const DOMAIN = process.env.REACT_APP_DOMAIN;
 
     const handlePwState = (e) => {
         e.preventDefault();
@@ -36,6 +44,33 @@ const Join = () => {
             visible: !prevState.visible,
         }));
     };
+
+    const codeRequest = (e) => {
+
+
+        e.preventDefault();
+        if (!phone.trim()) {
+            setPhoneError('* 휴대폰 번호를 입력해 주세요.');
+        } else {
+            setPhoneError('');
+            setShowCodeInput(true);
+            setCodeSent(true);
+            axios
+                .post(`${DOMAIN}/sms/send`, { phoneNum: phone })
+                .then((response) => {
+                    if (response.status === 200) {
+
+
+                    }
+                })
+                .catch((error) => {
+                    console.error('인증 요청 실패:', error.response || error.message);
+                });
+        }
+
+
+    };
+
 
     const validateInputs = () => {
         let isValid = true;
@@ -54,60 +89,89 @@ const Join = () => {
             setIdError('* 4~12자 안에서 영문 대소문자, 숫자의 조합을 포함해야 합니다.');
             isValid = false;
         } else {
-            setIdError('* 사용 가능한 아이디 입니다.');
+            axios
+                .get(`${DOMAIN}/user/is-duplicate`, { params: { id } })
+                .then((response) => {
+                    if (response.status === 200) {
+                        setIdError('* 사용 가능한 아이디 입니다.');
+                    }
+                })
+                .catch((error) => {
+                    console.error('중복 확인 실패:', error.response || error.message);
+                });
         }
 
-        if (!password.trim()) {
-            setPasswordError('* 비밀번호를 입력해 주세요.');
-            isValid = false;
-        } else if (!/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,12}$/.test(password)) {
-            setPasswordError('* 8~12자 안에서 영문 대소문자, 특수기호와 숫자의 조합을 포함해야 합니다.');
-            isValid = false;
-        } else {
-            setPasswordError('');
-        }
-
-        if (password && password === confirmPassword) {
-            setConfirmPasswordError('* 비밀번호가 일치합니다.');
-        } else if (password && password !== confirmPassword) {
-            setConfirmPasswordError('* 비밀번호가 일치하지 않습니다.');
-            isValid = false;
-        }
-
-        if (!phone.trim()) {
-            setPhoneError('* 휴대폰 번호를 입력해 주세요.');
-            isValid = false;
-        } else {
-            setPhoneError('');
-        }
 
         return isValid;
     };
 
-    const handleCertiRequest = (e) => {
-        e.preventDefault();
-        if (!phone.trim()) {
-            setPhoneError('* 휴대폰 번호를 입력해 주세요.');
+    const handlePasswordChange = (e) => {
+        const value = e.target.value;
+        setPassword(value);
+
+        if (!value.trim()) {
+            setPasswordError('* 비밀번호를 입력해 주세요.');
+        } else if (!/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,12}$/.test(value)) {
+            setPasswordError('* 8~12자 안에서 영문 대소문자, 특수기호와 숫자의 조합을 포함해야 합니다.');
         } else {
-            setPhoneError('');
-            setShowCodeInput(true);
-            setCodeSent(true);
+            setPasswordError('');
         }
     };
+
+    const handleConfirmPasswordChange = (e) => {
+        const value = e.target.value;
+        setConfirmPassword(value);
+
+        if (value === password) {
+            setConfirmPasswordError('* 비밀번호가 일치합니다.');
+        } else {
+            setConfirmPasswordError('* 비밀번호가 일치하지 않습니다.');
+        }
+    };
+
+
 
     const handleCodeValidation = () => {
-        if (code === '123456') {
-            setCodeError('');
-            setIsSubmitEnabled(true);
-        } else {
-            setCodeError('* 정확한 코드 번호를 입력해주세요.');
-            setIsSubmitEnabled(false);
-        }
-    };
+        axios
+            .post(`${DOMAIN}/sms/verify`, { phoneNum: phone, certificationCode: code })
+            .then((response) => {
+                if (response.status === 200) {
+                    setCertification(true);
+
+                }
+            })
+            .catch((error) => {
+                setCertification(false);
+
+
+            });
+        setCodeCheck(true);
+    }
+
 
     const handleJoinSubmit = () => {
-        if (validateInputs() && codeSent && isSubmitEnabled) {
-            navigate ('/user/join/success');
+        setSignup(true);
+        if (validateInputs() && certification) {
+            axios
+                .post(`${DOMAIN}/user/signup`, {
+                    name: name,
+                    id: id,
+                    password: password,
+                    phoneNumber: phone,
+
+                })
+                .then((response) => {
+                    if (response.status === 200) {
+                        setSignup(true);
+                    }
+                })
+                .catch((error) => {
+                    setSignup(false);
+                    alert(error.message);
+                });
+        }
+        else {
+
         }
     };
 
@@ -119,6 +183,24 @@ const Join = () => {
             input = `${input.slice(0, 3)}-${input.slice(3, 7)}-${input.slice(7)}`;
         }
         setPhone(input);
+    };
+
+    const handleTermsAgree = () => {
+        setTermsAccepted(true);
+        setShowTermsModal(false);
+    };
+
+    const handleTermsDisagree = () => {
+        setShowTermsModal(false);
+    };
+
+    const handlePrivacyAgree = () => {
+        setPrivacyAccepted(true);
+        setShowPrivacyModal(false);
+    };
+
+    const handlePrivacyDisagree = () => {
+        setShowPrivacyModal(false);
     };
 
     return (
@@ -144,7 +226,7 @@ const Join = () => {
                         value={id}
                         onChange={(e) => setId(e.target.value)}
                     />
-                    <button className='certi_btn' onClick={() => validateInputs()}>중복확인</button>
+                    <button className='certi_btn' onClick={validateInputs}>중복확인</button>
                 </div>
                 {idError && <p className={idError.includes('사용 가능한') ? 'success_message' : 'error_message'}>{idError}</p>}
 
@@ -154,7 +236,7 @@ const Join = () => {
                         className="min_text"
                         placeholder="비밀번호*"
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={handlePasswordChange}
                     />
                     <span onMouseDown={handlePwState}>
                         <img src={pwType.visible ? noneye : eye} className="eye_icon" alt="toggle visibility" />
@@ -168,7 +250,7 @@ const Join = () => {
                         className="min_text"
                         placeholder="비밀번호 확인*"
                         value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        onChange={handleConfirmPasswordChange}
                     />
                     <span onMouseDown={handlePwState}>
                         <img src={pwType.visible ? noneye : eye} className="eye_icon" alt="toggle visibility" />
@@ -188,7 +270,7 @@ const Join = () => {
                         value={phone}
                         onChange={handlePhoneChange}
                     />
-                    <button className='certi_btn' onClick={handleCertiRequest}>인증요청</button>
+                    <button className='certi_btn' onClick={codeRequest}>인증요청</button>
                     {phoneError && <p className='error_message'>{phoneError}</p>}
                 </div>
 
@@ -206,18 +288,42 @@ const Join = () => {
                         <button className="certi_btn" onClick={handleCodeValidation}>확인</button>
                     </div>
                 )}
-                {codeError && <p className='error_message'>{codeError}</p>}
+                {codeCheck && (
+                    certification ? <p className="success_message">* 인증되었습니다.</p> : <p className="error_message">* 인증 실패</p>)}
 
                 <div className='provision'>
                     <div className='agree_contents'>
-                        <input type='checkbox' className='keep_login' checked={termsAccepted}
-                        onChange={(e) => setTermsAccepted(e.target.checked)} />
-                        <p>[필수] 이용약관 동의</p>
+                        <input
+                            type='checkbox'
+                            className='keep_login'
+                            checked={termsAccepted}
+                            onChange={(e) => setTermsAccepted(e.target.checked)}
+                        />
+                        <p onClick={() => setShowTermsModal(true)}>[필수] 이용약관 동의</p>
+                        {showTermsModal && (
+                            <Provision
+                                name={'이용약관'}
+                                onAgree={handleTermsAgree}
+                                onDisagree={handleTermsDisagree}
+                            />
+                        )}
                     </div>
+
                     <div className='agree_contents'>
-                        <input type='checkbox' className='keep_login' checked={privacyAccepted}
-                        onChange={(e) => setPrivacyAccepted(e.target.checked)} />
-                        <p>[필수] 개인정보처리방침 동의</p>
+                        <input
+                            type='checkbox'
+                            className='keep_login'
+                            checked={privacyAccepted}
+                            onChange={(e) => setPrivacyAccepted(e.target.checked)}
+                        />
+                        <p onClick={() => setShowPrivacyModal(true)}>[필수] 개인정보처리방침 동의</p>
+                        {showPrivacyModal && (
+                            <Provision
+                                name={'개인정보처리방침'}
+                                onAgree={handlePrivacyAgree}
+                                onDisagree={handlePrivacyDisagree}
+                            />
+                        )}
                     </div>
                 </div>
 
@@ -225,15 +331,16 @@ const Join = () => {
                     className='user_btn'
                     style={{
                         color: isSubmitEnabled ? 'var(--white)' : 'inherit',
-                        backgroundColor: isSubmitEnabled ? '#333' : 'inherit',
-                        cursor: isSubmitEnabled ? 'pointer' : 'default',
+                        backgroundColor: isSubmitEnabled ? 'var(--red_main)' : 'inherit',
+
                     }}
                     onClick={handleJoinSubmit}
-                    disabled={!termsAccepted || !privacyAccepted}
+
                 >
                     회원가입
                 </button>
             </div>
+            {signup && <SuccessJoin usename={name} userid={id} />}
         </div>
     );
 };

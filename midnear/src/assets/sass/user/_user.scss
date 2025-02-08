@@ -2,127 +2,128 @@
     display: flex;
     justify-content: center;
     background-color: var(--white);
-  }
+}
 
 //회원가입
 //전체 input, button 스타일
-  
+
 .join {
     max-width: 36.1rem;
     display: flex;
     flex-direction: column;
 }
-  
-    .eye_icon {
-        width: 2.4rem;
-        height: 2.4rem;
-        position: relative;
-        position: absolute;
-        top: 2.7rem;
-        right: 0.5rem;
+
+.eye_icon {
+    width: 2.4rem;
+    height: 2.4rem;
+    position: relative;
+    position: absolute;
+    top: 2.7rem;
+    right: 0.5rem;
+}
+
+.user_container {
+    position: relative;
+    width: 36.1rem;
+}
+
+.mid_text {
+    font-weight: 700;
+    font-size: 1.2rem;
+    margin-top: 8rem;
+    margin-left: 1rem;
+}
+
+.min_text_ex {
+    font-size: 1.2rem;
+    color: var(--gray600);
+    margin-top: 2.5rem;
+    margin-left: 1rem;
+}
+
+.min_text {
+    font-size: 1.2rem;
+    color: var(--gray600);
+    width: 36.1rem;
+    height: 3.2rem;
+    padding: 1rem;
+    border: none;
+    border-bottom: 0.1rem solid var(--gray300);
+    outline: none;
+    margin-top: 2.5rem;
+}
+
+.min_text.invalid {
+    border-bottom: 0.1rem solid #EA0000;
+}
+
+.min_text.invalid::placeholder {
+    color: #EA0000;
+}
+
+.error_message {
+    font-size: 1rem;
+    color: #EA0000;
+    margin-top: 0.5rem;
+    margin-bottom: -1rem;
+}
+
+.success_message {
+    font-size: 1rem;
+    margin-top: 0.5rem;
+    color: #0400FF;
+    margin-bottom: -1rem;
+}
+
+.user_btn {
+    width: 36.1rem;
+    height: 4rem;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--black);
+    border: 0.1rem solid var(--gray500);
+    outline: none;
+    margin-top: 3.6rem;
+    background-color: var(--white);
+    cursor: pointer;
+    transition: 0.3ms;
+
+    &:hover {
+        color: var(--white);
+        background-color: #333;
     }
+}
 
-        .user_container {
-            position: relative;
-            width: 36.1rem;
-        }
+.user_btn-ex {
+    width: 36.1rem;
+    height: 4rem;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--black);
+    border: 0.1rem solid var(--gray500);
+    outline: none;
+    margin-top: 3.6rem;
+    background-color: var(--white);
+}
 
-    .mid_text {
-        font-weight: 700;
-        font-size: 1.2rem;
-        margin-top: 8rem;
-        margin-left: 1rem;
-    }
+.certi_btn,
+.pw_check {
+    font-size: 1.2rem;
+    padding: 0.5rem;
+    color: var(--gray700);
+    background-color: var(--gray100);
+    border-radius: 0.3rem;
+    position: absolute;
+    top: 2.7rem;
+    right: 0.5rem;
+    transition: 0.3s;
 
-        .min_text_ex {
-            font-size: 1.2rem;
-            color: var(--gray600) ;
-            margin-top: 2.5rem;
-            margin-left: 1rem;
-        }
-
-        .min_text {
-            font-size: 1.2rem;
-            color: var(--gray600) ;
-            width: 36.1rem;
-            height: 3.2rem;
-            padding: 1rem;
-            border: none;
-            border-bottom: 0.1rem solid var(--gray300);
-            outline: none;
-            margin-top: 2.5rem;
-        }
-
-        .min_text.invalid {
-            border-bottom: 0.1rem solid #EA0000;
-          }
-
-        .min_text.invalid::placeholder {
-            color: #EA0000;
-        }
-
-        .error_message {
-            font-size: 1rem;
-            color: #EA0000;
-            margin-top: 0.5rem;
-            margin-bottom: -1rem;
-        }
-
-        .success_message {
-            font-size: 1rem;
-            margin-top: 0.5rem;
-            color: #0400FF;
-            margin-bottom: -1rem;
-        }
-
-    .user_btn {
-        width: 36.1rem;
-        height: 4rem;
-        font-size: 1.2rem;
-        font-weight: 500;
-        color: var(--black);
-        border: 0.1rem solid var(--gray500);
-        outline: none;
-        margin-top: 3.6rem;
-        background-color: var(--white);
+    &:hover {
         cursor: pointer;
-        transition: 0.3ms;
-
-        &:hover {
-            color: var(--white);
-            background-color: #333;
-        }
+        color: var(--white);
+        background-color: #333;
     }
-
-    .user_btn-ex{
-        width: 36.1rem;
-        height: 4rem;
-        font-size: 1.2rem;
-        font-weight: 500;
-        color: var(--black);
-        border: 0.1rem solid var(--gray500);
-        outline: none;
-        margin-top: 3.6rem;
-        background-color: var(--white);
-    }
-
-    .certi_btn, .pw_check {
-        font-size: 1.2rem;
-        padding: 0.5rem;
-        color: var(--gray700);
-        background-color: var(--gray100);
-        border-radius: 0.3rem;
-        position: absolute;
-        top: 2.7rem;
-        right: 0.5rem;
-        transition: 0.3s;
-
-        &:hover {
-            cursor: pointer;
-            color: var(--white);
-            background-color: #333;
-        }
-    }
+}
 
 // 아이디, 비밀번호 찾기
 .find {
@@ -131,132 +132,133 @@
     flex-direction: column;
 }
 
-    .select_content{
-        display: flex;
-        margin-top: 8rem;
-        cursor: pointer;
+.select_content {
+    display: flex;
+    margin-top: 8rem;
+    cursor: pointer;
+}
+
+.activate_box {
+    width: 17.9rem;
+    height: 4rem;
+    font-size: 1.2rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 0.1rem solid var(--gray200);
+}
+
+.unactivate_box {
+    width: 17.9rem;
+    height: 4rem;
+    font-size: 1.2rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gray400);
+    background-color: var(--gray200);
+}
+
+.radio-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.radio-label {
+    display: flex;
+    align-items: center;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: var(--gray700);
+    margin-top: 2.4rem;
+}
+
+.radio-label_top {
+    margin-top: 0.9rem;
+}
+
+.radio-label input[type='radio'] {
+    position: relative;
+    width: 1.7rem;
+    height: 1.7rem;
+    appearance: none;
+    border: 0.1rem solid var(--gray700);
+    border-radius: 50%;
+    background-color: #F8F8F8;
+    margin-right: 1.4rem;
+    cursor: pointer;
+    display: inline-block;
+
+    &:checked {
+        background-color: var(--black);
+        border: none;
     }
 
-        .activate_box{
-            width: 17.9rem;
-            height: 4rem;
-            font-size: 1.2rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 0.1rem solid var(--gray200);
-        }
-
-        .unactivate_box{
-            width: 17.9rem;
-            height: 4rem;
-            font-size: 1.2rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--gray400);
-            background-color: var(--gray200);
-        }
-
-    .radio-group {
-        display: flex;
-        flex-direction: column;
+    &:checked::after {
+        content: '';
+        position: absolute;
+        top: 0.3rem;
+        left: 0.3rem;
+        width: 1.1rem;
+        height: 1.1rem;
+        background-color: var(--white);
+        border-radius: 50%;
     }
 
-        .radio-label {
-            display: flex;
-            align-items: center;
-            font-size: 1.2rem;
-            cursor: pointer;
-            color: var(--gray700);
-            margin-top: 2.4rem;
-        }
-
-        .radio-label_top{
-            margin-top: 0.9rem;
-        }
-
-        .radio-label input[type='radio'] {
-            position: relative;
-            width: 1.7rem;
-            height: 1.7rem;
-            appearance: none;
-            border: 0.1rem solid var(--gray700);
-            border-radius: 50%; 
-            background-color: #F8F8F8;
-            margin-right: 1.4rem;
-            cursor: pointer;
-            display: inline-block;
-
-            &:checked {
-                background-color: var(--black);
-                border: none;
-            }
-            
-            &:checked::after {
-                content: '';
-                position: absolute;
-                top:0.3rem;
-                left: 0.3rem;
-                width: 1.1rem;
-                height: 1.1rem;
-                background-color: var(--white);
-                border-radius: 50%;
-            }
-
-            &:checked + span {
-                font-weight: 600;
-                color: var(--black); 
-            }
-        }
-
-    .selected_text{
-        font-size: 1.2rem;
+    &:checked+span {
         font-weight: 600;
-        margin-top: 3.3rem;
+        color: var(--black);
     }
+}
+
+.selected_text {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-top: 3.3rem;
+}
 
 .provision {
     margin-top: 2rem;
+    cursor: pointer;
 }
-    .agree_contents {
-        margin-top: 1rem;
+
+.agree_contents {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    .keep_login {
+        appearance: none;
+        width: 1.8rem;
+        height: 1.8rem;
+        border: 0.1rem solid var(--gray300);
+        border-radius: 0.2rem;
+        cursor: pointer;
+        background-color: var(--white);
         display: flex;
         align-items: center;
-        gap: 0.5rem;
+        justify-content: center;
+    }
+
+    .keep_login:checked {
+        background-color: var(--white);
+    }
+
+    .keep_login:checked::after {
+        content: "✓";
     
-        .keep_login {
-          appearance: none; 
-          width: 1.8rem;
-          height: 1.8rem;
-          border: 0.1rem solid var(--gray300);
-          border-radius: 0.2rem;
-          cursor: pointer;
-          background-color: var(--white);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-        
-        .keep_login:checked {
-          background-color: var(--white);
-        }
-        
-        .keep_login:checked::after {
-          content: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="12" height="10" viewBox="0 0 12 10" fill="none"%3E%3Cpath d="M1 5L4 9L11 1" stroke="%23585858" stroke-width="1.5"/%3E%3C/svg%3E');
-          width: 1rem;
-          height: 1.7rem;
-        }
-    
-        p {
-          font-size: 1.2rem;
-          color: #333;
-          margin: 0;
-          text-decoration: underline;
-        }
-      }
+    }
+
+    >p {
+        font-size: 1.2rem;
+        color: #333;
+        margin: 0;
+        text-decoration: underline;
+    }
+}
 
 .toggle_join {
     width: 48.8rem;
@@ -270,14 +272,15 @@
 
     p {
         font-size: 1.4rem;
+
         span {
             color: #FF0000;
         }
     }
 
-.field_container_content{
-    display: flex;
-    flex-direction: column;
+    .field_container_content {
+        display: flex;
+        flex-direction: column;
 
-}
+    }
 }

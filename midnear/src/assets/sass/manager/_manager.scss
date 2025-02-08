@@ -21,6 +21,8 @@
             padding: 2rem;
             min-height: fit-content;
             position: relative;
+            display: flex;
+            flex-direction: column;
         }
 
         .title {
