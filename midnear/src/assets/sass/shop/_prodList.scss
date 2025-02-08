@@ -56,10 +56,6 @@
                     .name{ 
                         font-weight: bold;
                     }
-                    /* 할인 품절 상태 스타일
-                    .origin-price{ 
-                        text-decoration:line-through;
-                    } */
                     .sold-out{
                         display: none;
                         font-weight: bold;
@@ -77,38 +73,43 @@
                         }
     
                     }
+                    
+                    .origin-price.display{ 
+                        text-decoration:line-through;
+                    } 
+                    .sold-out.display{display: flex;}
+                    .discount.display{display: flex;}
                 }
             }
         }
     }
-}
 
-.pagination{
-    flex: 0;
-    display: flex;
-    justify-content: center;
-    color: var(--gray900);
-    margin: 1rem  0;  
-    font-size: 1.2rem;
-    .pageNum{
-        cursor: pointer;
-        margin: 0 0.7rem;
-        height: 1.8rem;
-        padding-top: 0.1rem;
-
-
-
-        &[aria-current="page"]{
-            color: var(--gray1000)
+    .pagination{
+        flex: 0;
+        display: flex;
+        justify-content: center;
+        color: var(--gray900);
+        margin: 1rem  0;  
+        font-size: 1.2rem;
+        padding:0;
+        .pageNum{
+            cursor: pointer;
+            margin: 0 0.7rem;
+            height: 1.8rem;
+            padding-top: 0.1rem;
+            &[aria-current="page"]{
+                color: var(--gray1000);
+                font-weight: 600;
+            }
+    
         }
-
-    }
-    .prev, .next{
-        height: 1.8rem;
-       cursor: pointer;
-       display: flex;
-       align-items: center;
-       background-color: transparent;
+        .prev, .next{
+            height: 1.8rem;
+           cursor: pointer;
+           display: flex;
+           align-items: center;
+           background-color: transparent;
+        }
     }
 }
 @media (max-width: 50rem){
@@ -127,6 +128,7 @@
                 grid-template-columns: repeat(2, 1fr);
                 column-gap: 2rem;
                 margin-bottom: 3rem;
+                min-height: 60rem;
                 .product{
                     width: 18.2rem;
                     height: 28.4rem;
@@ -141,10 +143,6 @@
                         .name{ 
                             font-weight: bold;
                         }
-                        /* 할인 품절 상태 스타일
-                        .origin-price{ 
-                            text-decoration:line-through;
-                        } */
                         .sold-out{
                             display: none;
                             font-weight: bold;
