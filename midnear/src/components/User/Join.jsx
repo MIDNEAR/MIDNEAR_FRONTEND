@@ -45,6 +45,26 @@ const Join = () => {
         }));
     };
 
+    const [emailType, setEmailType] = useState({ type: 'text', visible: true });
+    const [email, setEmail] = useState('');
+    const [emailError, setEmailError] = useState('');
+  
+
+    const validateEmail = (value) => {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(value)) {
+        setEmailError('유효한 이메일 주소를 입력해 주세요.');
+      } else {
+        setEmailError('');
+      }
+    };
+  
+    const handleEmailChange = (e) => {
+      setEmail(e.target.value);
+      validateEmail(e.target.value);
+    };
+  
+    
     const codeRequest = (e) => {
 
 
@@ -261,7 +281,17 @@ const Join = () => {
                         {confirmPasswordError}
                     </p>
                 )}
-
+                <div className="user_container">
+                    <input
+                        type={emailType.type}
+                        className="min_text"
+                        placeholder="이메일"
+                        value={email}
+                        onChange={handleEmailChange}
+                    />
+                 
+                    {emailError && <p className="error_message">{emailError}</p>}
+                </div>
                 <div className="user_container">
                     <input
                         type='text'

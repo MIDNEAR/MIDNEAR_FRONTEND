@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import Modal from '../Modals/Modal';
 
 const Address = () => {
     const [addressText, setAddressText] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isCompleted, setIsCompleted] = useState(false);
+    const DOMAIN = process.env.REACT_APP_DOMAIN;
+    const navigate = useNavigate();
+    const token = localStorage.getItem('jwtToken');
 
     const handleInputChange = (e) => {
         setAddressText(e.target.value);
@@ -17,12 +22,49 @@ const Address = () => {
     const handleConfirm = () => {
         setIsCompleted(true);
         setIsModalOpen(false);
+        axios
+        .post(`${DOMAIN}/storeManagement/updateBusinessInfo`, {
+            content: addressText
+          }, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+        })
+        .then((response) => {
+          if (response.status === 200) {
+              setAddressText(response.data.data);
+          }
+        })
+        .catch((error) => {
+          console.log(error)
+        });
 
     };
 
     const handleCloseModal = () => {
         setIsModalOpen(false);
     };
+
+    useEffect(() => {
+        fetchdata();
+      }, [navigate]);
+    
+      const fetchdata = () => {
+        axios
+          .get(`${DOMAIN}/storeManagement/getBusinessInfo`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+          .then((response) => {
+            if (response.status === 200) {
+                setAddressText(response.data.data);
+            }
+          })
+          .catch((error) => {
+            console.log(error)
+          });
+      }
 
     return (
         <div className='address_wrap container'>

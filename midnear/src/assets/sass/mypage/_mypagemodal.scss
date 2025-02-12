@@ -30,6 +30,34 @@
     border-bottom: 0.1rem solid var(--gray800);
 }   
 
+.noauth{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    h1{
+        color: var(--gray600);
+        font-size: 3rem;
+        font-weight: normal;
+        display: flex;
+    }
+    .btn{
+        margin-top: 2rem;
+        width: 30rem;
+        height: 5rem;
+        background-color: var(--gray600);
+        border-radius: 1rem;
+        color: var(--white);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 2rem;
+        cursor: pointer;
+    }
+    .btn:hover{
+        background-color: var(--black);
+    }
+}
+
 @media (max-width: 50rem){
     .mypage {
         display: none;
@@ -38,5 +66,17 @@
     .mypage_menu {
         margin-top: 5rem;
         width: 28.2rem;
+    }
+    .noauth{
+        width: 100vw;
+        h1{
+            font-size: 2rem;
+
+        }
+        .btn{
+            width: 20rem;
+            height: 4rem;
+            font-size: 2rem;
+        }
     }
 }
