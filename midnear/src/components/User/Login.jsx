@@ -4,6 +4,7 @@ import kakao from '../../assets/img/user/login/kakao_logo.svg'
 import naver from '../../assets/img/user/login/naver_logo.svg'
 import google from '../../assets/img/user/login/google_logo.svg'
 import cancel from '../../assets/img/user/login/cancel.svg'
+import Header from '../Sections/Header';
 import axios from 'axios';
 
 const Login = ({ onClose }) => {
@@ -30,9 +31,10 @@ const Login = ({ onClose }) => {
                 })
                 .then((response) => {
                     if (response.status === 200) {
-                        navigate('/');
                         onClose();
                         localStorage.setItem('jwtToken', response.data.data);
+                        fecthdata();
+                        navigate('/');
                     }
                 })
                 .catch((error) => {
@@ -42,21 +44,41 @@ const Login = ({ onClose }) => {
         }
     };
 
+    const fecthdata = () => {
+        const token = localStorage.getItem('jwtToken');
+        axios
+          .get(`${DOMAIN}/user/user-info`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+          .then((res) => {
+            if (res.status === 200 && res.data.success) {
+              const userInfo = res.data.data;
+              console.log('유저정보 업데이트')
+    
+              localStorage.setItem('userInfo', JSON.stringify({
+                name: userInfo.name || '',
+                email: userInfo.email || '',
+                phone: userInfo.phoneNumber || '',
+                id: userInfo.id || '',
+                socialType: userInfo.socialType || null,
+              }));
+            }
+          })
+          .catch((error) => {
+            console.log('유저정보 없음')
+          });
+      }
+
+
     return (
         <div className='background'>
             <div className='login_content'>
                 <div className='login'>
                     <div className='login_nav'>
                         <img src={cancel} className='x' onClick={onClose} />
-
-                        <div className="sc2">
-                            <p className="SEARCH">SEARCH</p>
-                            <p className="LOGIN">LOGIN</p>
-                            <p className="ACCOUNT">ACCOUNT</p>
-                            <p className="BAG">
-                                BAG <span>(1)</span>
-                            </p>
-                        </div>
+                       <Header />
                     </div>
                     <div className='mid_text'>LOGIN</div>
                     <p className='min_text_ex'>별표(*)로 표시된 필드가 필수 필드입니다.</p>
