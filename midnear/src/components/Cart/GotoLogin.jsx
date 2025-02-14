@@ -9,7 +9,8 @@ import OrderList from './OrderList';
 
 const GotoLogin = () => {
     const location = useLocation();
-    const items = location.state?.items || [];
+    const addCart = location.state || [];
+    console.log(addCart);
 
     const navigate = useNavigate();
 
@@ -20,6 +21,9 @@ const GotoLogin = () => {
     const goToJoin = () => {
         navigate('/user/join');
     };
+    
+    const [inputValue, setInputValue] = useState('');
+    const [selectedCoupon, setSelectedCoupon] = useState(null);
     
   return (
     <div className='GotoLogin'>
@@ -68,7 +72,7 @@ const GotoLogin = () => {
                             <div className='mid_text'>비회원 구매</div>
                             <div className='min_text_ex'>비회원으로도 결제가 가능합니다. 아래 버튼을 눌러 결제를 진행해 주세요.</div>
                         </div>
-                        <Link to='/order/delivery/no-member' state= {{ items: items }} ><button className='user_btn'>비회원 구매 진행</button></Link>
+                        <Link to='/order/delivery/no-member' state={{addCart}} ><button className='user_btn'>비회원 구매 진행</button></Link>
                     </div>
         </div>
         
