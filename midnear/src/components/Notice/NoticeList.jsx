@@ -11,10 +11,11 @@ const NoticeList = () => {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const initialSort = params.get("dateRange") || "전체";
+  const initialPage = parseInt(params.get("page")) || 1;
 
   const [dateRange, setDateRange] = useState(initialSort);
   const [searchTerm, setSearchTerm] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(initialPage);
 
   const [noticesTop, setNoticeTop] = useState([]);
   const [notices, setNotices] = useState([]);
@@ -24,13 +25,13 @@ const NoticeList = () => {
   // 정렬
   const handleSortChange = (newSort) => {
     setDateRange(newSort);
-    navigate(`?dateRange=${newSort}`);
+    navigate(`?dateRange=${newSort}&page=${currentPage}`);
   };
   useEffect(() => {
     if (!params.get("dateRange")) {
-      navigate(`?dateRange=${dateRange}`, { replace: true }); 
+      navigate(`?dateRange=${dateRange}&page=${currentPage}`, { replace: true }); 
     }
-  }, [dateRange, navigate, params]);
+  }, [dateRange, currentPage, navigate, params]);
 
   // 고정글 불러오기
   const loadFixedNotice = () => {

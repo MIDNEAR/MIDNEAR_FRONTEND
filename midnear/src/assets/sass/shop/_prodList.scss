@@ -60,8 +60,8 @@
                         display: none;
                         font-weight: bold;
                         color: #FF0000;
-                    }
-    
+                    }    
+                    .sold-out.display{display: flex;}
                     .discount{
                         display: none;
                         .dc-price, .coupon{
@@ -77,7 +77,6 @@
                     .origin-price.display{ 
                         text-decoration:line-through;
                     } 
-                    .sold-out.display{display: flex;}
                     .discount.display{display: flex;}
                 }
             }

@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
 import next from '../../assets/img/product/next.svg'
 import prev from '../../assets/img/product/prev.svg'
 import prevRange from '../../assets/img/product/prevRange.svg'
@@ -6,6 +7,7 @@ import nextRange from '../../assets/img/product/nextRange.svg'
 
 
 const Pagination = ({total, limit, page, setPage}) => {
+  const location = useLocation();
   const pageNum = Math.ceil(total/limit) || 1;
   const [currentRange, setCurrentRange] = useState(1); 
   const rangeLimit = 6; 
@@ -46,6 +48,14 @@ const Pagination = ({total, limit, page, setPage}) => {
       setPage(page + 1); 
     }
   };
+
+  useEffect(() => {
+    setPage(page);
+    const query = new URLSearchParams(location.search);
+    query.set('page', page);
+    window.history.replaceState(null, '', '?' + query.toString());
+  }, [page, location.search, setPage]);
+
   
   return (
     <div className='pagination'>

@@ -11,18 +11,16 @@ const AllShop = () => {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const initialSort = params.get("sort") || "latest";
+  const initialPage = parseInt(params.get("page")) || 1;
 
   const [sort, setSort] = useState(initialSort);
   const [prodList, setProdList] = useState([]);
   const {category, subCategory} = useParams();
   const [pageInfo, setPageInfo] = useState({});
-  const [currPage, setCurrPage] = useState(1);
+  const [currPage, setCurrPage] = useState(initialPage);
   const title = `${category?.toUpperCase()} ${subCategory ? `- ${subCategory.toUpperCase()}` : ''}`
-  const [isSale, setIsSale] = useState(false);
-  const [isSoldOut, setIsSoldOut] = useState(false);
-  const today = new Date();
 
-  const loadProdList = async(pageNumber = 1) => {
+  const loadProdList = async(pageNumber = currPage) => {
     await axios.get(`${DOMAIN}/product/by-category`,{
       params: {
         categoryId: 1,
@@ -33,26 +31,6 @@ const AllShop = () => {
     .then((res)=>{
       if(res.status === 200){
         setProdList(res.data.data);
-
-        if(res.data.data.saleStatus === "품절"){
-          setIsSoldOut(true);
-        } else {
-          setIsSoldOut(false);
-        }
-
-        const discountStartDate = res.data.data.discountStartDate;
-        const discountEndDate = res.data.data.discountEndDate;   
-        if (discountStartDate === null || discountEndDate === null) {
-          setIsSale(false);
-        } else {
-          const startDate = new Date(discountStartDate);
-          const endDate = new Date(discountEndDate);
-          if (startDate <= today && endDate >= today) {
-            setIsSale(true); 
-          } else {
-            setIsSale(false);
-          }
-        }
       } 
     })
     .catch((error) => {
@@ -84,14 +62,14 @@ const AllShop = () => {
 
   const handleSortChange = (newSort) => {
     setSort(newSort);
-    navigate(`?sort=${newSort}`);
+    navigate(`?sort=${newSort}}&page=${currPage}`);
   };
   
   useEffect(() => {
     if (!params.get("sort")) {
-      navigate(`?sort=${sort}`, { replace: true }); 
+      navigate(`?sort=${sort}}&page=${currPage}`, { replace: true }); 
     }
-  }, [sort, navigate, params]);
+  }, [sort, currPage, navigate, params]);
 
   return (
     <div className='container'>
@@ -100,13 +78,12 @@ const AllShop = () => {
       <div className='top-el'>
         <div className='title'>{title}</div>
         <div className='sort'>
-          <SortMenu SortChange={handleSortChange}/>
+          <SortMenu SortChange={handleSortChange} isNotice={false}/>
         </div>
       </div>
       
       <div>
-        <ProdList productList={prodList} pageInfo={pageInfo} isSale={isSale} isSoldOut={isSoldOut} 
-            currPage={currPage} setCurrPage={setCurrPage}/>
+        <ProdList productList={prodList} pageInfo={pageInfo} currPage={currPage} setCurrPage={setCurrPage}/>
       </div>
     </div>
     </div>
