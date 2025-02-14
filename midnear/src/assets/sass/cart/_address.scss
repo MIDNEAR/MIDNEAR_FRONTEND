@@ -167,8 +167,9 @@
             display: flex;
             align-items: center;
             div{ 
-                width: 1.9rem;
+                min-width: 1.9rem;
                 height: 1.2rem;
+                padding: 0 0.2rem;
                 border: solid 0.1rem var(--gray1100);
                 color: var(--gray1100);
                 border-radius: 0.2rem;
