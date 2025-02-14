@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { color, motion } from 'framer-motion'
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import down from '../../assets/img/product/down.svg'
 import up from '../../assets/img/product/up.svg'
 import ShippingModal from './ShippingModal';
 import ShowReview from './ShowReview';
+import Login from '../User/Login';
 
 const ProdDetail = () => {
      const DOMAIN = process.env.REACT_APP_DOMAIN;
+     const token = localStorage.getItem('jwtToken');
+     const navigate = useNavigate();
      const location = useLocation();
      const pageSize = location.state?.items || 1; 
      const params = new URLSearchParams(location.search);
@@ -25,6 +28,10 @@ const ProdDetail = () => {
      const [size, setSize] = useState([]);
      const [isSale, setIsSale] = useState(false);
      const [isSoldOut, setIsSoldOut] = useState(false);
+     const [errorMessage, setErrorMessage] = useState('');  
+     const [showLoginModal, setShowLoginModal] = useState(false);
+     const [modalContent, setModalContent] = useState(false);
+     const [orderDTO, setOrderDTO] = useState([]);
      const today = new Date();
 
      const openModal = () => setIsModalOpen(true);
@@ -40,8 +47,9 @@ const ProdDetail = () => {
       visible: { height: "auto", opacity: 1,  marginBottom: "2.7rem", marginTop: "1rem", zIndex: 1},
       };
 
-     const loadProdDetail = async() => {
-        await axios.get(`${DOMAIN}/product/detail`, {
+      // 상품 정보 로드 
+     const loadProdDetail = () => {
+        axios.get(`${DOMAIN}/product/detail`, {
           params: {colorId: colorId},
         })
         .then((res) => {
@@ -76,16 +84,32 @@ const ProdDetail = () => {
                 setIsSale(false);
               }
             }
-
+            const orderItem = {
+              productColorId: res.data.data.productId,
+              productName: res.data.data.productName,
+              imageUrl: res.data.data.imageUrl,
+              price: res.data.data.price,
+              discountPrice: res.data.data.discountPrice,
+              discountRate: res.data.data.discountRate,
+              discountStartDate: res.data.data.discountStartDate,
+              discountEndDate: res.data.data.discountEndDate,
+              currentColor: res.data.data.currentColor,
+              size: null, 
+              quantity: 1, 
+              deliveryCharge: 0,
+              couponDiscount: 0,
+              pointDiscount: 0,
+            };
+            setOrderDTO([orderItem]);
           };
         })
         .catch((error) => {
           console.error('상품 디테일 로드 실패:', error.response || error.message);
         })
      };
-
-     const coordinates = async() => {
-      await axios.get(`${DOMAIN}/product/coordinates`, {
+     // 같이 코디된 상품
+     const coordinates = () => {
+      axios.get(`${DOMAIN}/product/coordinates`, {
         params: {productColorId: colorId},
       })
       .then((res) => {
@@ -98,12 +122,92 @@ const ProdDetail = () => {
       })
      }
 
-     useEffect(() => {
+    useEffect(() => {
       loadProdDetail();
       coordinates();
-     },[colorId]);
+    },[colorId]);
+
+    const handleSizeClick = (item) => {
+      const newSize = selectSize === item ? null : item;
+      setSelectSize(newSize);  
+      if (newSize !== null) {
+        setErrorMessage('');
+      }
+      setOrderDTO((prev) => ({
+        ...prev,
+        size: newSize,
+      }));
+    };
+    // 회원->장바구니에 추가
+    const addShoppingCart = () => {
+      axios.post(`${DOMAIN}/cart/add`,null,{
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        params: {      
+          productColorId: Number(orderDTO[0].productColorId),
+          quantity: orderDTO[0].quantity,
+          size: orderDTO[0].size,
+      }
+      })
+      .then((res) => {
+        if(res.status === 200){
+          console.log('장바구니 추가 성공:', res.data.data);
+          window.location.reload();
+        };
+      })
+      .catch((error) => {
+        console.error('장바구니 추가 실패:', error.message);
+      });
+    };
     
-     const information = [
+    const toggleLoginModal = () => {
+      setShowLoginModal(!showLoginModal);
+    };
+    
+    useEffect(() => {
+      setShowLoginModal(false);
+    }, [location.pathname]);
+
+    const handleButtonClick = (action) => {
+      if (selectSize === null) {
+        setErrorMessage('상품을 선택해주세요'); 
+      } else {
+        setErrorMessage('');   
+
+        if (!token) {
+          if (action === 'buy') {
+            navigate('/order/login', {state: orderDTO}); 
+          } else if (action === 'cart') {
+            toggleLoginModal();
+          }
+        } else {
+          if (action === 'buy') {
+            navigate('/order/delivery/member', {state: [orderDTO]});
+          } else if (action === 'cart') {
+            addShoppingCart(); 
+          }
+        }
+      }
+    };
+    // 배송 반품 모달
+    const loadShippingModal = async() => {
+      await axios.get(`${DOMAIN}/productManagement/shippingReturns`)
+      .then((res) => {
+        if(res.status === 200){
+          setModalContent(res.data.data);
+          console.log(res.data.data);
+        };
+      })
+      .catch((error) => {
+        console.error('배송 반품 모달 로드 실패:', error.response || error.message);
+      })
+  };
+  useEffect(()=>{
+    loadShippingModal();
+  },[]);
+
+    const information = [
       {
         name: 'DETAILS',
         content: (<>{prod &&(<>{prod.detail}</>)}</>)
@@ -116,10 +220,10 @@ const ProdDetail = () => {
         name: 'SHIPPING & RETURNS',
         content: (
           <>
-          <p className='delivery'>00택배 (1588-3223)</p>
-          <p>구매하신 제품은 수령하신 날로부터 7일 이내에 접수해 주셔야 합니다.</p>
+          <p className='delivery'>{modalContent.shippingInfo}</p>
+          <p>{modalContent.shippingNotice}</p>
           <p className='open-modal' onClick={openModal}>자세히 보기.</p>
-          <ShippingModal isOpen={isModalOpen} closeModal={closeModal} />
+          <ShippingModal isOpen={isModalOpen} closeModal={closeModal} content={modalContent.shippingReturnsPolicy} />
           </>
           )
       },
@@ -145,7 +249,7 @@ const ProdDetail = () => {
         name: 'REVIEW',
         content: ( <> <ShowReview productName={prodName}/> </> )
       }
-     ]
+    ];
      
 
   return (
@@ -172,9 +276,7 @@ const ProdDetail = () => {
             </div>
             <div className='size'>
               {size.map((item, index)=>(
-                <div key={index} className={selectSize === item ? 'bold' : ''} onClick={() => {
-                  setSelectSize((prev) => (prev === item ? null : item));
-                }}>{item}</div>
+                <div key={index} className={selectSize === item ? 'bold' : ''} onClick={() => handleSizeClick(item)}>{item}</div>
               ))}
             </div>
           </div>
@@ -192,9 +294,12 @@ const ProdDetail = () => {
           {/** 기본 display none 해당 상품이 품절 상태면 flex */}
           <div className={`soldout ${isSoldOut ? 'display' : ''}`}>SOLD OUT</div>
           {/** 기본 display flex 해당 상품이 품절 상태면 none */}
-          <div className={`box ${isSoldOut ? 'display' : ''}`}>구매하기</div>
-          <div className={`box ${isSoldOut ? 'display' : ''}`}>장바구니 담기</div>
-          
+          <div className={`box ${isSoldOut ? 'display' : ''}`} onClick={() => handleButtonClick('buy')}>구매하기</div>
+          <div className={`box ${isSoldOut ? 'display' : ''}`} onClick={() => handleButtonClick('cart')}>장바구니 담기</div>
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
+          {showLoginModal && (
+              <Login onClose={toggleLoginModal} />
+            )}
           <div className='detail-box'>
             {information.map((item, index)=>(
               <div key={index} className='detail' >

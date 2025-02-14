@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import axios from 'axios';
 import logo from "../../assets/img/logo/header_logo.svg";
 import Login from '../User/Login';
 import ShoppingCart from '../Cart/ShoppingCart';
-import frontImg from '../../assets/img/product/prod1.png'
 import ham from '../../assets/img/main_img/ham.svg'
 import close from '../../assets/img/product/close.svg'
 import MobileHeader from './MobileHeader';
 
 
 const Header = ({ onLinkClick }) => {
+  const DOMAIN = process.env.REACT_APP_DOMAIN;
+  const token = localStorage.getItem('jwtToken');
   const navigate = useNavigate();
   const location = useLocation();
   const [activeSub1, setActiveSub1] = useState(false);
@@ -21,18 +23,8 @@ const Header = ({ onLinkClick }) => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isHamOpen, setHamOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [cartList, setCartList] = useState([
-    {
-      id: 1,
-      frontImg: frontImg,
-      name: "CUTE SWEATER",
-      price: 39000,
-      dcPrice: 35100,
-      color: "BLACK",
-      size: "M",
-      count: 2,
-    }
-  ]);
+  const [cartList, setCartList] = useState([]);
+
   const subStates = {
     activeSub1,
     setActiveSub1,
@@ -124,6 +116,34 @@ const Header = ({ onLinkClick }) => {
     closeHamList();
     toggleCart();
   }
+
+  const loadCart = () => {
+    axios.get(`${DOMAIN}/cart`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((res) => {
+      if(res.status === 200){
+        setCartList(res.data.data);
+        console.log('장바구니 로드 성공:', res.data.data);
+      };
+    })
+    .catch((error) => {
+      console.log('사용 중인 토큰:', token);
+
+      console.error('장바구니 로드 실패:',error.response ||  error.message);
+    });
+  };
+
+  useEffect(() => {
+    if (token) {
+      loadCart(token);
+    }
+  }, [token]);
+
+  
+  
   return (
     <div className='header-container'>
       <div className={`header ${isHamOpen ? 'border' : ''}`}>
@@ -201,9 +221,9 @@ const Header = ({ onLinkClick }) => {
         )}
 
         <AnimatePresence>
-          {isHamOpen && isMobile && (
+          {isMobile && isHamOpen && (
             <motion.div
-              className="sc-container"
+              className={`sc-container2 ${isHamOpen ? 'show' : ''}`}
               initial="hidden"
               animate="visible"
               exit="exit"
@@ -236,7 +256,7 @@ const Header = ({ onLinkClick }) => {
               variants={cartVariants}
               transition={{ type: "tween", duration: 1, }}
             >
-              <ShoppingCart toggleCart={toggleCart} cartList={cartList} isCartOpen={isCartOpen} />
+              <ShoppingCart toggleCart={toggleCart} cartList={cartList} isCartOpen={isCartOpen} loadCart={loadCart} />
             </motion.div>
           </>
         )}

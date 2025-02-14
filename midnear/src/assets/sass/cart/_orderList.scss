@@ -45,12 +45,19 @@
                 .name{
                     font-weight: bold;
                 }
-                /*할인시 중앙 라인 표시
-                .price{text-decoration:line-through;}
-                .dc-price{
+                
+                .price.display{text-decoration:line-through;}
+                .discount{
+                    display: none;
+                }
+                .discount.display{
+                    display: flex;
+                }
+                .dc-price, .coupon{
                     font-weight: bold;
                     color: #FF0000;
-                }*/
+                }
+                .dc-price{margin-right: 0.7rem;}
             }
             .bottom{
                 font-size: 1.1rem;
@@ -103,7 +110,7 @@
             display: flex;
             flex-direction: column;
             align-items: flex-end;
-            .origin{text-decoration:line-through;}
+            .origin.line{text-decoration:line-through;}
             .dc-info{
                 display: flex;
                 align-items: flex-end;

@@ -1,27 +1,7 @@
-import React, {useEffect, useState} from 'react'
-import axios from 'axios'
+import React from 'react'
 import Close from '../../assets/img/product/close.svg'
 
-const ShippingModal = ({isOpen, closeModal}) => {
-  const DOMAIN = process.env.REACT_APP_DOMAIN;
-  const [modalContent, setModalContent] = useState(false);
-
-  const loadShippingModal = async() => {
-    await axios.get(`${DOMAIN}/productManagement/shippingReturns`)
-    .then((res) => {
-      if(res.status === 200){
-        setModalContent(res.data.data);
-        console.log(res.data.data);
-      };
-    })
-    .catch((error) => {
-      console.error('배송 반품 모달 로드 실패:', error.response || error.message);
-    })
- };
- useEffect(()=>{
-  loadShippingModal();
- },[]);
-
+const ShippingModal = ({isOpen, closeModal, content}) => {
   return (
     <div className='ShippingModal' style={{display:isOpen ? "flex" : "none"}} >
         <div className='modal'>
@@ -30,9 +10,7 @@ const ShippingModal = ({isOpen, closeModal}) => {
                 <img src={Close} onClick={closeModal} className='close'/>
             </div>
             <div className='content'>
-                <p>{modalContent.shippingInfo}</p>
-                <p>{modalContent.shippingNotice}</p>
-                <p>{modalContent.shippingReturnsPolicy}</p>
+                <p>{content}</p>
             </div>
         </div>
     </div>
