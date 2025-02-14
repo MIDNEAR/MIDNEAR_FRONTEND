@@ -61,7 +61,6 @@ const Nav = () => {
                 <Link to="/manager/store/Logo">로고 수정</Link>
                 <Link to="/manager/store/Category">카테고리 관리</Link> 
                 <Link to="/manager/store/Delivary">배송비 관리</Link> 
-                <Link to="/manager/store/Footer">푸터 관리</Link>
                 <Link to="/manager/store/PrivacyPolicy">개인정보처리방침 관리</Link>
                 <Link to="/manager/store/Terms">이용약관 관리</Link>
                 <Link to="/manager/store/Address">주소 및 사업자 정보 관리</Link>

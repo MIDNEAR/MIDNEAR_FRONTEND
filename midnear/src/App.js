@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
+import axios from 'axios';
+
 import Home from './components/Home/Home';
 import Footer from './components/Sections/Footer';
 import Manager from './components/Manager/Manager';
@@ -56,13 +58,45 @@ import MagazinDetail from './components/Magazine/MagazinDetail';
 import MypageMenu from './components/Mypage/MypageMenu';
 import NoticeDetail from './components/Notice/NoticeDetail'
 import NoticeList from './components/Notice/NoticeList'
+import NoAuth from './components/Mypage/UserInformation/NoAuth';
 
 function App() {
   const location = useLocation();
+  const DOMAIN = process.env.REACT_APP_DOMAIN;
   const isManagerRoute = location.pathname.startsWith('/manager');
+  const token = localStorage.getItem('jwtToken');
+
+  const fecthdata = () => {
+    axios
+      .get(`${DOMAIN}/user/user-info`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        if (res.status === 200 && res.data.success) {
+          const userInfo = res.data.data;
+          console.log('유저정보 업데이트')
+
+          localStorage.setItem('userInfo', JSON.stringify({
+            name: userInfo.name || '',
+            email: userInfo.email || '',
+            phone: userInfo.phoneNumber || '',
+            id: userInfo.id || '',
+            socialType: userInfo.socialType || null,
+          }));
+        }
+      })
+      .catch((error) => {
+        console.log('유저정보 없음')
+      });
+  }
+
+
   return (
     <>
       {isManagerRoute ? <ManagerHeader /> : <Header />}
+
 
       <Routes>
         {/* 유저 페이지 */}
@@ -85,15 +119,16 @@ function App() {
         <Route path="/mypage/orderlist/option/ordercancel/done" element={<OrderCancelDone />} />
         <Route path="/mypage/cancellist" element={<CanceledOrder />} />
         <Route path="/mypage/" element={<MypageMenu />} />
+        <Route path="/noauth/" element={<NoAuth />} />
 
         <Route path="/mypage/question/create" element={<Ask />} />
         <Route path="/mypage/question/list" element={<AskedList />} />
-        <Route path="/mypage/question/detail" element={<AskDetail/>} />
-        <Route path="/mypage/colligation" element={<Colligation/>} />
-        <Route path="/mypage/colligation/cupon" element={<CuponList/>} />
-        <Route path="/mypage/colligation/point" element={<PointList/>} />
-        
-        
+        <Route path="/mypage/question/detail" element={<AskDetail />} />
+        <Route path="/mypage/colligation" element={<Colligation />} />
+        <Route path="/mypage/colligation/cupon" element={<CuponList />} />
+        <Route path="/mypage/colligation/point" element={<PointList />} />
+
+
         <Route path='/shop/:category/:subCategory' element={<AllShop />} />
         <Route path='/shop/:category' element={<AllShop />} />
 
@@ -107,16 +142,16 @@ function App() {
         <Route path='user/find/pw/change' element={<UntilChange />} />
         <Route path='/user/change/success' element={<ChangeSuccess />} />
         <Route path='/user/join/success' element={<SuccessJoin />} />
-        
-        <Route path='/products/detail' element={<ProdDetail />} />        
-        <Route path='/review/images' element={<ReviewImage />} />  
-        <Route path='/order/login' element={<GotoLogin />} />    
-        <Route path='/order/pay-succeed' element={<PaySucceed />} />    
-        <Route path='/order/pay-failed' element={<PayFailed />} />     
-        <Route path='/order/delivery/no-member' element={<NoMemInfo/>} />   
-        <Route path='/order/delivery/member' element={<MemInfo />} />       
-        <Route path='/order/delivery/new-address' element={<NewAddress />} />   
-        <Route path='/order/delivery/select-address' element={<SelectAdd />} />  
+
+        <Route path='/products/detail' element={<ProdDetail />} />
+        <Route path='/review/images' element={<ReviewImage />} />
+        <Route path='/order/login' element={<GotoLogin />} />
+        <Route path='/order/pay-succeed' element={<PaySucceed />} />
+        <Route path='/order/pay-failed' element={<PayFailed />} />
+        <Route path='/order/delivery/no-member' element={<NoMemInfo />} />
+        <Route path='/order/delivery/member' element={<MemInfo />} />
+        <Route path='/order/delivery/new-address' element={<NewAddress />} />
+        <Route path='/order/delivery/select-address' element={<SelectAdd />} />
         <Route path='/others/magazine' element={<MagazineList />} />
         <Route path='/others/magazine/detail' element={<MagazinDetail />} />
         <Route path='/others/notice/detail' element={<NoticeDetail />} />
@@ -124,9 +159,9 @@ function App() {
 
         {/* 관리자 페이지 */}
 
-        <Route path="/manager/*" element={<Manager />}/>
+        <Route path="/manager/*" element={<Manager />} />
         <Route path="/manager/Goods/Detail/:name" element={<Detail />} />
-        <Route path='*' element={<None />}/>
+        <Route path='*' element={<None />} />
 
       </Routes>
       <Footer />

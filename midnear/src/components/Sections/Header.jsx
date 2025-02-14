@@ -8,7 +8,7 @@ import ShoppingCart from '../Cart/ShoppingCart';
 import ham from '../../assets/img/main_img/ham.svg'
 import close from '../../assets/img/product/close.svg'
 import MobileHeader from './MobileHeader';
-
+import axios from 'axios';
 
 const Header = ({ onLinkClick }) => {
   const DOMAIN = process.env.REACT_APP_DOMAIN;
@@ -24,6 +24,8 @@ const Header = ({ onLinkClick }) => {
   const [isHamOpen, setHamOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [cartList, setCartList] = useState([]);
+  const [logo, setLogo] = useState('');
+  const savedUserInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
 
   const subStates = {
     activeSub1,
@@ -43,10 +45,35 @@ const Header = ({ onLinkClick }) => {
     setHamOpen,
   };
 
+  const logout = () => {
+    localStorage.clear();
+    alert("로그아웃 되었습니다.");
+    goHome();
+  }
 
   const goHome = () => {
     navigate('/');
   };
+
+  const fetchdata = () => {
+    fetchlogo();
+  }
+  const fetchlogo = () => {
+    axios
+      .get(`${DOMAIN}/storeManagement/getLogoImage`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          setLogo(response.data.data.imageUrl)
+        }
+      })
+      .catch((error) => {
+
+      });
+  }
 
   const openCate1 = () => {
     setActiveSub1(!activeSub1);
@@ -68,6 +95,8 @@ const Header = ({ onLinkClick }) => {
 
   useEffect(() => {
     setShowLoginModal(false);
+    fetchdata();
+
   }, [location.pathname]);
 
 
@@ -116,7 +145,6 @@ const Header = ({ onLinkClick }) => {
     closeHamList();
     toggleCart();
   }
-
   const loadCart = () => {
     axios.get(`${DOMAIN}/cart`, {
       headers: {
@@ -142,16 +170,20 @@ const Header = ({ onLinkClick }) => {
     }
   }, [token]);
 
-  
-  
+  const gomanager = () => {
+    navigate('/manager/Goods/AddGoods')
+  }
+
   return (
     <div className='header-container'>
       <div className={`header ${isHamOpen ? 'border' : ''}`}>
 
         <div className='mobile-header'>
-          <div className={`logo ${isHamOpen ? 'show' : ''}`} onClick={goHome}>
-            <img src={logo} alt="logo" />
+          <div className={`logo ${isHamOpen ? 'show' : ''}`} >
+            <img src={logo} alt="logo" onClick={goHome} />
+            {savedUserInfo.id === 'admin' ? <p className='gomanager' onClick={gomanager}>관리자페이지로</p> : <></>}
           </div>
+
           <div className={`open-ham ${isHamOpen ? 'show' : ''}`} >
             <div className={`close ${isHamOpen ? 'show' : ''}`} onClick={closeHamList}>
               <img src={close} alt='close' />
@@ -205,10 +237,11 @@ const Header = ({ onLinkClick }) => {
             </div>
 
             <div className="sc2">
-              <p className="SEARCH">SEARCH</p>
-              <p className="LOGIN" onClick={toggleLoginModal}>
+              <Link to={`${savedUserInfo.id ? '/mypage/userinformaiton/confirm' : '/noauth'}`}>MY</Link>
+              {savedUserInfo.id ? <p onClick={logout}>LOGOUT</p> : <p className="LOGIN" onClick={toggleLoginModal}>
                 LOGIN
-              </p>
+              </p>}
+
               <Link to='/user/join' className="ACCOUNT">ACCOUNT</Link>
               <p className="BAG" onClick={toggleCart}>
                 BAG <span>({cartList.length})</span>

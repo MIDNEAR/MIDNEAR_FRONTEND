@@ -24,13 +24,25 @@
     max-width: 36.1rem;
     display: flex;
     flex-direction: column;
+   
 }
 
     .login_nav {
         display: flex;
-        margin-top: 1.8rem;
-        justify-content: center;
+        justify-content: space-between;
+        align-items: center;
         cursor: pointer;
+
+        .header{
+            border-bottom: none;
+            .sc1{
+                display: none;
+            }
+            .logo{
+                display: none;
+            }
+          
+        }
 
         .x {
             width: 1.5rem;
@@ -38,19 +50,7 @@
             cursor: pointer;
         }
     
-        .sc2 {
-            font-size: 1.2rem;
-            justify-content: end;
-            gap: 2.4rem;
-            display: flex;
-            padding-right: 1.5rem;
-            flex: 1;
-            z-index: 2;
-    
-            p:hover {
-                font-weight: bold;
-            }
-        }
+        
     }
 
 

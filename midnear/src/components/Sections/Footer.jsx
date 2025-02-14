@@ -1,16 +1,47 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Footer = () => {
+  const [footer, setFooter] = useState('');
+  const DOMAIN = process.env.REACT_APP_DOMAIN;
+  const navigate = useNavigate();
+  const token = localStorage.getItem('jwtToken');
+   const [showTermsModal, setShowTermsModal] = useState(false);
+  const [showPrivacyModal, setShowPrivacyModal] = useState(false);
+
+  useEffect(() => {
+    fetchdata();
+  }, [navigate]);
+
+  const fetchdata = () => {
+    axios
+      .get(`${DOMAIN}/storeManagement/getBusinessInfo`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          setFooter(response.data.data);
+        }
+      })
+      .catch((error) => {
+        console.log(error)
+      });
+  }
   return (
     <div className='footer'>
       <div className="info">
-        <p>미드니어 (MIDNEAR)   대표 | 김희재   주소 |  Business License.240-51-01083 Online Sales License.0000-부산남구-0000 midnear@naver.com  010-8104-5687
+        <p>{footer}
         </p>
       </div>
       <div className="doc">
-        <p>이용약관</p>
-        <p>개인정보처리방침</p>
+        <p onClick={() => setShowTermsModal(true)}>이용약관</p>
+        <p onClick={() => setShowPrivacyModal(true)}>개인정보처리방침</p>
       </div>
+
+     
 
     </div>
   )

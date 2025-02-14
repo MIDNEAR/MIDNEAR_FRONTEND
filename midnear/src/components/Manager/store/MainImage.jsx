@@ -1,10 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Modal from '../Modals/Modal';
+import axios from 'axios';
+
 
 const MainImage = () => {
     const [previewImage, setPreviewImage] = useState(null);
+    const [mainImage, setMainImage] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isCompleted, setIsCompleted] = useState(false);
+    const DOMAIN = process.env.REACT_APP_DOMAIN;
+    const navigate = useNavigate();
+    const token = localStorage.getItem('jwtToken');
     const [fileName, setFileName] = useState("");
 
     const handleFileChange = (event) => {
@@ -20,18 +27,69 @@ const MainImage = () => {
     };
 
     const handleSave = () => {
-        setIsModalOpen(true); 
-      };
+        setIsModalOpen(true);
+    };
 
     const handleConfirm = () => {
         setIsCompleted(true);
         setIsModalOpen(false);
+
+        const formData = new FormData();
+        const fileInput = document.getElementById("file-upload");
+
+        if (fileInput.files.length > 0) {
+            formData.append("file", fileInput.files[0]);
+
+            axios
+                .post(`${DOMAIN}/storeManagement/modify/mainImage`, formData, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "multipart/form-data",
+                    },
+                })
+                .then((response) => {
+                    if (response.status === 200) {
+                        window.location.reload();
+                    }
+                })
+                .catch((error) => {
+                    console.error("이미지 업로드 실패:", error.response || error.message);
+                });
+        } else {
+            alert("업로드할 파일을 선택해 주세요.");
+        }
+
 
     };
 
     const handleCloseModal = () => {
         setIsModalOpen(false);
     };
+
+    useEffect(() => {
+        fetchdata();
+    }, [navigate, isCompleted]);
+
+    const fetchdata = () => {
+        axios
+            .get(`${DOMAIN}/storeManagement/getMainImage`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+            .then((response) => {
+                if (response.status === 200) {
+                    setFileName(response.data.data.imageName)
+                    setMainImage(response.data.data.imageUrl)
+
+                }
+            })
+            .catch((error) => {
+
+            });
+    }
+
+
 
     return (
         <div className="mainImage">
@@ -56,7 +114,9 @@ const MainImage = () => {
                         src={previewImage}
                     />
                 ) : (
-                    <p> </p>
+                    <img
+                        src={mainImage}
+                    />
                 )}
             </div>
 
