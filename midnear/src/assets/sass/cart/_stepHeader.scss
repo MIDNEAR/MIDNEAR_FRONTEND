@@ -6,19 +6,17 @@
     z-index: 10;
     height: 6vh;
     .header2{
-        height: 4.63vh;
+        height: 6vh;
         width: auto;
         border-bottom: var(--gray300) 1px solid;
         position: relative;
         cursor: pointer;
         font-size: 1.11vh;
         overflow: visible;
-        z-index: 2;
-        
+        z-index: 2;        
         display: flex;
         flex-direction: row;
         align-items: center;
-        height: 5rem;
         cursor: default;
         justify-content: space-between;
         .logo2{
@@ -27,15 +25,15 @@
             flex:none;
             img{
                 margin-left: 2.4rem;
-                width: 4.2rem;
-                height: 2.8rem;
+                width: auto;
+                height: 5.2vh;
             }
         }
         .center{
             display: flex;
             justify-content: space-between;
             width: 120rem;
-            height: 4.63vh;
+            height: 6vh;
             align-items: center;
             .title{width: 2.5rem;}
             .step{
@@ -45,9 +43,9 @@
                 width: 36.1;
                 align-items: center;
                 p{ 
-                    height: 4.63vh;
+                    height: 6vh;
                     align-items: center;
-                    width: 6rem;
+                    width: 6.7rem;
                     display: flex;
                     justify-content: center;
                 }
@@ -73,7 +71,6 @@
         top: 0; 
         width: 100%;
         z-index: 200;
-        height: 6vh;
         .header2{
             flex-direction: row;
             width: 100%;

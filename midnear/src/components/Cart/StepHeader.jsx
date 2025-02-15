@@ -1,10 +1,15 @@
 import React, {useState, useEffect} from 'react'
 import { useNavigate} from 'react-router-dom'; 
+import axios from 'axios';
 import Header from '../Sections/Header';
-import logo from "../../assets/img/logo/header_logo.svg";
 
-const StepHeader = () => {    
+const StepHeader = () => {  
+  const DOMAIN = process.env.REACT_APP_DOMAIN;
+  const token = localStorage.getItem('jwtToken');
+
   const navigate = useNavigate();
+  const [logo, setLogo] = useState('');
+
   const goHome = () => {
     navigate('/'); 
   };
@@ -18,6 +23,26 @@ const StepHeader = () => {
       window.addEventListener("resize", checkMax);
       return () => window.removeEventListener("resize", checkMax);
   },[]);
+
+  const fetchlogo = () => {
+    axios
+      .get(`${DOMAIN}/storeManagement/getLogoImage`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          setLogo(response.data.data.imageUrl)
+        }
+      })
+      .catch((error) => {
+
+      });
+  }
+  useEffect(()=>{
+    fetchlogo();
+  })
   
   return (
     <div className='step-header'>
