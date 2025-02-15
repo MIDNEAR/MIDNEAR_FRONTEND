@@ -95,7 +95,7 @@ const MobileHeader = ({
                             <Link to="/shop/all" onClick={() => closeMethod(onLinkClick, closeHamList)}>ALL SHOP</Link>
                             <Link to="/shop/new" onClick={() => closeMethod(onLinkClick, closeHamList)}>NEW</Link>
                             <div className="newCloth">
-                                <p  onClick={() => closeMethod(onLinkClick, closeHamList)}>NEW CLOTH</p>
+                                <p onClick={openSubCate1}>NEW CLOTH</p>
                                 <AnimatePresence>
                                 { activeSubCate1 && (
                                     <motion.div

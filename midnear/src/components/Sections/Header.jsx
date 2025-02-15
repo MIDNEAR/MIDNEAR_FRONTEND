@@ -153,7 +153,6 @@ const Header = ({ onLinkClick }) => {
     .then((res) => {
       if(res.status === 200){
         setCartList(res.data.data);
-        console.log('장바구니 로드 성공:', res.data.data);
       };
     })
     .catch((error) => {
