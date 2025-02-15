@@ -40,7 +40,6 @@ const NoMemInfo = () => {
     
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
-
     const completeHandler = (data) => {
         const { address,zonecode, bname, buildingName } = data;
         let extraAddress = "";
@@ -86,7 +85,9 @@ const NoMemInfo = () => {
     };
     
     useEffect(() => {
-        const areFieldsFilled = name.trim() !== '' && phone.trim() !== '' && receiver.trim() !== '' && receiverNum.trim() !== '' && zonecode.trim() !== '' && address.trim() !== '';
+        const isPhoneValid = phone.replace(/-/g, '').length === 11; 
+        const isReceiverNumValid = receiverNum.replace(/-/g, '').length === 11; 
+        const areFieldsFilled = name.trim() !== '' && isPhoneValid &&  receiver.trim() !== '' && isReceiverNumValid && receiverNum.trim() !== '' && zonecode.trim() !== '' && address.trim() !== '';
         const isPrivacyChecked = isChecked.includes(2);
         setIsButtonEnabled(areFieldsFilled && isPrivacyChecked);
      }, [name, phone, receiver, receiverNum, zonecode, address, isChecked]);

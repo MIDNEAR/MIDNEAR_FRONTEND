@@ -71,14 +71,14 @@ const OrderList = ({
     }
   }
   const allItemPay = () => {
-    navigate("/order/delivery/member", { state: { orderDTO:  cartItems } });
+    navigate("/order/delivery/member", { state:  cartItems });
     toggleCart();
   }
   const checkedItemPay = () =>{
     if(checkedItems.length === 0){
       setErrorMsg('선택한 상품이 없습니다.');
     } else{
-      navigate("/order/delivery/member", { state: { orderDTO: checkedItems} });
+      navigate("/order/delivery/member", { state: checkedItems });
       toggleCart();
       setErrorMsg('');
     }
@@ -210,7 +210,7 @@ const OrderList = ({
     })
     .then((res) => {
       if(res.status === 200){
-        return true;
+        console.log('수량 변경 성공', res.data.data);
       };
     })
     .catch((error) => {

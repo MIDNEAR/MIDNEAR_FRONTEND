@@ -9,7 +9,7 @@ const MemInfo = () => {
   const DOMAIN = process.env.REACT_APP_DOMAIN;
   const token = localStorage.getItem('jwtToken');
   const location = useLocation();
-  const orderDTO = location.state?.orderDTO || []
+  const orderDTO = location.state || []
   const [updateOrderDTO, setUpdateOrderDTO] = useState(orderDTO);
 
   const [defaultAddr, setDefaultAddr] = useState(null);
@@ -59,10 +59,11 @@ const MemInfo = () => {
   };
 
   useEffect(() => {
-    const isInputValid = !isValidate && inputValue !== '' && isNaN(inputValue) === false;
-    const areFieldsFilled = name.trim() !== '' && phone.trim() !== '';
+    const isInputValid = !isValidate && (inputValue === '' || !isNaN(inputValue));
+    const isPhoneValid = phone.replace(/-/g, '').length === 11; 
+    const areFieldsFilled = name.trim() !== '' && isPhoneValid && zonecode;
     setIsButtonEnabled(isInputValid && areFieldsFilled);
-  }, [name, phone, inputValue]);
+  }, [name, phone, inputValue, zonecode]);
 
   const handlePhoneChange = (e) => {
     let input = e.target.value.replace(/[^0-9]/g, '');
@@ -141,7 +142,7 @@ const MemInfo = () => {
     loadCouponList();
     loadTotalPoint();
   }, [token]);
-
+  //  할인기간인지 체크해서 가격 측정
   const calProductPrice = (start, end, price, discountPrice) => {
     const today = new Date(); 
     const startDate = start ? new Date(start) : null;
@@ -151,6 +152,7 @@ const MemInfo = () => {
     }
     return price;
   };
+  // 순수 상품 가격 총 합 (쿠폰, 포인트, 배송비X)
   const calAllPayment = (updateOrderDTO) => {
     const totalPrice = updateOrderDTO.reduce((acc, item) => {
       const productPrice = calProductPrice(item.discountStartDate, item.discountEndDate, item.price, item.discountPrice);
@@ -159,10 +161,10 @@ const MemInfo = () => {
     }, 0);
     return totalPrice;
   };
-
+  // 결제 가격(쿠폰, 포인트O, 배송비X)
   const calFinalPayment = (updateOrderDTO, selectedCoupon, validatedPoint) => {
     const totalPrice = calAllPayment(updateOrderDTO);
-    const couponDiscount = selectedCoupon ? (100 - selectedCoupon.discountRage) / 100 : 1;
+    const couponDiscount = selectedCoupon ? (100 - selectedCoupon.discountRate) / 100 : 1;
     const finalPrice = totalPrice * couponDiscount - validatedPoint;
 
     return finalPrice;
@@ -185,12 +187,16 @@ const MemInfo = () => {
               productColorId: item.productColorId,
               size: item.size,
               quantity: item.quantity,
-              couponDiscount: productPrice * (selectedCoupon.discountRage / 100), 
+              couponDiscount: productPrice * (selectedCoupon.discountRate / 100), 
               pointDiscount: validatedPoint / updateOrderDTO.length,
               productPrice: productPrice,
               deliveryCharge: deliveryFee,
           };
         })
+    },{
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     })
     .then((res) => {
       if(res.status === 200){
@@ -264,6 +270,7 @@ const MemInfo = () => {
                     <button 
                      className={`btn ${isButtonEnabled ? 'enabled' : 'disabled'}`}
                      disabled={!isButtonEnabled}
+                     onClick={userOrder}
                      >
                       결제하기</button>
                 {/*</Link>*/}

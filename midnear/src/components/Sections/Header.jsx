@@ -8,7 +8,6 @@ import ShoppingCart from '../Cart/ShoppingCart';
 import ham from '../../assets/img/main_img/ham.svg'
 import close from '../../assets/img/product/close.svg'
 import MobileHeader from './MobileHeader';
-import axios from 'axios';
 
 const Header = ({ onLinkClick }) => {
   const DOMAIN = process.env.REACT_APP_DOMAIN;
@@ -166,7 +165,7 @@ const Header = ({ onLinkClick }) => {
 
   useEffect(() => {
     if (token) {
-      loadCart(token);
+      loadCart();
     }
   }, [token]);
 

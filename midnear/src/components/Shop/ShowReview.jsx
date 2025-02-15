@@ -28,8 +28,6 @@ const ShowReview = ({productName}) => {
         setReviewObj(res.data.data);
         setReviews(res.data.data.reviewList);
         setAllImages(res.data.data.allReviewImages);
-        console.log(productName);
-        console.log('리뷰 리스트',res.data.data.reviewList);
       };
     })
     .catch((error) => {

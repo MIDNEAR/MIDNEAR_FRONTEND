@@ -47,13 +47,14 @@ const ProdDetail = () => {
       visible: { height: "auto", opacity: 1,  marginBottom: "2.7rem", marginTop: "1rem", zIndex: 1},
       };
 
-      // 상품 정보 로드 
+     // 상품 정보 로드 
      const loadProdDetail = () => {
         axios.get(`${DOMAIN}/product/detail`, {
           params: {colorId: colorId},
         })
         .then((res) => {
           if(res.status === 200){
+            console.log(res.data.data);
             setProd(res.data.data);
             setImages(res.data.data.images);
             setOtherColors(res.data.data.colors);
@@ -62,8 +63,7 @@ const ProdDetail = () => {
             const findColor = res.data.data.colors.find(color => color.productColorId === Number(colorId));
             if (findColor) {
               const sizeArray = findColor.sizes.map(size => size.size);
-              setSize(sizeArray); 
-              console.log(findColor.saleStatus);
+              setSize(sizeArray);
               if(findColor.saleStatus === "품절"){
                 setIsSoldOut(true);
               } else {
@@ -85,9 +85,9 @@ const ProdDetail = () => {
               }
             }
             const orderItem = {
-              productColorId: res.data.data.productId,
+              productColorId: colorId,
               productName: res.data.data.productName,
-              imageUrl: res.data.data.imageUrl,
+              imageUrl: res.data.data.images[0],
               price: res.data.data.price,
               discountPrice: res.data.data.discountPrice,
               discountRate: res.data.data.discountRate,
@@ -126,18 +126,23 @@ const ProdDetail = () => {
       loadProdDetail();
       coordinates();
     },[colorId]);
-
+    // 사이즈 선택
     const handleSizeClick = (item) => {
       const newSize = selectSize === item ? null : item;
       setSelectSize(newSize);  
       if (newSize !== null) {
         setErrorMessage('');
       }
-      setOrderDTO((prev) => ({
-        ...prev,
-        size: newSize,
-      }));
+      setOrderDTO((prev) => 
+        prev.map((order, index) => 
+          index === 0 ? { ...order, size: newSize } : order
+        )
+      );
     };
+    useEffect(()=>{
+      console.log(orderDTO);
+    },[orderDTO]);
+    
     // 회원->장바구니에 추가
     const addShoppingCart = () => {
       axios.post(`${DOMAIN}/cart/add`,null,{
@@ -145,10 +150,10 @@ const ProdDetail = () => {
           Authorization: `Bearer ${token}`,
         },
         params: {      
-          productColorId: Number(orderDTO[0].productColorId),
+          productColorId: colorId,
           quantity: orderDTO[0].quantity,
           size: orderDTO[0].size,
-      }
+        }
       })
       .then((res) => {
         if(res.status === 200){
@@ -183,7 +188,7 @@ const ProdDetail = () => {
           }
         } else {
           if (action === 'buy') {
-            navigate('/order/delivery/member', {state: [orderDTO]});
+            navigate('/order/delivery/member', {state: orderDTO});
           } else if (action === 'cart') {
             addShoppingCart(); 
           }
@@ -196,7 +201,6 @@ const ProdDetail = () => {
       .then((res) => {
         if(res.status === 200){
           setModalContent(res.data.data);
-          console.log(res.data.data);
         };
       })
       .catch((error) => {
