@@ -64,6 +64,8 @@
 @media (max-width: 50rem){
     .mainImg{
         img{
+            width: 100%;
+            object-fit: contain;
         }
     }
     .popup-container{
@@ -78,15 +80,6 @@
                 img{
                     width: 33rem;
                     height: 43.4rem;
-                }
-            }
-            .outer{
-                .txt{
-
-                }
-                .bottom{
-                    p{
-                    }
                 }
             }
         }
