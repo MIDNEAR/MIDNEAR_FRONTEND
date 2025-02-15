@@ -115,6 +115,9 @@
     .all-shop{
         width: 100%;
         padding: 0 2.5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
         .top-el{
             .title{
                 font-size: 2.5rem;
