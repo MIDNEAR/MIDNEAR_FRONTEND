@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import {useDaumPostcodePopup}  from 'react-daum-postcode';
 import axios from 'axios';
 import PrivacyModal from './PrivacyModal'
@@ -11,6 +11,8 @@ const NewAddress = () => {
     const token = localStorage.getItem('jwtToken');
     
     const navigate = useNavigate();
+    const location = useLocation();
+    const orderDTO = location.state || [];
     const [isModalOpen, setIsModalOpen] = useState(false);    
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
@@ -29,6 +31,7 @@ const NewAddress = () => {
     const postcodeScriptUrl =
         "https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
     const open = useDaumPostcodePopup(postcodeScriptUrl);
+
     const completeHandler = (data) => {
         const { address,zonecode, bname, buildingName } = data;
         let extraAddress = "";
@@ -55,11 +58,15 @@ const NewAddress = () => {
     };
 
     const selectAdd = () => {
-        navigate('/order/delivery/select-address');
+        navigate('/order/delivery/select-address', {state: orderDTO});
     };
 
     const newAdd = () => {
-        navigate('/order/delivery/new-address');
+        navigate('/order/delivery/new-address', {state: orderDTO});
+    };
+    const svaeAdd = () => {
+        postNewAddr();
+        selectAdd();
     };
 
     useEffect(() => {
@@ -114,11 +121,9 @@ const NewAddress = () => {
         })
         .then((res) => {
           if(res.status === 200){
-            console.log('배송지 등록 성공:', res.data.data);
           };
         })
         .catch((error) => {
-          console.error('배송지 등록 실패:', error.message);
         });
     };
 
@@ -179,15 +184,13 @@ const NewAddress = () => {
                 <p className='privacy' onClick={openModal}>[필수] 개인정보 수집 및 이용 동의</p>
                 <PrivacyModal isOpen={isModalOpen} closeModal={closeModal} setIsChecked={setIsChecked} isChecked={isChecked}  />
             </div>
-            <Link to='/order/delivery/select-address'>
-                <button 
-                className={`btn ${isButtonEnabled ? 'enabled' : 'disabled'}`}
-                disabled={!isButtonEnabled}
-                onClick={postNewAddr}
-                >
-                    저장
-                </button>
-            </Link>
+            <button 
+            className={`btn ${isButtonEnabled ? 'enabled' : 'disabled'}`}
+            disabled={!isButtonEnabled}
+            onClick={svaeAdd}
+            >
+                저장
+            </button>
         </div>
         
     </div>

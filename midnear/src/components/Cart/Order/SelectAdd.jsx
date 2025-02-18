@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import { useNavigate} from 'react-router-dom';
+import { useNavigate, useLocation} from 'react-router-dom';
 import axios from 'axios';
 import StepHeader from '../StepHeader';
 import { DelModal } from './DelModal';
@@ -9,9 +9,12 @@ const SelectAdd = () => {
   const token = localStorage.getItem('jwtToken');
 
   const navigate = useNavigate();
+  const location = useLocation();
+  const orderDTO = location.state || [];
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [addressList, setAddressList] = useState([]);
   const [defaultStatus, setDefaultStatus] = useState(false);
+  const [defaultAddressId, setDefaultAddressId] = useState(0); 
   
   const [isModalOpen, setIsModalOpen] = useState(false);    
   const openModal = (id, status) => {
@@ -25,14 +28,16 @@ const SelectAdd = () => {
   };
 
   const selectAdd = () => {
-    navigate('/order/delivery/select-address');
+    navigate('/order/delivery/select-address', {state: orderDTO});
   };
   const newAdd = () => {
-    navigate('/order/delivery/new-address');
+    navigate('/order/delivery/new-address', {state: orderDTO});
   };
   const changeAdd = () => {
-    changeDefaultAddr();
-    navigate('/order/delivery/member');
+    if(selectedAddress !== defaultAddressId){
+      changeDefaultAddr();
+    }
+    navigate('/order/delivery/member', {state: orderDTO});
   };
   
   // 배송지 리스트 가져오기
@@ -45,11 +50,13 @@ const SelectAdd = () => {
     .then((res) => {
       if(res.status === 200){
         setAddressList(res.data.data);
-        console.log('배송지 리스트 조회 성공:', res.data.data);
+        const defaultAddr = res.data.data.find(addr => addr.defaultAddressStatus === 1);
+        if (defaultAddr) {
+          setDefaultAddressId(defaultAddr.deliveryAddressId);
+        };
       };
     })
     .catch((error) => {
-      console.error('배송지 리스트 조회 실패:',error.response ||  error.message);
     });
   };
   useEffect(()=>{
@@ -71,19 +78,14 @@ const SelectAdd = () => {
     })
       .then((res) => {
         if(res.status === 200){
-            console.log('삭제 완료');
-            return true;
         };
       })
       .catch((error) => {
-        console.log(selectedAddress);
-        console.error('삭제 실패:', error.response || error.message);
       })
   };
   // 기본 배송지로 변경하기
-  const changeDefaultAddr= async() => {
-    console.log('기본 배송지 변경 요청');
-    await axios.patch(`${DOMAIN}/delivery/setDefault`, 
+  const changeDefaultAddr= () => {
+    axios.patch(`${DOMAIN}/delivery/setDefault`, 
       null, 
       {
         params: {deliveryAddrId: selectedAddress}, 
@@ -94,11 +96,9 @@ const SelectAdd = () => {
     )
     .then((res)=>{
       if(res.status === 200){
-        console.log('기본 배송지로 변경');
       } 
     })
     .catch((error) => {
-      console.error('기본 배송지 변경 실패:', error.response || error.message);
     })
   };
 

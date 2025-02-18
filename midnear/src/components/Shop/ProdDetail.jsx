@@ -54,7 +54,6 @@ const ProdDetail = () => {
         })
         .then((res) => {
           if(res.status === 200){
-            console.log(res.data.data);
             setProd(res.data.data);
             setImages(res.data.data.images);
             setOtherColors(res.data.data.colors);
@@ -104,7 +103,7 @@ const ProdDetail = () => {
           };
         })
         .catch((error) => {
-          console.error('상품 디테일 로드 실패:', error.response || error.message);
+          
         })
      };
      // 같이 코디된 상품
@@ -118,7 +117,7 @@ const ProdDetail = () => {
         };
       })
       .catch((error) => {
-        console.error('위드 아이템 로드 실패:', error.response || error.message);
+        
       })
      }
 
@@ -139,11 +138,7 @@ const ProdDetail = () => {
         )
       );
     };
-    useEffect(()=>{
-      console.log(orderDTO);
-    },[orderDTO]);
     
-    // 회원->장바구니에 추가
     const addShoppingCart = () => {
       axios.post(`${DOMAIN}/cart/add`,null,{
         headers: {
@@ -157,12 +152,12 @@ const ProdDetail = () => {
       })
       .then((res) => {
         if(res.status === 200){
-          console.log('장바구니 추가 성공:', res.data.data);
+          
           window.location.reload();
         };
       })
       .catch((error) => {
-        console.error('장바구니 추가 실패:', error.message);
+        
       });
     };
     
@@ -196,15 +191,15 @@ const ProdDetail = () => {
       }
     };
     // 배송 반품 모달
-    const loadShippingModal = async() => {
-      await axios.get(`${DOMAIN}/productManagement/shippingReturns`)
+    const loadShippingModal = () => {
+       axios.get(`${DOMAIN}/productManagement/shippingReturns`)
       .then((res) => {
         if(res.status === 200){
           setModalContent(res.data.data);
         };
       })
       .catch((error) => {
-        console.error('배송 반품 모달 로드 실패:', error.response || error.message);
+        
       })
   };
   useEffect(()=>{
