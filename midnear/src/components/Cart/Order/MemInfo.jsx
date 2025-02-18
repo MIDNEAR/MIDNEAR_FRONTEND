@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import axios from 'axios'
 import OrderList from '../OrderList'
 import StepHeader from '../StepHeader'
@@ -8,6 +8,7 @@ import Coupon from './Coupon'
 const MemInfo = () => {
   const DOMAIN = process.env.REACT_APP_DOMAIN;
   const token = localStorage.getItem('jwtToken');
+  const navigate = useNavigate();
   const location = useLocation();
   const orderDTO = location.state || []
   const [updateOrderDTO, setUpdateOrderDTO] = useState(orderDTO);
@@ -17,7 +18,7 @@ const MemInfo = () => {
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [memo, setMemo] = useState('');
-  const [zonecode, setZonecode] = useState(''); // 우편번호
+  const [zonecode, setZonecode] = useState(''); 
  
   const [userPoint, setUserPoint] = useState(0);
   const [inputValue, setInputValue] = useState('');
@@ -28,14 +29,13 @@ const MemInfo = () => {
   const [isButtonEnabled, setIsButtonEnabled] = useState(false);
   const [selectedCoupon, setSelectedCoupon] = useState(null);
   const [couponList, setCouponList] = useState([]);
-  const [deliveryFee, setDeliveryFee] = useState(0);
+  const [deliveryFee, setDeliveryFee] = useState(0); 
 
   const handleSelectCoupon = (coupon) => setSelectedCoupon(coupon);
   const handleResetCoupon = () => setSelectedCoupon(null);
-
+  
   const hadleIsValidate = (e) => {
     const userInput = e.target.value;
-
     setInputValue(userInput);
     setError('');
     setIsValidate(false);
@@ -80,7 +80,6 @@ const MemInfo = () => {
     }
     return phoneNumber;
   };
-
   // 기본 배송지 가져오기
   const loadDefaultAddr = () => {
     axios.get(`${DOMAIN}/delivery/getDefaultAddr`, {
@@ -92,16 +91,14 @@ const MemInfo = () => {
       if(res.status === 200){        
         setDefaultAddr(res.data.data);
         if(res.data.data !== null){ 
-        setZonecode(res.data.data.postalCode);
-        if(res.data.data.deliveryRequest !== null){
-          setMemo(res.data.data.deliveryRequest);
-        };
-      }
-        console.log('기본 배송지 로드 성공:', res.data.data);
+          setZonecode(res.data.data.postalCode);
+          if(res.data.data.deliveryRequest !== null){
+            setMemo(res.data.data.deliveryRequest);
+          };
+        }
       };
     })
     .catch((error) => {
-      console.error('기본 배송지 로드 실패:',error.response ||  error.message);
     });
   };
   // 포인트 총량 가져오기
@@ -117,7 +114,6 @@ const MemInfo = () => {
       };
     })
     .catch((error) => {
-      console.error('포인트 조회 실패:',error.response ||  error.message);
     });
   };
   // 쿠폰 리스트 가져오기
@@ -133,15 +129,14 @@ const MemInfo = () => {
       };
     })
     .catch((error) => {
-      console.error('쿠폰 조회 실패:',error.response ||  error.message);
     });
   };
-
   useEffect(() => {
     loadDefaultAddr();
     loadCouponList();
     loadTotalPoint();
   }, [token]);
+
   //  할인기간인지 체크해서 가격 측정
   const calProductPrice = (start, end, price, discountPrice) => {
     const today = new Date(); 
@@ -169,6 +164,7 @@ const MemInfo = () => {
 
     return finalPrice;
   };
+  
 
   // 회원 주문
   const userOrder = () => {
@@ -180,14 +176,14 @@ const MemInfo = () => {
         allPayment: calFinalPayment(updateOrderDTO, selectedCoupon, validatedPoint), 
         deliveryAddrId: defaultAddr.deliveryAddressId,
         deliveryRequest: memo,
-        userCouponId: selectedCoupon.userCouponId,
+        userCouponId: selectedCoupon?.userCouponId ?? 0 ,
         oderProductsRequestDtos: updateOrderDTO.map(item => {
           const productPrice = calProductPrice(item.discountStartDate, item.discountEndDate, item.price, item.discountPrice);
           return { 
               productColorId: item.productColorId,
               size: item.size,
               quantity: item.quantity,
-              couponDiscount: productPrice * (selectedCoupon.discountRate / 100), 
+              couponDiscount: productPrice * (selectedCoupon?.discountRate ?? 0 / 100), 
               pointDiscount: validatedPoint / updateOrderDTO.length,
               productPrice: productPrice,
               deliveryCharge: deliveryFee,
@@ -199,13 +195,18 @@ const MemInfo = () => {
       },
     })
     .then((res) => {
-      if(res.status === 200){
-        console.log('주문 성공:', res.data.data);
+      if(res.status === 200){        
       };
     })
     .catch((error) => {
-      console.error('주문 실패:', error.message);
     });
+  };
+  
+  const selectAdd = () => {
+    navigate('/order/delivery/select-address', {state: orderDTO});
+  };
+  const newAdd = () => {
+    navigate('/order/delivery/new-address', {state: orderDTO});
   };
 
   return (
@@ -229,7 +230,7 @@ const MemInfo = () => {
                   {defaultAddr === null ? (
                     <>
                     <p className='min_text_ex'>입력된 배송 정보가 존재하지 않습니다.</p>
-                    <Link to='/order/delivery/new-address'><button className='add-btn'>배송 정보 추가하기</button></Link>
+                    <button className='add-btn' onClick={newAdd}>배송 정보 추가하기</button>
                     </>
                   ) : (                  
                     <div className='default_add'>
@@ -238,7 +239,7 @@ const MemInfo = () => {
                           <p className='b_txt'>{defaultAddr.recipient}</p>
                           <p className='g_txt'>{formatPhoneNumber(defaultAddr.recipientContact)}</p>
                         </div>
-                        <Link to='/order/delivery/select-address'><div className='change-btn'>변경</div></Link>
+                        <div className='change-btn' onClick={selectAdd}>변경</div>
                       </div>
                       
                       <p className='b_txt'>{defaultAddr.address}</p>
@@ -260,20 +261,18 @@ const MemInfo = () => {
                     onChange={(e) => hadleIsValidate(e)} />
                     <div className='use-btn' onClick={handleUseAllPoints}>전액 사용</div>
                   </div>
-                  <div className='error'>{error}</div>{/* 오류 메시지 표시 */}
+                  <div className='error'>{error}</div>
                   
                 </div>
                 </div>
 
-               
-                {/*<Link to='/order/pay-succeed' className='pay-link'>*/}
-                    <button 
-                     className={`btn ${isButtonEnabled ? 'enabled' : 'disabled'}`}
-                     disabled={!isButtonEnabled}
-                     onClick={userOrder}
-                     >
-                      결제하기</button>
-                {/*</Link>*/}
+               <button 
+                className={`btn ${isButtonEnabled ? 'enabled' : 'disabled'}`}
+                disabled={!isButtonEnabled}
+                onClick={userOrder}
+                >
+                  결제하기
+                </button>
         </div>
 
           <div className='order_content'>

@@ -5,8 +5,8 @@ import Header from '../Sections/Header'
 
 const ShoppingCart = ({ cartList, toggleCart, isCartOpen, loadCart }) => {
   const [deliveryFee, setDeliveryFee] = useState(0);
-    const [updateOrderDTO, setUpdateOrderDTO] = useState(cartList);
-
+  const [updateOrderDTO, setUpdateOrderDTO] = useState(cartList);
+  
   const [isMobile, setIsMobile] = useState(false);
   useEffect(()=>{
     const checkMax =() => {

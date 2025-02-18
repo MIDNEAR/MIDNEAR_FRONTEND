@@ -19,19 +19,17 @@ const NoMemInfo = () => {
     const [inputValue, setInputValue] = useState('');
     const [selectedCoupon, setSelectedCoupon] = useState(null);
 
-    //주문자 정보
-    const [name, setName] =useState(''); //이름
-    const [phone, setPhone] = useState(''); // 전화번호
-    const [email, setEmail] = useState(''); // 이메일
-    //배송 정보
-    const [receiver, setReceiver] = useState(''); // 수취인    
-    const [receiverNum, setReceiverNum] = useState(''); // 수취인 번호
-    const [memo, setMemo] = useState(''); // 배송 메모
+    const [name, setName] =useState('');
+    const [phone, setPhone] = useState(''); 
+    const [email, setEmail] = useState(''); 
+    const [receiver, setReceiver] = useState(''); 
+    const [receiverNum, setReceiverNum] = useState(''); 
+    const [memo, setMemo] = useState(''); 
     const [isButtonEnabled, setIsButtonEnabled] = useState(false);
     
-    const [zonecode, setZonecode] = useState(''); // 우편번호
-    const [address, setAddress] = useState(''); // 주소
-    const [detailAddress, setDetailAddress] = useState(''); // 상세주소
+    const [zonecode, setZonecode] = useState(''); 
+    const [address, setAddress] = useState(''); 
+    const [detailAddress, setDetailAddress] = useState(''); 
     const [deliveryFee, setDeliveryFee] = useState(0);
     
     const postcodeScriptUrl =
@@ -150,14 +148,12 @@ const NoMemInfo = () => {
         })
         .then((res) => {
           if(res.status === 200){
-            console.log('주문 성공:', res.data.data);
           };
         })
         .catch((error) => {
-          console.error('주문 실패:', error.message);
         });
       };
-
+      
   return (
     <div className='no-member'>
     <div className='info'>

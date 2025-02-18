@@ -20,15 +20,16 @@ const OrderList = ({
   const navigate = useNavigate();
 
   const [cartItems, setCartItems] = useState(productList); 
-  const [total, setTotal] = useState(0); // 장바구니 전체 상품 가격, 주문 리스트 가격(배송비, 포인트 적용X)
+  const [total, setTotal] = useState(0); 
   const [checkedItems, setCheckedItems] = useState([]);
-  const [selectedTotal, setSelectedTotal] = useState(0); // 장바구니 선택 상품 가격
-  const [quantity, setQuantity] = useState(0); // 상품 총 수량
-  const [discountedTotal, setDiscountedTotal] = useState(0); // 회원 할인쿠폰 적용 가격
-  //const [deliveryFee, setDeliveryFee] = useState(0); // 기본 배송비
-  const [isDeliveryFeeFree, setDeliveryFeeFree] = useState(false); // 배송비 무료인지 체크
-  const totalPrice = discountedTotal + deliveryFee - point; // 주문 상품 가격+배송비-포인트
-  const totalCartPrice = selectedTotal + deliveryFee; // 장바구니 선택 상품 가격+배송비
+  const [selectedTotal, setSelectedTotal] = useState(0); 
+  const [quantity, setQuantity] = useState(0); 
+  const [discountedTotal, setDiscountedTotal] = useState(0); 
+  const [basicDeliveryFee, setBasicDeliveryFee] = useState(0);
+  const [freeStandardPrice, setFreeStandardPrice] = useState(0); 
+  const [isDeliveryFeeFree, setDeliveryFeeFree] = useState(false); 
+  const totalPrice = discountedTotal + deliveryFee - point; 
+  const totalCartPrice = selectedTotal + deliveryFee; 
   const [errorMsg, setErrorMsg] = useState('');
   const today = new Date();
 
@@ -149,7 +150,6 @@ const OrderList = ({
         };
       })
       .catch((error) => {
-        console.error('삭제 실패:', error.response || error.message);
       })
   };
 
@@ -210,30 +210,30 @@ const OrderList = ({
     })
     .then((res) => {
       if(res.status === 200){
-        console.log('수량 변경 성공', res.data.data);
       };
     })
     .catch((error) => {
-      console.error('수량 변경 실패:', error.message);
+      
     });
   };
-  // 기본 배송비, 무료 배송 기준 띄우는 api
-
-  // 배송비 무료인지 확인
-  const isFree = (allPayment) => {
-    axios.get(`${DOMAIN}/orders/getIsFree`, {
-      params: {allPayment: allPayment}
-    })
+  // 기본 배송비, 무료 배송 기준
+   const freeStandard = () => {
+    axios.get(`${DOMAIN}/shippingManage/selectFreeBasicFee`
+    )
     .then((res) => {
       if(res.status === 200){
-        setDeliveryFeeFree(true);
-        setDeliveryFee(0); 
+        setFreeStandardPrice(res.data.data.freeDeliveryCondition);
+        setBasicDeliveryFee(res.data.data.basicDeliveryCost);
       };
     })
     .catch((error) => {
-      console.error('배송비 무료 확인 실패:',error.response ||  error.message);
-    });
-  };
+      
+    })
+   }
+   useEffect(()=>{
+    freeStandard();
+   },[]);
+  
   // 우편번호로 배송비 조회
   const getFeeByPostcode = () => {
     axios.get(`${DOMAIN}/orders/getDeliveryCharge`, {
@@ -245,29 +245,27 @@ const OrderList = ({
       };
     })
     .catch((error) => {
-      console.error('우편번호로 배송비 확인 실패:',error.response ||  error.message);
+      
     });
   };
+
   useEffect(()=>{
-    // 상품 총 가격으로 배송비 무료인지 확인
-    // 무료이면 배송비 0으로 설정
-    // 무료 아니면 우편번호로 배송비 조회 후 설정
-    // 해당 배송비 memInfo, noMemInfo로 보내기
     if(isCartScreen){
-      isFree(selectedTotal);
-      if(isDeliveryFeeFree){
-        return;
+      if(selectedTotal >= freeStandardPrice || selectedTotal === 0){
+        setDeliveryFee(0);
+      } else {
+        setDeliveryFee(basicDeliveryFee);
       }
-    } else {
-      isFree(total);
-      if(isDeliveryFeeFree){
-        return;
-      } else{
+    }else{
+      if(total >= freeStandardPrice){
+        setDeliveryFee(0);
+      } else if (total < freeStandardPrice && !postCode){
+        setDeliveryFee(basicDeliveryFee);
+      } else if (total < freeStandardPrice && postCode){
         getFeeByPostcode();
       }
     }
-  },[isCartScreen, selectedTotal, total, postCode]);
-  
+  },[isCartScreen, selectedTotal, total, postCode, basicDeliveryFee]);
   // 전체 상품 가격 계산
   useEffect(() => {
     const updatedTotal = cartItems.reduce(
@@ -373,7 +371,7 @@ const OrderList = ({
             <div className='fee'>
               <div>
                 <p className='text'>배송비</p>
-                <p className='ship-alt'>* 100,000원 이상 배송비 무료</p>
+                <p className='ship-alt'>* {freeStandardPrice.toLocaleString('ko-KR')}원 이상 배송비 무료</p>
               </div>
               <p>&#xffe6; {deliveryFee.toLocaleString('ko-KR')}</p>
             </div>
@@ -406,7 +404,7 @@ const OrderList = ({
           <div className='fee'>
             <div>
               <p className='text'>배송비</p>
-              <p className='ship-alt'>* 100,000원 이상 배송비 무료</p>
+              <p className='ship-alt'>* {freeStandardPrice.toLocaleString('ko-KR')}원 이상 배송비 무료</p>
             </div>
             <p>&#xffe6;  {deliveryFee.toLocaleString('ko-KR')}</p>
           </div>
