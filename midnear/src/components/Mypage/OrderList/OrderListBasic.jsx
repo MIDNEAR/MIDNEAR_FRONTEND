@@ -10,7 +10,7 @@ const OrderListBasic = () => {
   const modalRef = useRef();
   const [currentPage, setCurrentPage] = useState(1);
   const [sortResent, setSortResent] = useState(true)
-  const [order, setOrder] = useState([]);
+  const [order, setOrder] = useState([]); 
   const totalPages = 5;
   const DOMAIN = process.env.REACT_APP_DOMAIN;
   const token = localStorage.getItem('jwtToken');
@@ -38,18 +38,17 @@ const OrderListBasic = () => {
     })
     .then((res) => {
       if (res.status === 200 && res.data.success) {
-        setOrder(res.data.orders || []);
-        console.log(res.data);
+        setOrder(res.data.data || []);
+        
       }
     })
     .catch((error) => {
-      console.error(error.message);
+      
     });
   
   }, [DOMAIN, token, currentPage, sortResent]);
 
-
-
+  
 
   return (
     <div className="container">
@@ -64,21 +63,18 @@ const OrderListBasic = () => {
             </div>
 
             <div className='order_title'
-              onClick={() => setSortResent(!sortResent)}>{sortResent ? '최신순' : '오래된순'}</div>
+              onClick={() => setSortResent(!sortResent)}>{sortResent ? '최신순' : '오래된순'}
+            </div>
 
             {order.length > 0 ? (
               order.map((item) => (
                 <OrderItem
-                  key={item.id} 
-                  state={item.state || "주문 상태 정보 없음"}
-                  date={item.date || "날짜 정보 없음"}
-                  image={item.image || defaultimage}
-                  info={item.info || "상품 정보 없음"}
-                  price={`₩ ${item.price?.toLocaleString() || "0"}`}
-                  quantity={item.quantity || 1}
+                  key={item.orderId}
+                  date={item.orderDate}
+                  orderItem={item.userOrderProductCheckDtos || []}
                   actions={
                     <>
-                      <Link to={`/mypage/orderlist/detail/${item.id}`} className="order_detail">
+                      <Link to={`/mypage/orderlist/detail?orderId=${item.orderId}`} className="order_detail">
                         주문 상세보기 &gt;
                       </Link>
                       <button className="order_option">배송조회</button>

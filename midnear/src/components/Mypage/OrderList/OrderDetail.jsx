@@ -1,9 +1,66 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import MyPageModal from '../MyPageModal'
 import defaultimage from '../../../assets/img/orderlist/default.svg'
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import axios from 'axios';
 
 const OrderDetail = () => {
+    const DOMAIN = process.env.REACT_APP_DOMAIN;
+    const token = localStorage.getItem('jwtToken');
+    const location = useLocation();
+    const params = new URLSearchParams(location.search);
+    const orderId = params.get('orderId');
+    const [orderDetail, setOrderDetail] = useState([]);
+    const [orderProdList, setOrderProdList] = useState([]);
+    const [payInfo, setPayInfo] = useState({});
+
+    const loadOrderDetail = () => {
+        axios
+        .get(`${DOMAIN}/orders/detail`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          params: {orderId: orderId},
+        })
+        .then((res) => {
+          if (res.status === 200 && res.data.success) {
+            setOrderDetail(res.data.data);
+            setOrderProdList(res.data.data.userOrderProductCheckDtos);
+          }
+        })
+        .catch((error) => {
+        });
+    }
+    const loadPayInfo = () => {
+        axios
+        .get(`${DOMAIN}/orders/getPaymentInfo`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          params: {orderId: orderId},
+        })
+        .then((res) => {
+          if (res.status === 200 && res.data.success) {
+            setPayInfo(res.data.data);
+          }
+        })
+        .catch((error) => {
+        });
+    }
+        
+
+    useEffect(() => {
+        loadOrderDetail();
+        loadPayInfo();
+    }, [DOMAIN, token, orderId]);
+    
+    const formatDate = (date) => {
+        return date ? date.split("T")[0].replace(/-/g, ". ") : '';
+    };
+    const formatPhone = (phone) =>{
+        return phone ? `${phone.slice(0, 3)}-${phone.slice(3, 7)}-${phone.slice(7)}` : '';
+    }
+
   return (
     <div className='container'>
         <div className='field_container'>
@@ -12,26 +69,28 @@ const OrderDetail = () => {
                     <div className='mypage_title'>주문 상세</div>
 
                     <div className='order_num'>
-                        <div className='order_title'>2024.12.25 주문</div>
-                        <div className='order_title'>주문번호 1111010101010101001</div>
+                        <div className='order_title'>{formatDate(orderDetail.orderDate)} 주문</div>
+                        <div className='order_title'>주문번호 {orderDetail.orderNumber}</div>
                     </div>
                     
-
+                    {/** 상품 리스트  */}
                     <div className='ordered_box'>
+                    {orderProdList.map((item)=>
+                        <div className='anOrder' key={item.orderProductId}>
                             <div className='box_left'>
                                 <div className='order_state'>
-                                    <span className='state'>배송완료</span>
+                                    <span className='state'>{item.orderStatus || '상품준비중'}</span>
                                     <div className='dot' />
-                                    <span className='date'>2024.12.25 주문</span>
+                                    <span className='date'>{formatDate(orderDetail.orderDate)} 주문</span>
                                 </div>
                                 <div className='order_info'>
-                                    <img src={defaultimage} />
+                                    <img src={item.productMainImage} />
                                     <div className='goods_info'>
-                                        <p>숨이 자꾸 멎는다 네가 날 향해 걸어온다 나를 보며 웃는다 너도 내게 끌리는지</p>
+                                        <p>{item.productName}</p>
                                         <div className='price'>
-                                            <span>₩ 99,999</span>
+                                            <span>₩ {item.payPrice.toLocaleString('ko-KR')}</span>
                                             <div className='dot' />
-                                            <span>1개</span>
+                                            <span>{item.quantity}개</span>
                                         </div>
                                     </div>
                                 </div>
@@ -43,29 +102,32 @@ const OrderDetail = () => {
                                 <div className='box'>
                                     <button className='order_option'>배송조회</button>
                                     <Link to="/mypage/orderlist/option" className='order_option'>교환, 반품 신청</Link>
-                                    <Link to="/mypage/orderlist/writingReview" className='order_option'>리뷰 작성하기</Link>
+                                    <Link to={`/mypage/orderlist/writingReview?orderProductId=${item.orderProductId}`} state={{item: item, date:formatDate(orderDetail.orderDate)}} className='order_option'>리뷰 작성하기</Link>
                                 </div>
                             </div>
                     </div>
+                    )}
+                </div>
+
 
                 <div className='detail'>
                 <h2 className="mypage_middle_text">수취인 정보</h2>
                     <div className="order_info-top">
                         <div className="order_info__item">
                             <span className="order_info__label">받는 사람</span>
-                            <span className="order_info__value">홍길동</span>
+                            <span className="order_info__value">{orderDetail.recipientName}</span>
                         </div>
                         <div className="order_info__item">
                             <span className="order_info__label">연락처</span>
-                            <span className="order_info__value">010-9999-9999</span>
+                            <span className="order_info__value">{formatPhone(orderDetail.recipientContact)}</span>
                         </div>
                         <div className="order_info__item">
                             <span className="order_info__label">받는 주소</span>
-                            <span className="order_info__value">주소주소주소____</span>
+                            <span className="order_info__value">({orderDetail.postalCode}) {orderDetail.address} {orderDetail.detailedAddress}</span>
                         </div>
                         <div className="order_info__item">
                             <span className="order_info__label">배송요청사항</span>
-                            <span className="order_info__value">부재시 문 앞</span>
+                            <span className="order_info__value"></span>
                         </div>
                     </div>
 
