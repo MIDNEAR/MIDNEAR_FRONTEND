@@ -129,10 +129,33 @@ textarea {
     color: #C2C2C2;
     margin-top: 1.2rem;
 }
+.upload-images{
+    height: 12rem;
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 1rem;
+    gap: 2rem;
+}
+.image-box{
+    position: relative;
+    .delete-btn{
+        position: absolute;  
+        top: 10rem;
+        width: 10rem;
+        height: 2rem;
+        font-size: 1.2rem;
+        background-color: var(--gray100);
+        cursor: pointer;
+    }
+    .prev-img{
+        width: 10rem;
+        height: 10rem;
+        object-fit: cover;
+    }
+}
 
 .image_input {
     display: block;
-    margin-top: 10px;
 }
 
 .submit_field {
@@ -179,7 +202,7 @@ textarea {
         }
       }
     
-      .review_submit {
+      .review_submit{
         width: 10.5rem;
         height: 4.4rem;
         padding: 10px;
@@ -190,11 +213,11 @@ textarea {
         font-size: 1.2rem;
         transition: 0.3s;
         cursor: pointer;
-
-        &:hover {
+      }
+      .review_submit.enabled{
+            cursor: pointer;
             background-color: #333333;
-            color: var(--white)
-          }
+            color: var(--white);
       }
 
 }
@@ -209,7 +232,6 @@ textarea {
     display: inline-block;
     width: 10rem;
     height: 10rem;
-    margin-top: 2rem;
     background-image: url('../../img/orderlist/file.svg');
     background-size: cover;
     text-indent: -9999px; /* 텍스트 숨기기 */
@@ -223,6 +245,10 @@ textarea {
 
     .review_underline {
         width: 33rem;
+    }
+    .upload-images{
+        display: grid;
+        grid-template-columns: repeat(3, 10rem);
     }
 
     .submit_field {
