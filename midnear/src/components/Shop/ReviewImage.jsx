@@ -7,13 +7,12 @@ import Pagination from './Pagination';
 const ReviewImage = () => {
       const DOMAIN = process.env.REACT_APP_DOMAIN;
       const location = useLocation();
-      const totalImage = location.state?.totalImage || [];
+      const { imageCount } = location.state || {}; 
       const params = new URLSearchParams(location.search);
       const productName = params.get('productName');
       const [currPage, setCurrPage] = useState(1); // 현재 페이지 위치
       const navigate = useNavigate();
       const [images, setImages] = useState([]);
-
       const loadReviewImage = async(pageNumber = 1) => {
         await axios.get(`${DOMAIN}/review/gathering`, {
           params: {
@@ -54,7 +53,7 @@ const ReviewImage = () => {
                   </div>
               ))}
           </div>
-          <Pagination total={totalImage.length} limit={4} page={currPage} setPage={setCurrPage} />
+          <Pagination total={imageCount} limit={4} page={currPage} setPage={setCurrPage} />
       </div>
     </div>
     </div>

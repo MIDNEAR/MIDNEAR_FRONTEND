@@ -19,13 +19,12 @@ const ShowReview = ({productName}) => {
   const [allImages,setAllImages] = useState([]);
   const [imageCount, setImageCount] = useState(0);
   const today = new Date();
-  
   const loadReview = () => {
+    const params = new URLSearchParams();
+    params.append('productName', productName);  
+    params.append('pageNumber', page);    
     axios.get(`${DOMAIN}/review/byProduct`, {
-      params: {
-        productName,
-        pageNumber: page,
-      },
+       params: params
     })
     .then((res) => {
       if(res.status === 200){
@@ -35,6 +34,7 @@ const ShowReview = ({productName}) => {
         setPage((page) => page + 1);
         setAllImages(res.data.data.allReviewImages);
         setImageCount(res.data.data.imageReviewCount);
+        console.log(res.data.data);
       };
     })
     .catch((error) => {
@@ -99,7 +99,7 @@ const ShowReview = ({productName}) => {
                   <img key={index} src={item} className='userImg'/>
                 ))}
                 {reviewObj.imageReviewCount > 5 && (
-                <Link to={`/review/images?productName=${productName}`} state={{totalImage: allImages}}>
+                <Link to={`/review/images?productName=${productName}`} state={{imageCount}}>
                   <div className='moreImage'>
                       {reviewObj.imageReviewCount - 4}개<br />더보기
                   </div>
@@ -159,20 +159,20 @@ const ShowReview = ({productName}) => {
                       ))}
                     </div>
                     <div className='comment'>
-                      <p>{item.comment}</p>
+                      <p>{item.content}</p>
                     </div>
                     <div className='ownersComment' ref={useref}>
                       <div className='top'>
                       <p>댓글 {item.isReply}</p>
                       {item.isReply > 0 && (
                         <div>
-                        <img src={isSelected === item ? rvUp : rvDown} onClick={() => showComment(item.userId)} />
+                        <img src={isSelected === item ? rvUp : rvDown} onClick={() => showComment(item.id)} />
                       
                         </div>
                       )}
                       </div>
                       <div className='bottom'>                    
-                      {isSelected === item.userId && (
+                      {isSelected === item.id && (
                           <p>관리자<br/>{item.comment}</p>
                         )}
                         </div>
