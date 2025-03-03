@@ -9,6 +9,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const handleStorageChange = () => {
       setIsAuthenticated(!!localStorage.getItem("jwtToken"));
+      setUserInfo(JSON.parse(localStorage.getItem("userInfo") || "{}"));
     };
 
     window.addEventListener("storage", handleStorageChange);

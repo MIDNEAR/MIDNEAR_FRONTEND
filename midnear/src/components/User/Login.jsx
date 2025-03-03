@@ -37,10 +37,7 @@ const Login = ({ onClose }) => {
                         onClose();
                         localStorage.setItem('jwtToken', response.data.data);
                         fecthdata();
-                        navigate('/');
-                        setIsAuthenticated(true);
-                        window.dispatchEvent(new Event("storage"));
-                        console.log(response.data);
+                       
                     }
                 })
                 .catch((error) => {
@@ -63,9 +60,13 @@ const Login = ({ onClose }) => {
             .then((res) => {
                 if (res.status === 200 && res.data.success) {
                     const userInfo = res.data.data;
-                    console.log('유저정보 업데이트', userInfo);
-
                     localStorage.setItem('userInfo', JSON.stringify(res.data.data));
+                    navigate('/');
+                    setIsAuthenticated(true);
+                    window.dispatchEvent(new Event("storage"));
+                    console.log('유저정보 업데이트', userInfo);
+                   
+                    console.log("현재 로컬스토리지의 userInfo:", localStorage.getItem("userInfo"));
 
                 }
             })

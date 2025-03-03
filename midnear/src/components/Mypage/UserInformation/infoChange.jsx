@@ -16,7 +16,6 @@ const InfoChange = () => {
   const DOMAIN = process.env.REACT_APP_DOMAIN;
   const token = localStorage.getItem('jwtToken');
 
-  // Load user info
   useEffect(() => {
     axios
       .get(`${DOMAIN}/user/user-info`, {
@@ -35,7 +34,6 @@ const InfoChange = () => {
       .catch((error) => console.error(error.message));
   }, [DOMAIN, token]);
 
-  // Load address list
   useEffect(() => {
     axios
       .get(`${DOMAIN}/delivery/getAddrList`, {
@@ -50,7 +48,6 @@ const InfoChange = () => {
       .catch((error) => console.error("Failed to load addresses:", error));
   }, [DOMAIN, token]);
 
-  // Update user info
   const ChangeInfo = () => {
     axios
       .put(`${DOMAIN}/user/change-user-info`, { id, name, phoneNumber: phone, email }, {
@@ -67,7 +64,6 @@ const InfoChange = () => {
       });
   };
 
-  // Delete Address
   const deleteAddress = (addressId) => {
     axios
       .delete(`${DOMAIN}/delivery/deleteAddr/${addressId}`, {

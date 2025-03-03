@@ -10,9 +10,11 @@ import MobileHeader from './MobileHeader';
 import { AuthContext } from "../../action/authContext";
 import axios from 'axios';
 
+
 const Header = ({ onLinkClick }) => {
   const navigate = useNavigate();
-  const { isAuthenticated, setIsAuthenticated, userInfo, setUserInfo } = useContext(AuthContext);
+  const { isAuthenticated } = useContext(AuthContext);
+
   const location = useLocation();
   const [activeSub1, setActiveSub1] = useState(false);
   const [activeSub2, setActiveSub2] = useState(false);
@@ -26,6 +28,14 @@ const Header = ({ onLinkClick }) => {
   const DOMAIN = process.env.REACT_APP_DOMAIN;
   const [categories, setCategories] = useState([]);
   const token = localStorage.getItem('jwtToken');
+  const [userInfo, setUserInfo] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem('userInfo')) || {};
+    } catch (error) {
+      console.error("userInfo JSON 파싱 오류:", error);
+      return {};
+    }
+  });
 
 
   const [cartList, setCartList] = useState([
@@ -61,22 +71,14 @@ const Header = ({ onLinkClick }) => {
   const logout = () => {
     localStorage.clear();
     alert("로그아웃 되었습니다.");
-
     window.dispatchEvent(new Event("storage"));
-    window.location.reload();
+  
     goHome();
   }
 
   const goHome = () => {
     navigate('/');
   };
-
-  const fetchdata = useCallback(() => {
-    fetchlogo();
-    fetchCate();
-
-  }, [isAuthenticated])
-
 
 
   const fetchlogo = () => {
@@ -118,13 +120,11 @@ const Header = ({ onLinkClick }) => {
     setShowLoginModal(!showLoginModal);
   };
 
-
-
-
-
   useEffect(() => {
     setShowLoginModal(false);
-    fetchdata();
+    fetchlogo();
+    fetchCate();
+    
   }, [location.pathname, isAuthenticated]);
 
 
@@ -174,9 +174,7 @@ const Header = ({ onLinkClick }) => {
     toggleCart();
   }
 
-  const gomanager = () => {
-    navigate('/manager/Goods/AddGoods')
-  }
+
   const [activeSub, setActiveSub] = useState({});
 
   const toggleOpen = (categoryId) => {
@@ -194,7 +192,9 @@ const Header = ({ onLinkClick }) => {
           <div className={`logo ${isHamOpen ? 'show' : ''}`} >
             <img src={logo} alt="logo" onClick={goHome} />
             {isAuthenticated && userInfo?.id === 'admin' && (
-              <p className='gomanager' onClick={gomanager}>관리자페이지로</p>
+              <p className='gomanager' onClick={() => navigate('/manager/Goods/AddGoods')}>
+                관리자페이지로
+              </p>
             )}
           </div>
 

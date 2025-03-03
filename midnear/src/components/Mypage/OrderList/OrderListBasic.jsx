@@ -1,22 +1,25 @@
-import React, { useEffect, useRef, useState } from 'react';
-import MyPageModal from '../MyPageModal';
-import OrderItem from './Orderitem';
-import search from '../../../assets/img/orderlist/search.svg'
-import defaultimage from '../../../assets/img/orderlist/default.svg';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
+import React, { useEffect, useRef, useState } from "react";
+import MyPageModal from "../MyPageModal";
+import OrderItem from "./Orderitem";
+import search from "../../../assets/img/orderlist/search.svg";
+import defaultimage from "../../../assets/img/orderlist/default.svg";
+import { Link } from "react-router-dom";
+import axios from "axios";
 
 const OrderListBasic = () => {
   const modalRef = useRef();
   const [currentPage, setCurrentPage] = useState(1);
-  const [sortResent, setSortResent] = useState(true)
+  const [sortResent, setSortResent] = useState(true);
   const [order, setOrder] = useState([]);
   const totalPages = 5;
   const DOMAIN = process.env.REACT_APP_DOMAIN;
-  const token = localStorage.getItem('jwtToken');
+  const token = localStorage.getItem("jwtToken");
 
   const showSuccessModal = () => {
-    modalRef.current.openModal("정말 주문취소를 하시겠습니까?", "/mypage/orderlist/cancel");
+    modalRef.current.openModal(
+      "정말 주문취소를 하시겠습니까?",
+      "/mypage/orderlist/cancel"
+    );
   };
 
   const handlePageChange = (page) => {
@@ -26,30 +29,36 @@ const OrderListBasic = () => {
   };
 
   useEffect(() => {
+    console.log(currentPage);
     axios
-    .get(`${DOMAIN}/orders/all`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      params: {
-        pageNumber: currentPage,
-        sort: sortResent ? "latest" : "oldest",
-      },
-    })
-    .then((res) => {
-      if (res.status === 200 && res.data.success) {
-        setOrder(res.data.orders || []);
-        console.log(res.data);
-      }
-    })
-    .catch((error) => {
-      console.error(error.message);
-    });
-  
+      .get(`${DOMAIN}/orders/all`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        params: {
+          pageNumber: currentPage,
+          sort: sortResent ? "latest" : "oldest",
+        },
+      })
+      .then((res) => {
+        if (res.status === 200 && res.data.success) {
+          console.log(res.data)
+          const formattedOrders = res.data.data.map((order) => ({
+            id: order.orderId,
+            state: order.userOrderProductCheckDtos[0]?.orderStatus || "주문 상태 정보 없음",
+            date: new Date(order.orderDate).toLocaleDateString("ko-KR"),
+            image: order.userOrderProductCheckDtos[0]?.productMainImage || defaultimage,
+            info: order.userOrderProductCheckDtos[0]?.productName || "상품 정보 없음",
+            price: order.userOrderProductCheckDtos[0]?.payPrice || 0,
+            quantity: order.userOrderProductCheckDtos[0]?.quantity || 1,
+          }));
+          setOrder(formattedOrders);
+        }
+      })
+      .catch((error) => {
+        console.error(error.message);
+      });
   }, [DOMAIN, token, currentPage, sortResent]);
-
-
-
 
   return (
     <div className="container">
@@ -58,24 +67,29 @@ const OrderListBasic = () => {
         <div className="field_container_content">
           <div>
             <div className="mypage_title">주문 내역</div>
-            <div className='search-bar-order'>
-              <input className="order_search" type="text" placeholder="주문한 상품을 검색할 수 있어요!" />
-              <img src={search} className="search-button" />
+            <div className="search-bar-order">
+              <input
+                className="order_search"
+                type="text"
+                placeholder="주문한 상품을 검색할 수 있어요!"
+              />
+              <img src={search} className="search-button" alt="검색" />
             </div>
 
-            <div className='order_title'
-              onClick={() => setSortResent(!sortResent)}>{sortResent ? '최신순' : '오래된순'}</div>
+            <div className="order_title" onClick={() => setSortResent(!sortResent)}>
+              {sortResent ? "최신순" : "오래된순"}
+            </div>
 
             {order.length > 0 ? (
               order.map((item) => (
                 <OrderItem
-                  key={item.id} 
-                  state={item.state || "주문 상태 정보 없음"}
-                  date={item.date || "날짜 정보 없음"}
-                  image={item.image || defaultimage}
-                  info={item.info || "상품 정보 없음"}
-                  price={`₩ ${item.price?.toLocaleString() || "0"}`}
-                  quantity={item.quantity || 1}
+                  key={item.id}
+                  state={item.state}
+                  date={item.date}
+                  image={item.image}
+                  info={item.info}
+                  price={`₩ ${item.price}`}
+                  quantity={item.quantity}
                   actions={
                     <>
                       <Link to={`/mypage/orderlist/detail/${item.id}`} className="order_detail">
@@ -99,19 +113,18 @@ const OrderListBasic = () => {
               <div>주문 내역이 없습니다.</div>
             )}
 
-
             <div className="pagination">
               <button
                 className="page-button"
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 1}
               >
-                {'<'}
+                {"<"}
               </button>
               {Array.from({ length: totalPages }, (_, index) => (
                 <button
                   key={index}
-                  className={`page-button ${currentPage === index + 1 ? 'active' : ''}`}
+                  className={`page-button ${currentPage === index + 1 ? "active" : ""}`}
                   onClick={() => handlePageChange(index + 1)}
                 >
                   {index + 1}
@@ -122,14 +135,14 @@ const OrderListBasic = () => {
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
               >
-                {'>'}
+                {">"}
               </button>
             </div>
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 };
 
 export default OrderListBasic;
