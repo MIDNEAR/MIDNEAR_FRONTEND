@@ -57,6 +57,7 @@ import MagazineList from './components/Magazine/MagazineList';
 import MagazinDetail from './components/Magazine/MagazinDetail';
 import MypageMenu from './components/Mypage/MypageMenu';
 import NoAuth from './components/Mypage/UserInformation/NoAuth';
+import { AuthProvider } from './action/authContext';
 
 
 function App() {
@@ -65,36 +66,14 @@ function App() {
   const isManagerRoute = location.pathname.startsWith('/manager');
   const token = localStorage.getItem('jwtToken');
 
-  const fecthdata = () => {
-    axios
-      .get(`${DOMAIN}/user/user-info`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        if (res.status === 200 && res.data.success) {
-          const userInfo = res.data.data;
-          console.log('유저정보 업데이트')
-
-          localStorage.setItem('userInfo', JSON.stringify({
-            name: userInfo.name || '',
-            email: userInfo.email || '',
-            phone: userInfo.phoneNumber || '',
-            id: userInfo.id || '',
-            socialType: userInfo.socialType || null,
-          }));
-        }
-      })
-      .catch((error) => {
-        console.log('유저정보 없음')
-      });
-  }
+ 
 
 
   return (
     <>
-      {isManagerRoute ? <ManagerHeader /> : <Header />}
+      <AuthProvider>
+        {isManagerRoute ? <ManagerHeader /> : <Header />}
+      </AuthProvider>
 
 
       <Routes>

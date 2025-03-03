@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import Login from '../User/Login';
@@ -7,10 +7,12 @@ import frontImg from '../../assets/img/product/prod1.png'
 import ham from '../../assets/img/main_img/ham.svg'
 import close from '../../assets/img/product/close.svg'
 import MobileHeader from './MobileHeader';
+import { AuthContext } from "../../action/authContext";
 import axios from 'axios';
 
 const Header = ({ onLinkClick }) => {
   const navigate = useNavigate();
+  const { isAuthenticated, setIsAuthenticated, userInfo, setUserInfo } = useContext(AuthContext);
   const location = useLocation();
   const [activeSub1, setActiveSub1] = useState(false);
   const [activeSub2, setActiveSub2] = useState(false);
@@ -22,8 +24,9 @@ const Header = ({ onLinkClick }) => {
   const [isMobile, setIsMobile] = useState(false);
   const [logo, setLogo] = useState('');
   const DOMAIN = process.env.REACT_APP_DOMAIN;
+  const [categories, setCategories] = useState([]);
   const token = localStorage.getItem('jwtToken');
-  const savedUserInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
+
 
   const [cartList, setCartList] = useState([
     {
@@ -58,6 +61,9 @@ const Header = ({ onLinkClick }) => {
   const logout = () => {
     localStorage.clear();
     alert("로그아웃 되었습니다.");
+
+    window.dispatchEvent(new Event("storage"));
+    window.location.reload();
     goHome();
   }
 
@@ -65,9 +71,14 @@ const Header = ({ onLinkClick }) => {
     navigate('/');
   };
 
-  const fetchdata = () => {
+  const fetchdata = useCallback(() => {
     fetchlogo();
-  }
+    fetchCate();
+
+  }, [isAuthenticated])
+
+
+
   const fetchlogo = () => {
     axios
       .get(`${DOMAIN}/storeManagement/getLogoImage`, {
@@ -84,30 +95,37 @@ const Header = ({ onLinkClick }) => {
 
       });
   }
-
-  const openCate1 = () => {
-    setActiveSub1(!activeSub1);
+  const fetchCate = () => {
+    axios
+      .get(`${DOMAIN}/productManagement/categories`,)
+      .then((response) => {
+        if (response.status === 200) {
+          setCategories(response.data.data);
+        }
+      })
+      .catch((error) => {
+        console.error("카테고리 데이터를 가져오는 중 오류 발생:", error);
+      });
   };
+
 
   const openCate2 = () => {
     setActiveSub2(!activeSub2);
   };
-  const openSubCate1 = () => {
-    setActiveSubCate1(!activeSubCate1);
-  };
-  const openSubCate2 = () => {
-    setActiveSubCate2(!activeSubCate2);
-  };
+
 
   const toggleLoginModal = () => {
     setShowLoginModal(!showLoginModal);
   };
 
+
+
+
+
   useEffect(() => {
     setShowLoginModal(false);
     fetchdata();
-
-  }, [location.pathname]);
+  }, [location.pathname, isAuthenticated]);
 
 
   const toggleCart = () => {
@@ -149,7 +167,7 @@ const Header = ({ onLinkClick }) => {
     checkMax();
     window.addEventListener("resize", checkMax);
     return () => window.removeEventListener("resize", checkMax);
-  }, []);
+  }, [navigate]);
 
   const mobileCart = () => {
     closeHamList();
@@ -159,6 +177,14 @@ const Header = ({ onLinkClick }) => {
   const gomanager = () => {
     navigate('/manager/Goods/AddGoods')
   }
+  const [activeSub, setActiveSub] = useState({});
+
+  const toggleOpen = (categoryId) => {
+    setActiveSub((prev) => ({
+      ...prev,
+      [categoryId]: !prev[categoryId],
+    }));
+  };
 
   return (
     <div className='header-container'>
@@ -167,7 +193,9 @@ const Header = ({ onLinkClick }) => {
         <div className='mobile-header'>
           <div className={`logo ${isHamOpen ? 'show' : ''}`} >
             <img src={logo} alt="logo" onClick={goHome} />
-            {savedUserInfo.id === 'admin' ? <p className='gomanager' onClick={gomanager}>관리자페이지로</p> : <></>}
+            {isAuthenticated && userInfo?.id === 'admin' && (
+              <p className='gomanager' onClick={gomanager}>관리자페이지로</p>
+            )}
           </div>
 
           <div className={`open-ham ${isHamOpen ? 'show' : ''}`} >
@@ -185,30 +213,44 @@ const Header = ({ onLinkClick }) => {
           <div className='sc-container'>
             <div className="sc1">
 
-              <div className="SHOP" onClick={openCate1}>
-                <p className={`sub_title ${activeSub1 ? 'bold' : ''}`}>
-                  SHOP
-                </p>
-                <div className={`sub ${activeSub1 ? 'display' : ''}`}>
-                  <Link to="/shop/all">ALL SHOP</Link>
-                  <Link to="/shop/new">NEW</Link>
-                  <div className="newCloth">
-                    <p onClick={openSubCate1}>NEW CLOTH</p>
-                    <div className={`newCloth-sub ${activeSubCate1 ? 'display' : ''}`}>
-                      <Link to="/shop/newCloth/all">ALL</Link>
-                      <Link to="/shop/newCloth/top">TOP</Link>
-                      <Link to="/shop/newCloth/bottom">BOTTOM</Link>
+              <div className="SHOP">
+                {categories.map((category) => (
+                  <div className="sub display" key={category.categoryId}>
+                    <p
+                      onClick={() => toggleOpen(category.categoryId)}
+                      className={`sub_title ${activeSub[category.categoryId] ? "bold" : ""}`}
+                    >
+                      {category.name}
+                    </p>
+                    <div className="category-item">
+                      <div className={`sub ${activeSub[category.categoryId] ? "display" : "close"}`}>
+                        {category.children.map((sub) => (
+                          <div key={sub.categoryId}>
+                            <Link
+                              to={`/${category.name.toLowerCase()}/${sub.name.toLowerCase()}`}
+                            >
+                              {sub.name}
+                            </Link>
+
+                            {sub.children && sub.children.length > 0 && (
+                              <div className="sub-children">
+                                {sub.children.map((child) => (
+                                  <Link
+                                    key={child.categoryId}
+                                    to={`/${category.name.toLowerCase()}/${sub.name.toLowerCase()}/${child.name.toLowerCase()}`}
+                                  >
+                                    {child.name}
+                                  </Link>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </div>
-                  <div className="second">
-                    <p onClick={openSubCate2}>SECOND</p>
-                    <div className={`second-sub ${activeSubCate2 ? 'display' : ''}`}>
-                      <Link to="/shop/second/all">ALL</Link>
-                      <Link to="/shop/second/top">TOP</Link>
-                      <Link to="/shop/second/bottom">BOTTOM</Link>
-                    </div>
-                  </div>
-                </div>
+                ))}
+
               </div>
 
               <div className="OTHERS" onClick={openCate2}>
@@ -223,8 +265,8 @@ const Header = ({ onLinkClick }) => {
             </div>
 
             <div className="sc2">
-              <Link to={`${savedUserInfo.id ? '/mypage/userinformaiton/confirm' : '/noauth'}`}>MY</Link>
-              {savedUserInfo.id ? <p onClick={logout}>LOGOUT</p> : <p className="LOGIN" onClick={toggleLoginModal}>
+              <Link to={`${isAuthenticated ? '/mypage/userinformaiton/confirm' : '/noauth'}`}>MY</Link>
+              {isAuthenticated ? <p onClick={logout}>LOGOUT</p> : <p className="LOGIN" onClick={toggleLoginModal}>
                 LOGIN
               </p>}
 

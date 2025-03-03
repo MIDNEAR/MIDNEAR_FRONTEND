@@ -1,71 +1,96 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import Modal from '../Modals/Modal';
 import CateItem from './CateItem';
 import PlusCate from './PlusCate';
+import axios from 'axios';
 
 const Category = () => {
+  const location = useLocation();
   const [isAllOpen, setIsAllOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isCompleted, setIsCompleted] = useState(false);
-  const [cateItems, setCateItems] = useState({
-    SHOP: {
-      'ALL SHOP': [],
-      'NEW': [],
-      'NEW CLOTH': ['ALL', 'TOP', 'BOTTOM'],
-    },
-    OTHERS: ['MAGAZINE', 'NOTICE'],
-  });
+  const [cateItems, setCateItems] = useState({ SHOP: {}, OTHERS: [] });
 
-  const handleSave = () => {
-    setIsModalOpen(true);
+  const DOMAIN = process.env.REACT_APP_DOMAIN;
+  const token = localStorage.getItem('jwtToken');
+
+  const handleSave = () => setIsModalOpen(true);
+  const handleConfirm = () => setIsModalOpen(false);
+  const handleCloseModal = () => setIsModalOpen(false);
+  const toggleAll = () => setIsAllOpen((prev) => !prev);
+
+  const handleDeleteCategory = (parentCategory, subcate, cate = null) => {
+    if (window.confirm("카테고리를 삭제하시겠습니까?")) {
+      const deleteList = [parentCategory, subcate, cate].filter(item => item !== null); 
+  
+      axios.delete(`${DOMAIN}/storeManagement/deleteCategories`, {
+        headers: { Authorization: `Bearer ${token}` },
+        data: deleteList, 
+      })
+      .then((response) => {
+        if (response.status === 200 && response.data.success) {
+          console.log(response.data.message); 
+          fetchCate(); 
+        } else {
+          console.error("삭제 실패: ", response.data.message);
+        }
+      })
+      .catch((error) => {
+        console.error("서버 오류: ", error);
+      });
+    }
+  };
+  
+
+
+
+  const fetchCate = () => {
+    axios
+      .get(`${DOMAIN}/productManagement/categories`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          const rawData = response.data.data;
+          const transformData = (data) => {
+            const cateObj = { SHOP: {}, OTHERS: [] };
+            data.forEach((category) => {
+              if (category.name === "SHOP") {
+                category.children.forEach((subCategory) => {
+                  cateObj.SHOP[subCategory.name] = subCategory.children.map((child) => child.name);
+                });
+              } else {
+                cateObj.OTHERS.push(category.name);
+              }
+            });
+            return cateObj;
+          };
+          setCateItems(transformData(rawData));
+        }
+      })
+      .catch((error) => console.error("카테고리 데이터를 가져오는 중 오류 발생:", error));
   };
 
-  const handleConfirm = () => {
-    setIsCompleted(true);
-    setIsModalOpen(false);
+  useEffect(() => {
+    fetchCate();
+  }, [location.pathname]);
 
-  };
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
-
-  const toggleAll = () => {
-    setIsAllOpen((prev) => !prev);
-  };
-
-  const addCateItem = (parentCategory, subCategory) => {
+  const addCateItem = (parentCategory, subCategory = null) => {
     const newCateName = `NEW CATEGORY ${Date.now()}`;
     setCateItems((prev) => {
       const newCateItems = { ...prev };
-      if (subCategory) {
-        if (newCateItems[parentCategory][subCategory]) {
-          newCateItems[parentCategory][subCategory].push(newCateName);
+      if (parentCategory === "SHOP") {
+        if (subCategory) {
+          if (newCateItems.SHOP[subCategory]) {
+            newCateItems.SHOP[subCategory] = [...newCateItems.SHOP[subCategory], newCateName];
+          }
+        } else {
+          newCateItems.SHOP[newCateName] = [];
         }
-      } else {
-        newCateItems[parentCategory][newCateName] = [];
       }
       return newCateItems;
     });
-  };
-
-  const renderCateItems = (category, subCategory) => {
-    if (Array.isArray(category)) {
-      return category.map((item, index) => (
-        <CateItem key={index} name={item} isBot={true} />
-      ));
-    } else if (typeof category === 'object') {
-      return Object.keys(category).map((key) => (
-        <CateItem key={key} name={key} isOpen={isAllOpen}>
-          <div className="bot">
-            {category[key].map((subItem, subIndex) => (
-              <CateItem key={subIndex} name={subItem} isBot={true} />
-            ))}
-            <PlusCate onAdd={() => addCateItem('SHOP', key)} />
-          </div>
-        </CateItem>
-      ));
-    }
   };
 
   return (
@@ -78,30 +103,53 @@ const Category = () => {
           </div>
         </div>
       </div>
+
+
       <div className="top">
-        <CateItem name="SHOP" isOpen={isAllOpen}>
+        <CateItem name="SHOP" isOpen={isAllOpen} isFirst={true}>
           <div className="mid">
-            {renderCateItems(cateItems.SHOP)}
+            {Object.keys(cateItems.SHOP).map((key, index) => (
+              <CateItem
+                key={key}
+                name={key}
+                isOpen={isAllOpen}
+                isFirst={index === 0}
+                onDelete={() => handleDeleteCategory("SHOP", key)}
+              >
+                <div className="bot">
+                  {cateItems.SHOP[key].map((subItem, subIndex) => (
+                    <CateItem
+                      key={subIndex}
+                      name={subItem}
+                      isBot={true}
+                      onDelete={() => handleDeleteCategory(0, index, subIndex)}
+                    />
+                  ))}
+                  <PlusCate onAdd={() => addCateItem('SHOP', key)} />
+                </div>
+              </CateItem>
+            ))}
             <PlusCate onAdd={() => addCateItem('SHOP')} />
           </div>
         </CateItem>
       </div>
+
+
+
+
       <div className="top">
-        <CateItem name="OTHERS" isOthers={true}>
+        <CateItem name="OTHERS" isOthers={true} isFirst={true}>
           <div className="mid">
             {cateItems.OTHERS.map((item, index) => (
-              <CateItem key={index} name={item} isBot={true} />
+              <CateItem key={index} name={item} isBot={true} isFirst={true} />
             ))}
-            <PlusCate onAdd={() => addCateItem('OTHERS')} />
           </div>
         </CateItem>
       </div>
+
       <div className="btn" onClick={handleSave}>완료</div>
-      <Modal
-        show={isModalOpen}
-        onClose={handleCloseModal}
-        onConfirm={handleConfirm}
-      />
+
+      <Modal show={isModalOpen} onClose={handleCloseModal} onConfirm={handleConfirm} />
     </div>
   );
 };

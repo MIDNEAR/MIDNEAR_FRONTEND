@@ -12,6 +12,11 @@
     font-weight: 700;
     font-size: 2rem;
     width: 28.2rem;
+    display: flex;
+    gap: 10px;
+    .back{
+        cursor: pointer;
+    }
 }
 
 .category_section {

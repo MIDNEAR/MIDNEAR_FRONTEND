@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
 import searchlogo from "../../../assets/img/logo/searchIcon.png";
+import axios from 'axios';
 
 const PaymentComponent = () => {
-    const [selectedTab, setSelectedTab] = useState('전체'); 
-    const [paymentReason, setPaymentReason] = useState(''); 
-    const [paymentAmount, setPaymentAmount] = useState(''); 
-    const [userId, setUserId] = useState(''); 
-    const [selectedUsers, setSelectedUsers] = useState([]); 
-    const [textReviewPoint, setTextReviewPoint] = useState(''); 
-    const [photoReviewPoint, setPhotoReviewPoint] = useState(''); 
+    const [selectedTab, setSelectedTab] = useState('전체');
+    const [paymentReason, setPaymentReason] = useState('');
+    const [paymentAmount, setPaymentAmount] = useState('');
+    const [userId, setUserId] = useState('');
+    const [selectedUsers, setSelectedUsers] = useState([]);
+    const [textReviewPoint, setTextReviewPoint] = useState('');
+    const [photoReviewPoint, setPhotoReviewPoint] = useState('');
+    const DOMAIN = process.env.REACT_APP_DOMAIN;
+    const token = localStorage.getItem('jwtToken');
 
     const users = Array.from({ length: 100 }, (_, index) => `user${index + 1}`); // 100명 데이터 가정
-    const [currentPage, setCurrentPage] = useState(0); 
-    const usersPerPage = 10; 
+    const [currentPage, setCurrentPage] = useState(0);
+    const usersPerPage = 10;
 
     const handleUserSelect = (user) => {
         setSelectedUsers((prev) =>
@@ -29,6 +32,26 @@ const PaymentComponent = () => {
     const handleDeselectAll = () => setSelectedUsers([]);
 
     const handlePayment = () => {
+        if (selectedTab === '전체') {
+            axios
+                .post(`${DOMAIN}/point/grantAll`, {
+                    amount: paymentAmount,
+                    reason: paymentReason
+                }, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                })
+                .then((response) => {
+                    if (response.status === 200) {
+                        console.log(response.data.message)
+                    }
+                })
+                .catch((error) => {
+                    console.log(error)
+                });
+        }
+
         console.log('지급 사유:', paymentReason);
         console.log('지급 금액:', paymentAmount);
         console.log('선택된 사용자:', selectedUsers);
@@ -44,9 +67,9 @@ const PaymentComponent = () => {
             <div className="payment-header">
                 <h2>포인트 지급 관리</h2>
                 <div className="payment-action-buttons">
-                    <button onClick={() => setSelectedTab('전체')} className={selectedTab === '전체'? 'active' : ''}>전체 포인트</button>
-                   
-                    <button onClick={() => setSelectedTab('개별')} className={selectedTab === '개별'? 'active' : ''}>개별 포인트</button>
+                    <button onClick={() => setSelectedTab('전체')} className={selectedTab === '전체' ? 'active' : ''}>전체 포인트</button>
+
+                    <button onClick={() => setSelectedTab('개별')} className={selectedTab === '개별' ? 'active' : ''}>개별 포인트</button>
                     <button onClick={() => setSelectedTab('리뷰')} className={selectedTab === '리뷰' ? 'active' : ''}>리뷰 포인트</button>
                 </div>
             </div>
@@ -64,12 +87,12 @@ const PaymentComponent = () => {
                 <div className="payment-fields">
                     <label htmlFor="userId">사용자 아이디 검색</label>
                     <div className="input-group">
-                        <div class="search-container">
-                            <input type="text"  id="userId" 
-                                value={userId} 
-                                onChange={(e) => setUserId(e.target.value)} 
-                                placeholder="사용자 아이디 입력" class="search-input" />
-                            <img src={searchlogo} alt="검색" class="search-icon" />
+                        <div className="search-container">
+                            <input type="text" id="userId"
+                                value={userId}
+                                onChange={(e) => setUserId(e.target.value)}
+                                placeholder="사용자 아이디 입력" className="search-input" />
+                            <img src={searchlogo} alt="검색" className="search-icon" />
                         </div>
                     </div>
                     <div className="cp-table-container">
@@ -89,24 +112,24 @@ const PaymentComponent = () => {
 
                     <div className="cp-pagination">
                         <button onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 0))} disabled={currentPage === 0}>
-                        이전
+                            이전
                         </button>
 
                         {[...Array(Math.ceil(users.length / usersPerPage))].map((_, index) => (
-                        <button 
-                            key={index} 
-                            onClick={() => setCurrentPage(index)} 
-                            className={currentPage === index ? 'active' : ''}
-                        >
-                            {index + 1}
-                        </button>
+                            <button
+                                key={index}
+                                onClick={() => setCurrentPage(index)}
+                                className={currentPage === index ? 'active' : ''}
+                            >
+                                {index + 1}
+                            </button>
                         ))}
 
-                        <button 
-                        onClick={() => setCurrentPage((prev) => Math.min(prev + 1, Math.ceil(users.length / usersPerPage) - 1))} 
-                        disabled={endIdx >= users.length}
+                        <button
+                            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, Math.ceil(users.length / usersPerPage) - 1))}
+                            disabled={endIdx >= users.length}
                         >
-                        다음
+                            다음
                         </button>
                     </div>
 
@@ -127,17 +150,17 @@ const PaymentComponent = () => {
             {selectedTab === '리뷰' && (
                 <div className="payment-fields-review">
                     <div className="input-group">
-                    <span>텍스트 리뷰</span>
-                    <input type="number" id="textReview" value={textReviewPoint} 
-                        onChange={(e) => setTextReviewPoint(e.target.value)} placeholder="KRW" />
+                        <span>텍스트 리뷰</span>
+                        <input type="number" id="textReview" value={textReviewPoint}
+                            onChange={(e) => setTextReviewPoint(e.target.value)} placeholder="KRW" />
+                    </div>
+
+                    <div className="input-group">
+                        <span>포토 리뷰</span>
+                        <input type="number" id="photoReview" value={photoReviewPoint}
+                            onChange={(e) => setPhotoReviewPoint(e.target.value)} placeholder="KRW" />
+                    </div>
                 </div>
-            
-                <div className="input-group">
-                    <span>포토 리뷰</span>
-                    <input type="number" id="photoReview" value={photoReviewPoint} 
-                        onChange={(e) => setPhotoReviewPoint(e.target.value)} placeholder="KRW" />
-                </div>
-            </div>
             )}
 
             <button className="payment-button" onClick={handlePayment}>지급</button>

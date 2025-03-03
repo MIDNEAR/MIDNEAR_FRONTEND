@@ -1,25 +1,48 @@
 import React, { useState } from "react";
-import ColorDetail from './ColorDetail'
-import SelectCate from './SelectCate'
+import axios from "axios";
+import ColorDetail from "./ColorDetail";
+import SelectCate from "./SelectCate";
 
-const Goods = ({detail}) => {
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState(" ");
-  const [discount, setDiscount] = useState(false);
+const Goods = () => {
+  const [productName, setProductName] = useState("");
   const [price, setPrice] = useState("");
+  const [discount, setDiscount] = useState(false);
   const [discountRate, setDiscountRate] = useState("");
-  const [color, setColor] = useState([]);
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [detail, setDetail] = useState("");
+  const [sizeGuide, setSizeGuide] = useState("");
+  const [categoryId, setCategoryId] = useState("");
+  const [colors, setColors] = useState([]);
   const [newColor, setNewColor] = useState("");
+  const [images, setImages] = useState([]);
+
+  const DOMAIN = process.env.REACT_APP_DOMAIN;
+  const token = localStorage.getItem("jwtToken");
 
   const handleAddColor = () => {
     if (newColor.trim() === "") return;
-    setColor([...color, newColor.trim()]);
+    setColors([...colors, { color: newColor.trim(), sizes: [], images: [] }]);
     setNewColor("");
   };
 
+
   const handleRemoveColor = (index) => {
-    setColor(color.filter((_, i) => i !== index));
+    setColors(colors.filter((_, i) => i !== index));
   };
+
+  const handleUpdateColorDetail = (index, updatedData) => {
+    setColors((prevColors) => {
+        const newColors = [...prevColors];
+        newColors[index] = { 
+            ...newColors[index], 
+            ...updatedData 
+        };
+        console.log(`📌 색상 업데이트됨 (${newColors[index].color}):`, newColors[index]);
+        return newColors;
+    });
+};
+
 
   const handleStartDateChange = (e) => {
     setStartDate(e.target.value);
@@ -36,20 +59,91 @@ const Goods = ({detail}) => {
     setEndDate(e.target.value);
   };
 
-
   const calculateDiscountPrice = () => {
     if (!price || !discountRate) return "";
-    const discountedPrice = price - price * (discountRate / 100);
-    return Math.floor(discountedPrice).toLocaleString();
+    return Math.floor(price - price * (discountRate / 100)).toLocaleString();
   };
+
+  const handleRegisterProduct = async () => {
+    if (!productName || !price || !categoryId) {
+        console.log("❌ 필수 입력 값 누락:", { productName, price, categoryId });
+        alert("상품명, 가격, 카테고리는 필수 입력 항목입니다.");
+        return;
+    }
+
+    const discountPrice = discount ? price - price * (discountRate / 100) : 0;
+    const formData = new FormData();
+
+    // ✅ 기본 상품 정보 추가
+    formData.append("productName", productName);
+    formData.append("price", price);
+    formData.append("discountPrice", discount ? discountPrice : 0);
+    formData.append("discountRate", discount ? discountRate : 0);
+    formData.append("discountStartDate", discount ? startDate : null);
+    formData.append("discountEndDate", discount ? endDate : null);
+    formData.append("detail", detail);
+    formData.append("sizeGuide", sizeGuide);
+    formData.append("categoryId", categoryId);
+
+    console.log("📌 상품 데이터 FormData 추가 완료");
+
+    // ✅ 색상별 데이터 추가
+    colors.forEach((item, index) => {
+        formData.append(`colors[${index}][color]`, item.color);
+        item.sizes.forEach((size, sizeIndex) => {
+            formData.append(`colors[${index}][sizes][${sizeIndex}][size]`, size.size);
+            formData.append(`colors[${index}][sizes][${sizeIndex}][stock]`, size.stock);
+        });
+
+        // ✅ 이미지 추가
+        if (item.images && item.images.length > 0) {
+            item.images.forEach((image, imgIndex) => {
+                formData.append(`colors[${index}][productImages]`, image);
+                console.log(`📌 ${item.color} 색상의 추가된 이미지 ${imgIndex}:`, image.name);
+            });
+        } else {
+            console.warn(`⚠️ ${item.color} 색상에 이미지가 없습니다.`);
+        }
+    });
+
+    console.log("📌 최종 FormData 확인:", formData);
+
+    try {
+        const response = await axios.post(`${DOMAIN}/productManagement/registerProducts`, formData, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "multipart/form-data",
+            },
+        });
+
+        if (response.status === 200) {
+            alert("✅ 상품 등록 성공!");
+        } else {
+            alert("❌ 상품 등록 실패");
+        }
+    } catch (error) {
+        console.error("❌ 상품 등록 오류:", error.response ? error.response.data : error);
+        alert("상품 등록 중 오류 발생!");
+    }
+};
+
 
 
   return (
-    <div className='add_goods' >
-      <SelectCate />
+    <div className="add_goods">
+  <SelectCate onCategorySelect={(id) => {
+    setCategoryId(id);  
+}} />
+
+
       <div className="goods_name container">
         <div className="title">상품명</div>
-        <input type="text" name="name" placeholder='상품명 입력' />
+        <input
+          type="text"
+          placeholder="상품명 입력"
+          value={productName}
+          onChange={(e) => setProductName(e.target.value)}
+        />
       </div>
       <div className="wrap">
         <div className="price">
@@ -124,23 +218,30 @@ const Goods = ({detail}) => {
         </div>
         <div className="info">
           <div className="title">상세설명</div>
-          <textarea name="info" placeholder="상세설명 입력" />
+          <textarea
+            placeholder="상세설명 입력"
+            value={detail}
+            onChange={(e) => setDetail(e.target.value)}
+          />
         </div>
       </div>
       <div className="sizeguide container">
-        <div className="title">사이즈 가이드</div>
-        <textarea name="size" placeholder="사이즈가이드 입력" />
+        <textarea
+          placeholder="사이즈가이드 입력"
+          value={sizeGuide}
+          onChange={(e) => setSizeGuide(e.target.value)}
+        />
       </div>
       <div className="color container">
         <div className="title">색상</div>
         <div className="color_list">
           <div className="wrap">
-            {color.map((item, index) => (
+            {colors.map((item, index) => (
               <div className="color" key={index}>
                 <div className="minus" onClick={() => handleRemoveColor(index)}>
                   -
                 </div>
-                <p>{item}</p>
+                <p>{item.color}</p>
               </div>
             ))}
           </div>
@@ -155,9 +256,15 @@ const Goods = ({detail}) => {
           </div>
         </div>
       </div>
-      {color.map((item, index) => (
-        <ColorDetail name={item} key={index} />
+      {colors.map((item, index) => (
+        <ColorDetail
+          key={index}
+          name={item.color}
+          onUpdate={(data) => handleUpdateColorDetail(index, data)}
+        />
       ))}
+
+      <div className="btn" onClick={() => handleRegisterProduct()}>등록 완료</div>
     </div>
   );
 };
