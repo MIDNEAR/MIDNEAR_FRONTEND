@@ -31,6 +31,8 @@
             height:21vh;
         }
         .basic{
+            width: 48.6rem;
+            justify-content: space-between;
             display: flex;
             margin-bottom: 6.9rem;
             .info{ 
@@ -39,10 +41,9 @@
                 flex-direction: column;
             }
             .name{ font-weight: bold; }            
-            /* 할인시 중앙 라인 표시
-            .price{text-decoration:line-through;}
-            */
-            .discount{
+            .price.display{text-decoration:line-through;}
+            .discount{display: none;}
+            .discount.display{
                 display: flex;
                 color: #FF0000;
                 .dc-price{
@@ -62,8 +63,6 @@
                    
                 } 
             }
-            /* 할인표시 기본 */
-            .discount{display: none;}
         }
         
         .color{ font-size: 11px; }
@@ -94,7 +93,11 @@
             color: var(--white);            
             cursor: pointer;
         }
-
+        
+        .soldout{display: none;}
+        .soldout.display{display: flex;}
+        .box.display{display: none;}
+        .error-message{ color:#FF0000; }
         .detail-box{
             margin-top: 1.2rem;
             
@@ -137,8 +140,6 @@
                 
             }
         }
-        /* 품절 박스 기본 */
-        .soldout{display: none;}
 
         .with-item{
             display: flex;
@@ -198,6 +199,7 @@
             .basic{
                 justify-content: space-between;
                 margin-bottom: 3rem; 
+                width: 100%;
                 .size{
                     margin: 0;
                     div{margin: 0 0 0 4rem;}

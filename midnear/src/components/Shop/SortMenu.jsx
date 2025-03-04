@@ -1,14 +1,25 @@
 import React, { useState, useEffect, useRef } from 'react';
 import triangle from '../../assets/img/product/triangle.svg';
 
-const SortMenu = ({ SortChange }) => {
+const SortMenu = ({SortChange, isNotice}) => {
     const [isOpen, setIsOpen] = useState(false);
     const [select, setSelect] = useState('latest');
     const ref = useRef(null);
-    const options = [
-        { value: 'latest', label: '최신순' },
-        { value: 'popularity', label: '인기순' },
-    ];
+    
+    const [options, setOptions] = useState([
+      { value: 'latest', label: '최신순' },
+      { value: 'popularity', label: '인기순' },
+    ]);
+    
+    useEffect(()=>{
+      if(isNotice){
+        setSelect('전체');
+        setOptions([
+          {value: '전체', label: '전체'},
+          {value: '한달', label: '한달'},
+        ]);
+      }
+    },[isNotice]);
 
     const removeHandler = () => {
         setIsOpen((prev) => !prev);

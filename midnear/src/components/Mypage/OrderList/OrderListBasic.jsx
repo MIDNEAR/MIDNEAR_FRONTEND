@@ -9,8 +9,8 @@ import axios from "axios";
 const OrderListBasic = () => {
   const modalRef = useRef();
   const [currentPage, setCurrentPage] = useState(1);
-  const [sortResent, setSortResent] = useState(true);
-  const [order, setOrder] = useState([]);
+  const [sortResent, setSortResent] = useState(true)
+  const [order, setOrder] = useState([]); 
   const totalPages = 5;
   const DOMAIN = process.env.REACT_APP_DOMAIN;
   const token = localStorage.getItem("jwtToken");
@@ -31,34 +31,28 @@ const OrderListBasic = () => {
   useEffect(() => {
     console.log(currentPage);
     axios
-      .get(`${DOMAIN}/orders/all`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        params: {
-          pageNumber: currentPage,
-          sort: sortResent ? "latest" : "oldest",
-        },
-      })
-      .then((res) => {
-        if (res.status === 200 && res.data.success) {
-          console.log(res.data)
-          const formattedOrders = res.data.data.map((order) => ({
-            id: order.orderId,
-            state: order.userOrderProductCheckDtos[0]?.orderStatus || "주문 상태 정보 없음",
-            date: new Date(order.orderDate).toLocaleDateString("ko-KR"),
-            image: order.userOrderProductCheckDtos[0]?.productMainImage || defaultimage,
-            info: order.userOrderProductCheckDtos[0]?.productName || "상품 정보 없음",
-            price: order.userOrderProductCheckDtos[0]?.payPrice || 0,
-            quantity: order.userOrderProductCheckDtos[0]?.quantity || 1,
-          }));
-          setOrder(formattedOrders);
-        }
-      })
-      .catch((error) => {
-        console.error(error.message);
-      });
+    .get(`${DOMAIN}/orders/all`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      params: {
+        pageNumber: currentPage,
+        sort: sortResent ? "latest" : "oldest",
+      },
+    })
+    .then((res) => {
+      if (res.status === 200 && res.data.success) {
+        setOrder(res.data.data || []);
+        
+      }
+    })
+    .catch((error) => {
+      
+    });
+  
   }, [DOMAIN, token, currentPage, sortResent]);
+
+  
 
   return (
     <div className="container">
@@ -76,23 +70,19 @@ const OrderListBasic = () => {
               <img src={search} className="search-button" alt="검색" />
             </div>
 
-            <div className="order_title" onClick={() => setSortResent(!sortResent)}>
-              {sortResent ? "최신순" : "오래된순"}
+            <div className='order_title'
+              onClick={() => setSortResent(!sortResent)}>{sortResent ? '최신순' : '오래된순'}
             </div>
 
             {order.length > 0 ? (
               order.map((item) => (
                 <OrderItem
-                  key={item.id}
-                  state={item.state}
-                  date={item.date}
-                  image={item.image}
-                  info={item.info}
-                  price={`₩ ${item.price}`}
-                  quantity={item.quantity}
+                  key={item.orderId}
+                  date={item.orderDate}
+                  orderItem={item.userOrderProductCheckDtos || []}
                   actions={
                     <>
-                      <Link to={`/mypage/orderlist/detail/${item.id}`} className="order_detail">
+                      <Link to={`/mypage/orderlist/detail?orderId=${item.orderId}`} className="order_detail">
                         주문 상세보기 &gt;
                       </Link>
                       <button className="order_option">배송조회</button>

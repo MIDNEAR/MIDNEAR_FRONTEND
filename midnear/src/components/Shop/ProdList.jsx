@@ -1,32 +1,49 @@
-import React, {useState} from 'react';
+import React from 'react';
 import Pagination from './Pagination';
 import { Link } from 'react-router-dom'; 
 
 
-const ProdList = ({productList}) => {
-  const [limit, setLimit] = useState(10); // 한 페이지 당 보여줄 게시물 개수, 추후에 수정
-  const [page, setPage] = useState(1); // 현재 페이지 위치
-  const offset = (page -1) * limit; // 현재 페이지의 첫 번째 게시물 오프셋
+const ProdList = ({productList, pageInfo, currPage, setCurrPage}) => {
+  const today = new Date();
 
+  const checkIsSale = (start, end) => {
+    if (start === null || end === null) {
+      return false;
+    } else {
+      const startDate = new Date(start);
+      const endDate = new Date(end);
+      if (startDate <= today && endDate >= today) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+  const checkIsSoldOut = (saleStatus) => {
+    if(saleStatus === "품절"){ 
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   return (   
     <div className='bottom-el'> 
       <div className='prodList'>
-        {productList.slice(offset, offset + limit).map((it, index)=>(
+        {productList.map((it, index)=>(
             <div className='product' key={index}>
-              <Link to="/products/detail">
+              <Link to={`/products/detail?colorId=${it.colorId}`} >
                 <div className='prodImg'>
-                  <img src={it.frontImg} className='frontImg'></img>
-                  <img src={it.backImg} className='backImg'></img>
+                  <img src={it.frontImageUrl} className='frontImg' alt='frontImg'/>
+                  <img src={it.backImageUrl} className='backImg' alt='backImg'/>
                 </div>
                 <div className='prodInfo'>
-                  <p className='name'>{it.name}</p>
-                  <p className='origin-price'>&#xffe6; {it.price.toLocaleString('ko-KR')}</p>
-                  {/** 기본 display none상태임 할인기간, 품절 상태일 때 맞춰 flex하기 + 원가 밑줄 추가*/}
-                   <p className='sold-out'>{it.soldout}</p>
-                  <div className='discount'>
-                    <p className='dc-price'>&#xffe6; {it.dcPrice.toLocaleString('ko-KR')}</p>
-                    <p className='coupon'>{it.coupon}</p>
+                  <p className='name'>{it.productName}</p>
+                  <p className={`origin-price ${checkIsSoldOut(it.saleStatus) || checkIsSale(it.discountStartDate, it.discountEndDate) ? 'display' : ''}`}>&#xffe6; {it.price.toLocaleString('ko-KR')}</p>
+                   <p className={`sold-out ${checkIsSoldOut(it.saleStatus) ? 'display' : ''}`}>SOLD OUT</p>
+                  <div className={`discount ${checkIsSale(it.discountStartDate, it.discountEndDate) ? 'display' : ''}`}>
+                    <p className='dc-price'>&#xffe6; {it.discountPrice.toLocaleString('ko-KR')}</p>
+                    <p className='coupon'>{it.discountRate}% 할인가</p>
                   </div>
                 </div>
                 </Link>
@@ -34,7 +51,7 @@ const ProdList = ({productList}) => {
         ))}
         
     </div>
-    <Pagination total={productList.length} limit={limit} page={page} setPage={setPage} />
+    <Pagination total={pageInfo.total} limit={pageInfo.page} page={currPage} setPage={setCurrPage} />
     </div>
   )
 }

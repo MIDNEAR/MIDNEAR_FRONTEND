@@ -19,19 +19,16 @@ body {
     font-size: 62.5% !important;
 }
 
-.container { 
-    @media (max-width: 500px) {
-        overflow-x: hidden;
-        width: 100vw;
-    }
-}
-
 .container {
     width: 120rem;
     min-height: calc(100vh - 4.63vh - 2.22vh);
     //전체 높이 - 헤더 높이 - 푸터 높이
     margin: 0 auto;
     background: var(--white);
+    @media (max-width: 500px) {
+        overflow-x: hidden;
+        width: 100vw;
+    }
 }
 
 .none{

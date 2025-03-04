@@ -57,9 +57,10 @@ import Detail from './components/Manager/Goods/Detail';
 import MagazineList from './components/Magazine/MagazineList';
 import MagazinDetail from './components/Magazine/MagazinDetail';
 import MypageMenu from './components/Mypage/MypageMenu';
+import NoticeDetail from './components/Notice/NoticeDetail'
+import NoticeList from './components/Notice/NoticeList'
 import NoAuth from './components/Mypage/UserInformation/NoAuth';
 import { AuthProvider } from './action/authContext';
-
 
 function App() {
   const location = useLocation();
@@ -132,8 +133,9 @@ function App() {
         <Route path='/order/delivery/select-address' element={<SelectAdd />} />
         <Route path='/others/magazine' element={<MagazineList />} />
         <Route path='/others/magazine/detail' element={<MagazinDetail />} />
-        <Route path="/others/notice" element={<NoticeList/>} />
-        <Route path="/others/notice/detail/:id" element={<NoticeDetail/>} />
+        <Route path='/others/notice/detail' element={<NoticeDetail />} />
+        <Route path='/others/notice' element={<NoticeList />} />
+
         {/* 관리자 페이지 */}
 
         <Route path="/manager/*" element={<Manager />} />
