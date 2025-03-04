@@ -280,6 +280,7 @@
                 font-size: 1.2rem;
                 font-weight: 600;
                 padding-top: 0.2rem;
+                cursor: pointer;
             }
         }
 
@@ -304,6 +305,10 @@
             .info_content, .order_content{
                 width: 100%;
                 min-width: 32rem;
+                .add-btn{
+                    width: 100%;
+                    min-width: 3.2rem;
+                }
             }
             .order_content{
                 margin-top: 5rem;

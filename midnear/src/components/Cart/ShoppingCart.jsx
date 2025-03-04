@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
 import Close from '../../assets/img/product/close.svg'
 import OrderList from './OrderList'
 import Header from '../Sections/Header'
 
-const ShoppingCart = ({ cartList, toggleCart, isCartOpen}) => {
+const ShoppingCart = ({ cartList, toggleCart, isCartOpen, loadCart }) => {
+  const [deliveryFee, setDeliveryFee] = useState(0);
+  const [updateOrderDTO, setUpdateOrderDTO] = useState(cartList);
+  
   const [isMobile, setIsMobile] = useState(false);
   useEffect(()=>{
     const checkMax =() => {
@@ -39,7 +41,16 @@ const ShoppingCart = ({ cartList, toggleCart, isCartOpen}) => {
             <Header onLinkClick={(onClickAction) => handleLinkClick(onClickAction)} />
           )}
       </div>
-      < OrderList productList={cartList} toggleCart={toggleCart} point={0}/>
+      < OrderList 
+          productList={cartList} 
+          toggleCart={toggleCart} 
+          point={0} 
+          loadCart={loadCart} 
+          isCartScreen={true}
+          setUpdateOrderDTO={setUpdateOrderDTO}
+          deliveryFee={deliveryFee}
+          setDeliveryFee={setDeliveryFee}
+      />
      </div>
     </div>
   )

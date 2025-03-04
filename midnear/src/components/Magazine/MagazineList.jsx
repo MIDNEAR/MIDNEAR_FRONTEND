@@ -114,7 +114,7 @@ const MagazineList = () => {
           <div className='title'>MAGAZINE</div>
           <div className='left-el'>
           <div className={`sort  ${isClickBtn ? 'click' : ''}`}>
-            <SortMenu SortChange={handleSortChange} />
+            <SortMenu SortChange={handleSortChange} isNotice={false}/>
           </div>
           
           {!isMobile && (
@@ -137,7 +137,7 @@ const MagazineList = () => {
                 <img src={search} className='search-btn' onClick={clickSearchBtn}/>
               </div>
             )}
-        </div>
+            </div>
         </div>
 
         <div className='bottom'>

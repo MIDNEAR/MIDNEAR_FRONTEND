@@ -140,7 +140,7 @@
             grid-template-columns: repeat(4, 1fr);
             gap: 1.3rem;
             padding-bottom: 2rem;
-            
+            min-height: 80rem;
             .image-box{
                 width: 236px;
                 height: 23.6rem;
@@ -150,6 +150,33 @@
                 height: 23.6rem;
                 object-fit: cover;
             }
+        }
+    }
+    
+    .pagination{
+        display: flex;
+        justify-content: center;
+        color: var(--gray900);
+        margin: 1rem  0;  
+        font-size: 1.2rem;
+        padding:0;
+        .pageNum{
+            cursor: pointer;
+            margin: 0 0.7rem;
+            height: 1.8rem;
+            padding-top: 0.1rem;
+            &[aria-current="page"]{
+                color: var(--gray1000);
+                font-weight: 600;
+            }
+    
+        }
+        .prev, .next{
+            height: 1.8rem;
+           cursor: pointer;
+           display: flex;
+           align-items: center;
+           background-color: transparent;
         }
     }
 }
@@ -188,6 +215,7 @@
         .bottom-el{
             .all-imgList{
                 grid-template-columns: repeat(2, 1fr);
+                min-height: 38rem;
                 .image-box{
                     width: 17rem;
                     height: 17rem;

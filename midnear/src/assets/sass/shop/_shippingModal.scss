@@ -39,12 +39,13 @@
         }
 
         .content{
+            flex-direction: column;
             border: solid 1px var(--gray300);
             width: 115.2rem;
             min-height: 46.5rem;
             display: flex;
-            justify-content: center;
-            padding: 2.4rem 0;
+            justify-content: flex-start;
+            padding: 1rem ;
 
              p{
                 white-space: pre-wrap; 

@@ -35,24 +35,26 @@ const Coupon = ({ onSelectCoupon, onResetCoupon, couponList }) => {
         
   return (
     <div className='dc-btn' ref={ref}>
-              <div className="selected" onClick={removeHandler}>
-                <div className='coupon'>{select ? select.name : "할인 쿠폰 적용하기"}</div>
-              </div>
+      <div className="selected" onClick={removeHandler}>
+        <div className='coupon'>{select ? select.couponName : "할인 쿠폰 적용하기"}</div>
+      </div>
         
-              {isOpen && (
+      {isOpen && (
         <div className="no-selected">
           {select ? (
             <div className="coupon" onClick={handleReset}>
               쿠폰 적용 취소하기
             </div>
-          ) : couponList.length > 0 ? (
-            couponList.map((coupon) => (
+          ) :  couponList.filter(coupon => !coupon.usedStatus).length > 0 ? (
+            couponList
+            .filter(coupon => !coupon.usedStatus)
+            .map((coupon,index) => (
               <div
                 className="coupon"
-                key={coupon.id}
+                key={index}
                 onClick={() => handleSelect(coupon)}
               >
-                {coupon.name}
+                {coupon.couponName}
               </div>
             ))
           ) : (
