@@ -35,7 +35,8 @@ import ExchangeReson from './components/Mypage/OrderList/Exchange/ExchangeReson'
 import RefundReson from './components/Mypage/OrderList/Refund/RefundReson';
 import ExchangeDone from './components/Mypage/OrderList/Exchange/ExchangeDone';
 import RefundDone from './components/Mypage/OrderList/Refund/RefundDone';
-
+import NoticeList from './components/Notice/NoticeList';
+import NoticeDetail from './components/Notice/NoticeDetail';
 import Ask from './components/Mypage/CustomerService/Ask';
 import AskedList from './components/Mypage/CustomerService/AskedList';
 import AskDetail from './components/Mypage/CustomerService/AskDetail';
@@ -98,7 +99,6 @@ function App() {
         <Route path="/mypage/cancellist" element={<CanceledOrder />} />
         <Route path="/mypage/" element={<MypageMenu />} />
         <Route path="/noauth/" element={<NoAuth />} />
-
         <Route path="/mypage/question/create" element={<Ask />} />
         <Route path="/mypage/question/list" element={<AskedList />} />
         <Route path="/mypage/question/detail" element={<AskDetail />} />
@@ -132,7 +132,8 @@ function App() {
         <Route path='/order/delivery/select-address' element={<SelectAdd />} />
         <Route path='/others/magazine' element={<MagazineList />} />
         <Route path='/others/magazine/detail' element={<MagazinDetail />} />
-
+        <Route path="/others/notice" element={<NoticeList/>} />
+        <Route path="/others/notice/detail/:id" element={<NoticeDetail/>} />
         {/* 관리자 페이지 */}
 
         <Route path="/manager/*" element={<Manager />} />

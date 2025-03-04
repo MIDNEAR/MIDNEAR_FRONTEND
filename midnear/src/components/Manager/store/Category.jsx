@@ -21,26 +21,26 @@ const Category = () => {
 
   const handleDeleteCategory = (parentCategory, subcate, cate = null) => {
     if (window.confirm("카테고리를 삭제하시겠습니까?")) {
-      const deleteList = [parentCategory, subcate, cate].filter(item => item !== null); 
-  
+      const deleteList = [parentCategory, subcate, cate].filter(item => item !== null);
+
       axios.delete(`${DOMAIN}/storeManagement/deleteCategories`, {
         headers: { Authorization: `Bearer ${token}` },
-        data: deleteList, 
+        data: deleteList,
       })
-      .then((response) => {
-        if (response.status === 200 && response.data.success) {
-          console.log(response.data.message); 
-          fetchCate(); 
-        } else {
-          console.error("삭제 실패: ", response.data.message);
-        }
-      })
-      .catch((error) => {
-        console.error("서버 오류: ", error);
-      });
+        .then((response) => {
+          if (response.status === 200 && response.data.success) {
+            console.log(response.data.message);
+            fetchCate();
+          } else {
+            console.error("삭제 실패: ", response.data.message);
+          }
+        })
+        .catch((error) => {
+          console.error("서버 오류: ", error);
+        });
     }
   };
-  
+
 
 
 
@@ -139,10 +139,9 @@ const Category = () => {
 
       <div className="top">
         <CateItem name="OTHERS" isOthers={true} isFirst={true}>
-          <div className="mid">
-            {cateItems.OTHERS.map((item, index) => (
-              <CateItem key={index} name={item} isBot={true} isFirst={true} />
-            ))}
+          <div className="bot">
+           <CateItem isOthers={true} isBot={true} name="MAGAZINE" isFirst={true}   disabled={true}/>
+           <CateItem isOthers={true} isBot={true}  name="NOTICE" isFirst={true}  disabled={true}/>
           </div>
         </CateItem>
       </div>

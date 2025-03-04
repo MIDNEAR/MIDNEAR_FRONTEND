@@ -64,10 +64,6 @@ const Login = ({ onClose }) => {
                     navigate('/');
                     setIsAuthenticated(true);
                     window.dispatchEvent(new Event("storage"));
-                    console.log('유저정보 업데이트', userInfo);
-                   
-                    console.log("현재 로컬스토리지의 userInfo:", localStorage.getItem("userInfo"));
-
                 }
             })
             .catch(() => {

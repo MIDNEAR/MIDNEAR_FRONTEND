@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom'
 import SortMenu from './SortMenu'
 import ProdList from './ProdList'
@@ -8,7 +8,8 @@ import backImg from '../../assets/img/product/prod2.png'
 const AllShop = () => {
   const {category, subCategory} = useParams();
   const title = `${category?.toUpperCase()} ${subCategory ? `- ${subCategory.toUpperCase()}` : ''}`
-  // api 연동하면 db 값 받아서 배열에 저장
+  const [latest, setLatest] = useState(true);
+
   const dummyList = [
     { 
       id: 1,
@@ -80,7 +81,7 @@ const AllShop = () => {
       <div className='top-el'>
         <div className='title'>{title}</div>
         <div className='sort'>
-          <SortMenu />
+          <SortMenu SortChange={() => setLatest(!latest)}/>
         </div>
       </div>
       

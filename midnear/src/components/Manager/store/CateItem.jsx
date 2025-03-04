@@ -8,7 +8,8 @@ const CateItem = ({
   isBot, 
   isTop, 
   isFirst, 
-  onDelete 
+  onDelete ,
+  disabled
 }) => {
   const [open, setOpen] = useState(isOpen);
   const [editMode, setEditMode] = useState(false);
@@ -57,6 +58,7 @@ const CateItem = ({
               onChange={handleNameChange}
               onBlur={handleSaveName}
               autoFocus
+              disabled = {disabled}
             />
           ) : (
             newName
