@@ -89,16 +89,16 @@ const BlockedUsers = () => {
         </select>
       </div>
 
-      <div style={{ textAlign: 'center', marginTop: '24px' }}>
-        <button
-          onClick={handleRegister}
-          className="register-btn"
-          disabled={!customerId || !reason}
-        >
-          등록 {/* 버튼 텍스트를 항상 "등록"으로 유지 */}
-        </button>
-      </div>
+
+      <button
+        onClick={handleRegister}
+        className="register-btn"
+        disabled={!customerId || !reason}
+      >
+        등록 {/* 버튼 텍스트를 항상 "등록"으로 유지 */}
+      </button>
     </div>
+
   );
 };
 
