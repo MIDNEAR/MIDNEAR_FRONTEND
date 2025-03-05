@@ -1,6 +1,10 @@
 /* 회원 비회원 공통*/
 .member,
 .no-member {
+    button, .btn{
+        cursor: pointer;
+    }
+ 
     .info {
         display: flex;
         justify-content: center;
@@ -110,11 +114,15 @@
             border: 0.1rem solid var(--gray500);
             outline: none;
             background-color: var(--white);
+
         }
 
         .btn {
             margin-bottom: 3rem;
             cursor: default;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .btn.enabled {
@@ -156,8 +164,9 @@
             }
         }
 
-        .btn {
+        .btn, a{
             margin-top: 0;
+        
         }
     }
 

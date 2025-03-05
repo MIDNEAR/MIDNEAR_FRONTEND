@@ -135,7 +135,7 @@ const NoticeTableComponent = () => {
     }
 
     return (
-        <div className="notice-container">
+        <div className="manager-notice contents">
             <div className="notice-header1">
                 <div className="notice-title">공지사항</div>
                 <div className="notice-controls">

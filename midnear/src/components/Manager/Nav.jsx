@@ -84,7 +84,7 @@ const Nav = () => {
                 <p>공지</p>
             </div>
             <motion.div
-                className="content notice"
+                className="content managernotice"
                 initial="hidden"
                 animate={activeCategory === "notice" ? "visible" : "hidden"}
                 variants={variants}

@@ -1,14 +1,15 @@
-.notice-container {
+.manager-notice {
     padding: 1.25vw;
     box-sizing: border-box;
     background-color: var(--white);
     display: flex;
     flex-direction: column;
+
     input[type="checkbox"] {
         width: 1.5vw;
         height: 1vw;
         cursor: pointer;
-    
+
         &:checked::after {
             width: 1.5vw;
             height: 1vw;
@@ -18,158 +19,163 @@
             align-items: center;
             color: var(--black);
         }
-    
-        &:focus {
-            outline: none;
-        }
-    }
-}
-  
-.notice-header1 {
-    display: flex;
-    justify-content: space-between;
-}
-  
-.notice-title {
-    font-size: 1.2vw;
-    font-weight: bold;
-}
-  
-.notice-controls {
-    display: flex;
-    gap: 0.63vw;
-    align-items: center;
 
-    .notice-dropdown {
-        font-size: 12px;
-        border: 0.05vw solid var(--gray800);
-        height: 2.5vh;
-        width: 78px;
-        padding: 0.2vw;
         &:focus {
             outline: none;
         }
     }
 
-    .notice-search-box {
+
+    .notice-header1 {
         display: flex;
+        justify-content: space-between;
+    }
+
+    .notice-title {
+        font-size: 1.2vw;
+        font-weight: bold;
+    }
+
+    .notice-controls {
+        display: flex;
+        gap: 0.63vw;
         align-items: center;
-      
-        .notice-square-box {
-            background-color: var(--gray900);
-            border: 0.05vw solid var(--gray800);
-            color: var(--white);
-            padding: 0 1vw;
-            width: 78px;
-            height: 2.5vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-sizing: border-box;
+
+        .notice-dropdown {
             font-size: 12px;
-        }
-      
-        .notice-search-bar {
             border: 0.05vw solid var(--gray800);
             height: 2.5vh;
-            padding: 0 0.5vw;
-            margin-left: -0.05vw;
+            width: 78px;
+            padding: 0.2vw;
+
             &:focus {
                 outline: none;
             }
         }
+
+        .notice-search-box {
+            display: flex;
+            align-items: center;
+
+            .notice-square-box {
+                background-color: var(--gray900);
+                border: 0.05vw solid var(--gray800);
+                color: var(--white);
+                padding: 0 1vw;
+                width: 78px;
+                height: 2.5vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-sizing: border-box;
+                font-size: 12px;
+            }
+
+            .notice-search-bar {
+                border: 0.05vw solid var(--gray800);
+                height: 2.5vh;
+                padding: 0 0.5vw;
+                margin-left: -0.05vw;
+
+                &:focus {
+                    outline: none;
+                }
+            }
+        }
     }
-}
-  
-.notice-table-container {
-    margin-top: 1vh;
 
-    .notice-table {
-        width: 100%;
-        border-collapse: collapse;
-        height: 3.75vh;
+    .notice-table-container {
+        margin-top: 1vh;
 
-        th, td {
+        .notice-table {
+            width: 100%;
+            border-collapse: collapse;
+            height: 3.75vh;
+
+            th,
+            td {
+                font-size: 12px;
+                height: 3.75vh;
+                border: 0.05vw solid var(--gray300);
+                text-align: center;
+            }
+
+            th {
+                background-color: var(--gray800);
+                color: var(--black);
+                height: 3.75vh;
+            }
+        }
+    }
+
+    .notice-pagination {
+        margin-top: 2vh;
+        display: flex;
+        justify-content: center;
+        gap: 0.5vw;
+
+        button {
             font-size: 12px;
-            height: 3.75vh;
-            border: 0.05vw solid var(--gray300);
-            text-align: center;
-        }
-
-        th {
-            background-color: var(--gray800);
-            color: var(--black);
-            height: 3.75vh;
-        }
-    }
-}
-  
-.notice-pagination {
-    margin-top: 2vh;
-    display: flex;
-    justify-content: center;
-    gap: 0.5vw;
-
-    button {
-        font-size: 12px;
-        padding: 0.5vh 1vw;
-        border: none;
-        background-color: var(--white);
-        color: var(--gray800);
-        cursor: pointer;
-
-        &.active {
-            color: var(--black);
-        }
-
-        &:disabled {
-            cursor: not-allowed;
+            padding: 0.5vh 1vw;
+            border: none;
+            background-color: var(--white);
             color: var(--gray800);
+            cursor: pointer;
+
+            &.active {
+                color: var(--black);
+            }
+
+            &:disabled {
+                cursor: not-allowed;
+                color: var(--gray800);
+            }
         }
     }
-}
 
 
 
-.notice-btn-group {
-    display: flex;
-    flex-direction: row;
-    gap: 24px;
-    align-self: flex-end;
-}
+    .notice-btn-group {
+        display: flex;
+        flex-direction: row;
+        gap: 24px;
+        align-self: flex-end;
+    }
 
-.notice-action-buttons {
-    margin-top: 2vh;
-    display: flex;
-    justify-content: flex-end;
-    height: 36px;
+    .notice-action-buttons {
+        margin-top: 2vh;
+        display: flex;
+        justify-content: flex-end;
+        height: 36px;
 
-    button {
-        font-size: 12px;
-        padding: 0.5vh 1vw;
-        background-color: var(--white);
-        border: 0.1vw solid var(--gray800);
-        cursor: pointer;
+        button {
+            font-size: 12px;
+            padding: 0.5vh 1vw;
+            background-color: var(--white);
+            border: 0.1vw solid var(--gray800);
+            cursor: pointer;
 
-        &:hover {
-            background-color: var(--black);
+            &:hover {
+                background-color: var(--black);
+                color: var(--white);
+            }
+        }
+
+        .notice-delete-btn {
+            background-color: var(--gray900);
             color: var(--white);
+            border: 0.1vw solid var(--gray900);
         }
     }
 
-    .notice-delete-btn {
-        background-color: var(--gray900);
-        color: var(--white);
-        border: 0.1vw solid var(--gray900);
+    .notice-image-preview {
+        margin-top: 10px;
     }
-}
-.notice-image-preview {
-    margin-top: 10px;
-}
 
-.notice-image {
-    width: 500px;  
-    height: auto;  
+    .notice-image {
+        width: 500px;
+        height: auto;
 
-    padding: 5px;
+        padding: 5px;
+    }
 }

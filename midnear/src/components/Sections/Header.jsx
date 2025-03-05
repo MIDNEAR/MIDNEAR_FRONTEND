@@ -9,7 +9,6 @@ import ham from '../../assets/img/main_img/ham.svg'
 import close from '../../assets/img/product/close.svg'
 import MobileHeader from './MobileHeader';
 import { AuthContext } from "../../action/authContext";
-import axios from 'axios';
 
 
 const Header = ({ onLinkClick }) => {
@@ -17,7 +16,6 @@ const Header = ({ onLinkClick }) => {
   const token = localStorage.getItem('jwtToken');
   const navigate = useNavigate();
   const { isAuthenticated } = useContext(AuthContext);
-
   const location = useLocation();
   const [activeSub1, setActiveSub1] = useState(false);
   const [activeSub2, setActiveSub2] = useState(false);
@@ -29,9 +27,7 @@ const Header = ({ onLinkClick }) => {
   const [isMobile, setIsMobile] = useState(false);
   const [cartList, setCartList] = useState([]);
   const [logo, setLogo] = useState('');
-  const DOMAIN = process.env.REACT_APP_DOMAIN;
   const [categories, setCategories] = useState([]);
-  const token = localStorage.getItem('jwtToken');
   const [userInfo, setUserInfo] = useState(() => {
     try {
       return JSON.parse(localStorage.getItem('userInfo')) || {};
@@ -241,11 +237,11 @@ const Header = ({ onLinkClick }) => {
                       <div className={`sub ${activeSub[category.categoryId] ? "display" : "close"}`}>
                         {category.children.map((sub) => (
                           <div key={sub.categoryId}>
-                            <Link
+                            <p
                               to={`/${category.name.toLowerCase()}/${sub.name.toLowerCase()}`}
                             >
                               {sub.name}
-                            </Link>
+                            </p>
 
                             {sub.children && sub.children.length > 0 && (
                               <div className="sub-children">

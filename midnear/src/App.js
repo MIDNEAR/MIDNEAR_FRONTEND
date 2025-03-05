@@ -57,10 +57,10 @@ import Detail from './components/Manager/Goods/Detail';
 import MagazineList from './components/Magazine/MagazineList';
 import MagazinDetail from './components/Magazine/MagazinDetail';
 import MypageMenu from './components/Mypage/MypageMenu';
-import NoticeDetail from './components/Notice/NoticeDetail'
-import NoticeList from './components/Notice/NoticeList'
 import NoAuth from './components/Mypage/UserInformation/NoAuth';
 import { AuthProvider } from './action/authContext';
+import Payments from './components/Cart/Pay/Payments';
+
 
 function App() {
   const location = useLocation();
@@ -106,7 +106,7 @@ function App() {
         <Route path="/mypage/colligation" element={<Colligation />} />
         <Route path="/mypage/colligation/cupon" element={<CuponList />} />
         <Route path="/mypage/colligation/point" element={<PointList />} />
-
+        <Route path='/payments' element = {<Payments/>}/>
 
         <Route path='/shop/:category/:subCategory' element={<AllShop />} />
         <Route path='/shop/:category' element={<AllShop />} />
