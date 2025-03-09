@@ -43,8 +43,8 @@ const Nav = () => {
                 variants={variants}
                 transition={{ duration: 0.3 }}
             >
-                <p>포인트 지급관리</p>
-                <p>쿠폰 지급관리</p>
+                <Link to="/manager/coupon/Point">포인트 지급관리</Link>
+                <Link to="/manager/coupon/Coupon">쿠폰 지급관리</Link>
             </motion.div>
 
             <div onClick={() => toggleCategory("store")} className={`${activeCategory === "store" ? "display" : "category"}`}>
@@ -84,7 +84,7 @@ const Nav = () => {
                 <p>공지</p>
             </div>
             <motion.div
-                className="content notice"
+                className="content managernotice"
                 initial="hidden"
                 animate={activeCategory === "notice" ? "visible" : "hidden"}
                 variants={variants}

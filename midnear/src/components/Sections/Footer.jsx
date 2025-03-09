@@ -16,11 +16,7 @@ const Footer = () => {
 
   const fetchdata = () => {
     axios
-      .get(`${DOMAIN}/storeManagement/getBusinessInfo`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .get(`${DOMAIN}/storeManagement/getBusinessInfo`, )
       .then((response) => {
         if (response.status === 200) {
           setFooter(response.data.data);

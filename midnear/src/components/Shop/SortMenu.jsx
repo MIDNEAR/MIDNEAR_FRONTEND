@@ -1,9 +1,9 @@
-import React, {useState, useEffect, useRef} from 'react'
-import triangle from '../../assets/img/product/triangle.svg'
+import React, { useState, useEffect, useRef } from 'react';
+import triangle from '../../assets/img/product/triangle.svg';
 
 const SortMenu = ({SortChange, isNotice}) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [select, setSelect] = useState('latest')
+    const [select, setSelect] = useState('latest');
     const ref = useRef(null);
     
     const [options, setOptions] = useState([
@@ -21,55 +21,58 @@ const SortMenu = ({SortChange, isNotice}) => {
       }
     },[isNotice]);
 
-    // 드롭다운 메뉴
     const removeHandler = () => {
-        setIsOpen(!isOpen);
-    }
-    const handleSelect = (value) =>{
+        setIsOpen((prev) => !prev);
+    };
+
+    const handleSelect = (value) => {
         setSelect(value);
         SortChange(value);
         setIsOpen(false);
-    }
-    
+    };
+
     useEffect(() => {
-        const onClick = (e) => {            
-        if(ref.current !== null && !ref.current.contains(e.target)){
-            setIsOpen(!isOpen)
-        }
+        const onClickOutside = (e) => {
+            if (ref.current && !ref.current.contains(e.target)) {
+                setIsOpen(false); 
+            }
         };
-        if(isOpen){
-            window.addEventListener("click", onClick);
+        if (isOpen) {
+            window.addEventListener('click', onClickOutside);
         }
         return () => {
-            window.removeEventListener("click", onClick);
+            window.removeEventListener('click', onClickOutside);
         };
     }, [isOpen]);
 
-  return (
-    <div className="sort-dropdown" ref={ref}>
-      <div className="selected" onClick={removeHandler}>
-        <div className='option'>{options.find(option => option.value === select).label}</div>
-        <div className={`triangle ${isOpen ? 'open' : ''}`}>
-          <img src={triangle} alt='triangle'/>
+    return (
+        <div className="sort-dropdown" ref={ref}>
+            <div className="selected" onClick={removeHandler}>
+                <div className="option">
+                    {options.find((option) => option.value === select).label}
+                </div>
+                <div className={`triangle ${isOpen ? 'open' : ''}`}>
+                    <img src={triangle} alt="triangle" />
+                </div>
+            </div>
+
+            {isOpen && (
+                <div className="no-selected">
+                    {options
+                        .filter((option) => option.value !== select)
+                        .map((option) => (
+                            <div
+                                className="option"
+                                key={option.value}
+                                onClick={() => handleSelect(option.value)}
+                            >
+                                {option.label}
+                            </div>
+                        ))}
+                </div>
+            )}
         </div>
-      </div>
+    );
+};
 
-      {isOpen && (
-        <div className="no-selected">
-          {options
-            .filter(option => option.value !== select)
-            .map(option => (
-                <div className='option'
-                key={option.value}
-                onClick={() => handleSelect(option.value)}
-              >
-                {option.label}
-              </div>
-            ))}</div>
-        
-      )}
-    </div>
-  )
-}
-
-export default SortMenu
+export default SortMenu;

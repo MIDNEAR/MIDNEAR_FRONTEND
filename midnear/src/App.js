@@ -35,7 +35,8 @@ import ExchangeReson from './components/Mypage/OrderList/Exchange/ExchangeReson'
 import RefundReson from './components/Mypage/OrderList/Refund/RefundReson';
 import ExchangeDone from './components/Mypage/OrderList/Exchange/ExchangeDone';
 import RefundDone from './components/Mypage/OrderList/Refund/RefundDone';
-
+import NoticeList from './components/Notice/NoticeList';
+import NoticeDetail from './components/Notice/NoticeDetail';
 import Ask from './components/Mypage/CustomerService/Ask';
 import AskedList from './components/Mypage/CustomerService/AskedList';
 import AskDetail from './components/Mypage/CustomerService/AskDetail';
@@ -56,9 +57,10 @@ import Detail from './components/Manager/Goods/Detail';
 import MagazineList from './components/Magazine/MagazineList';
 import MagazinDetail from './components/Magazine/MagazinDetail';
 import MypageMenu from './components/Mypage/MypageMenu';
-import NoticeDetail from './components/Notice/NoticeDetail'
-import NoticeList from './components/Notice/NoticeList'
 import NoAuth from './components/Mypage/UserInformation/NoAuth';
+import { AuthProvider } from './action/authContext';
+import Payments from './components/Cart/Pay/Payments';
+
 
 function App() {
   const location = useLocation();
@@ -66,36 +68,14 @@ function App() {
   const isManagerRoute = location.pathname.startsWith('/manager');
   const token = localStorage.getItem('jwtToken');
 
-  const fecthdata = () => {
-    axios
-      .get(`${DOMAIN}/user/user-info`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        if (res.status === 200 && res.data.success) {
-          const userInfo = res.data.data;
-          console.log('유저정보 업데이트')
-
-          localStorage.setItem('userInfo', JSON.stringify({
-            name: userInfo.name || '',
-            email: userInfo.email || '',
-            phone: userInfo.phoneNumber || '',
-            id: userInfo.id || '',
-            socialType: userInfo.socialType || null,
-          }));
-        }
-      })
-      .catch((error) => {
-        console.log('유저정보 없음')
-      });
-  }
+ 
 
 
   return (
     <>
-      {isManagerRoute ? <ManagerHeader /> : <Header />}
+      <AuthProvider>
+        {isManagerRoute ? <ManagerHeader /> : <Header />}
+      </AuthProvider>
 
 
       <Routes>
@@ -120,14 +100,13 @@ function App() {
         <Route path="/mypage/cancellist" element={<CanceledOrder />} />
         <Route path="/mypage/" element={<MypageMenu />} />
         <Route path="/noauth/" element={<NoAuth />} />
-
         <Route path="/mypage/question/create" element={<Ask />} />
         <Route path="/mypage/question/list" element={<AskedList />} />
         <Route path="/mypage/question/detail" element={<AskDetail />} />
         <Route path="/mypage/colligation" element={<Colligation />} />
         <Route path="/mypage/colligation/cupon" element={<CuponList />} />
         <Route path="/mypage/colligation/point" element={<PointList />} />
-
+        <Route path='/payments' element = {<Payments/>}/>
 
         <Route path='/shop/:category/:subCategory' element={<AllShop />} />
         <Route path='/shop/:category' element={<AllShop />} />

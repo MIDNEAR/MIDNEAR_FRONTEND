@@ -124,7 +124,7 @@ const NoticeList = () => {
                 <div className="notice-date">작성일 : {notice.createdDate}</div>
             </div>
             </li>
-        ))}
+          ))}
 
         {/* 일반 공지 */}
         {notices.map((notice) => (
@@ -137,9 +137,8 @@ const NoticeList = () => {
                 <div className="notice-date">작성일 : {notice.createdDate}</div>
             </div>
             </li>
-        ))}
+          ))}
         </ul>
-
 
         {/* 페이지네이션 */}
         <Pagination total={totalNotice} limit={10} page={currentPage} setPage={setCurrentPage} />
@@ -148,4 +147,4 @@ const NoticeList = () => {
   );
 };
 
-export default NoticeList
+export default NoticeList;

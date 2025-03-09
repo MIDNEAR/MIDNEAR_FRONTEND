@@ -1,10 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
-import MyPageModal from '../MyPageModal';
-import OrderItem from './Orderitem';
-import search from '../../../assets/img/orderlist/search.svg'
-import defaultimage from '../../../assets/img/orderlist/default.svg';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
+import React, { useEffect, useRef, useState } from "react";
+import MyPageModal from "../MyPageModal";
+import OrderItem from "./Orderitem";
+import search from "../../../assets/img/orderlist/search.svg";
+import defaultimage from "../../../assets/img/orderlist/default.svg";
+import { Link } from "react-router-dom";
+import axios from "axios";
 
 const OrderListBasic = () => {
   const modalRef = useRef();
@@ -13,10 +13,13 @@ const OrderListBasic = () => {
   const [order, setOrder] = useState([]); 
   const totalPages = 5;
   const DOMAIN = process.env.REACT_APP_DOMAIN;
-  const token = localStorage.getItem('jwtToken');
+  const token = localStorage.getItem("jwtToken");
 
   const showSuccessModal = () => {
-    modalRef.current.openModal("정말 주문취소를 하시겠습니까?", "/mypage/orderlist/cancel");
+    modalRef.current.openModal(
+      "정말 주문취소를 하시겠습니까?",
+      "/mypage/orderlist/cancel"
+    );
   };
 
   const handlePageChange = (page) => {
@@ -26,6 +29,7 @@ const OrderListBasic = () => {
   };
 
   useEffect(() => {
+    console.log(currentPage);
     axios
     .get(`${DOMAIN}/orders/all`, {
       headers: {
@@ -57,9 +61,13 @@ const OrderListBasic = () => {
         <div className="field_container_content">
           <div>
             <div className="mypage_title">주문 내역</div>
-            <div className='search-bar-order'>
-              <input className="order_search" type="text" placeholder="주문한 상품을 검색할 수 있어요!" />
-              <img src={search} className="search-button" />
+            <div className="search-bar-order">
+              <input
+                className="order_search"
+                type="text"
+                placeholder="주문한 상품을 검색할 수 있어요!"
+              />
+              <img src={search} className="search-button" alt="검색" />
             </div>
 
             <div className='order_title'
@@ -95,19 +103,18 @@ const OrderListBasic = () => {
               <div>주문 내역이 없습니다.</div>
             )}
 
-
             <div className="pagination">
               <button
                 className="page-button"
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 1}
               >
-                {'<'}
+                {"<"}
               </button>
               {Array.from({ length: totalPages }, (_, index) => (
                 <button
                   key={index}
-                  className={`page-button ${currentPage === index + 1 ? 'active' : ''}`}
+                  className={`page-button ${currentPage === index + 1 ? "active" : ""}`}
                   onClick={() => handlePageChange(index + 1)}
                 >
                   {index + 1}
@@ -118,14 +125,14 @@ const OrderListBasic = () => {
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
               >
-                {'>'}
+                {">"}
               </button>
             </div>
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 };
 
 export default OrderListBasic;

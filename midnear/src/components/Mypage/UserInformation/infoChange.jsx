@@ -11,23 +11,15 @@ const InfoChange = () => {
   const [phone, setPhone] = useState('');
   const [error, setError] = useState('');
   const [socialType, setSocialType] = useState(null);
+  const [addressList, setAddressList] = useState([]);
   const modalRef = useRef();
   const DOMAIN = process.env.REACT_APP_DOMAIN;
   const token = localStorage.getItem('jwtToken');
 
-  const showSuccessModal = () => {
-    modalRef.current.openModal(
-      '배송 정보를 정말 삭제할까요?',
-      '/mypage/userinformaiton/userinfo/changing'
-    );
-  };
-
   useEffect(() => {
     axios
       .get(`${DOMAIN}/user/user-info`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
         if (res.status === 200 && res.data.success) {
@@ -39,39 +31,52 @@ const InfoChange = () => {
           setSocialType(userInfo.socialType);
         }
       })
-      .catch((error) => {
-        console.error(error.message);
-      });
+      .catch((error) => console.error(error.message));
   }, [DOMAIN, token]);
 
+  useEffect(() => {
+    axios
+      .get(`${DOMAIN}/delivery/getAddrList`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          setAddressList(res.data);
+          console.log(res.data)
+        }
+      })
+      .catch((error) => console.error("Failed to load addresses:", error));
+  }, [DOMAIN, token]);
 
   const ChangeInfo = () => {
     axios
-      .put(
-        `${DOMAIN}/user/change-user-info`,
-        { 
-          id: id,
-          name: name,
-          phoneNumber: phone,
-          email: email,
-        },
-        {  
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-      .then((response) => {
-        if (response.status === 200) {
-          console.log('정보 변경 성공:', response.data);
+      .put(`${DOMAIN}/user/change-user-info`, { id, name, phoneNumber: phone, email }, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          alert("정보가 성공적으로 변경되었습니다.");
         }
       })
       .catch((error) => {
-        console.error('정보 변경 실패:', error.message);
-        setError('정보 변경에 실패했습니다.');
+        console.error("정보 변경 실패:", error.message);
+        setError("정보 변경에 실패했습니다.");
       });
   };
-  
+
+  const deleteAddress = (addressId) => {
+    axios
+      .delete(`${DOMAIN}/delivery/deleteAddr/${addressId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          alert("배송지가 삭제되었습니다.");
+          setAddressList((prev) => prev.filter((addr) => addr.id !== addressId));
+        }
+      })
+      .catch((error) => console.error("삭제 실패:", error));
+  };
 
   return (
     <div className='container'>
@@ -80,56 +85,44 @@ const InfoChange = () => {
         <div className='field_container_content'>
           <div className='mypage_title'>내 정보 변경</div>
 
-          <input
-            type='text'
-            className='mypage_input_field_top'
-            placeholder='이름'
-            onChange={(e) => setName(e.target.value)}
-            value={name}
-            disabled={socialType !== null}
-          />
-          <input
-            type='text'
-            className='mypage_input_field'
-            placeholder='이메일'
-            onChange={(e) => setEmail(e.target.value)}
-            value={email}
-            disabled={socialType !== null}
-          />
-          <input
-            type='text'
-            className='mypage_input_field'
-            placeholder='휴대폰'
-            onChange={(e) => setPhone(e.target.value)}
-            value={phone}
-          />
+          <input type='text' className='mypage_input_field_top' placeholder='이름'
+            onChange={(e) => setName(e.target.value)} value={name} disabled={socialType !== null} />
+          <input type='text' className='mypage_input_field' placeholder='이메일'
+            onChange={(e) => setEmail(e.target.value)} value={email} disabled={socialType !== null} />
+          <input type='text' className='mypage_input_field' placeholder='휴대폰'
+            onChange={(e) => setPhone(e.target.value)} value={phone} />
+
           {!error && <p className='error_message'>{error}</p>}
+
           <button className='submit_button' onClick={ChangeInfo}>변경 사항 저장하기</button>
 
           <div className='mypage_title'>배송지 관리</div>
 
-          <div className='post_info-container'>
-            <div>
-              <div className='post_info-name'>홍길동</div>
-              <div className='post_info-number'>010-1233-1222</div>
-              <div className='post_info-address'>서울특별시 서대문구 성산로 8길 99-9 (연희동)</div>
-              <div className='post_info-address-detail'>ㅇㅇ아파트 109동 109호 (종 1234)</div>
-              <div className='post_info-post-number'>(123098)</div>
-            </div>
+          {addressList.length > 0 ? (
+            addressList.map((address) => (
+              <div key={address.id} className='post_info-container'>
+                <div>
+                  <div className='post_info-name'>{address.recipient}</div>
+                  <div className='post_info-number'>{address.recipientContact}</div>
+                  <div className='post_info-address'>{address.address}</div>
+                  <div className='post_info-address-detail'>{address.detailAddress}</div>
+                  <div className='post_info-post-number'>({address.postalCode})</div>
+                </div>
 
-            <div className='button_place'>
-              <Link to='/mypage/userinformaiton/address' className='correction'>
-                수정
-              </Link>
-              <button className='delete' onClick={showSuccessModal}>
-                삭제
-              </button>
-            </div>
-          </div>
+                <div className='button_place'>
+                  <Link to='/mypage/userinformaiton/address' className='correction'>수정</Link>
+                  <button className='delete' onClick={() => deleteAddress(address.id)}>삭제</button>
+                </div>
+              </div>
+            ))
+          ) : (
+            <div  className='post_info-container'>
+              <p>저장된 배송지가 없습니다.</p>
+              </div>
+            
+          )}
 
-          <Link to='/mypage/userinformaiton/address' className='submit_button'>
-            배송지 추가하기
-          </Link>
+          <Link to='/mypage/userinformaiton/address' className='submit_button'>배송지 추가하기</Link>
 
           <Modal ref={modalRef} />
         </div>

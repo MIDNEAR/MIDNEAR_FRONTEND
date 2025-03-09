@@ -1,8 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
-
-const CateItem = ({ name, children, isOpen, isBot , onAddCategory}) => {
+const CateItem = ({ 
+  name, 
+  children, 
+  isOpen, 
+  isBot, 
+  isTop, 
+  isFirst, 
+  onDelete ,
+  disabled
+}) => {
   const [open, setOpen] = useState(isOpen);
   const [editMode, setEditMode] = useState(false);
   const [newName, setNewName] = useState(name);
@@ -30,32 +38,38 @@ const CateItem = ({ name, children, isOpen, isBot , onAddCategory}) => {
       return;
     }
     setEditMode(false);
-    if (onAddCategory) onAddCategory(newName);
+  };
+
+  const handleDelete = (e) => {
+    e.stopPropagation();   
+  onDelete();
+    
   };
 
   return (
     <div className={`cateItem ${isBot ? 'bot' : ''}`}>
       <div className="inner" onClick={toggleOpen}>
         {!isBot && <div className={`semo ${open ? 'open' : ''}`}></div>}
-        <div 
-          className="item-name" 
-          onDoubleClick={handleDoubleClick}
-        >
+        <div className="item-name" onDoubleClick={handleDoubleClick}>
           {editMode ? (
-            <input 
-              type="text" 
-              value={newName} 
+            <input
+              type="text"
+              value={newName}
               onChange={handleNameChange}
               onBlur={handleSaveName}
               autoFocus
+              disabled = {disabled}
             />
           ) : (
             newName
           )}
         </div>
+        
+        
+        {!isTop && !isFirst && <div className="del" onClick={handleDelete}>삭제</div>}
       </div>
 
-      {!isBot &&  (
+      {!isBot && (
         <motion.div
           className={`children ${open ? 'open' : ''}`}
           initial={false}
@@ -64,7 +78,6 @@ const CateItem = ({ name, children, isOpen, isBot , onAddCategory}) => {
           style={{ overflow: 'hidden' }}
         >
           {children}
-
         </motion.div>
       )}
     </div>

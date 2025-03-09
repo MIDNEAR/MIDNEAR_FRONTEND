@@ -90,6 +90,7 @@
         }
         .cateItem,  .pluscate {
             width: 100%;
+            position: relative;
             
             .inner, .pluscate {
                 cursor: pointer;
@@ -116,6 +117,16 @@
 
                 .semo.open {
                     transform: rotate(180deg);
+                }
+            }
+            .del{
+     
+                text-decoration: underline;
+                position: absolute;
+                right: 20px;
+                &:hover{
+                    color: red;
+                    font-weight: bold;
                 }
             }
         }

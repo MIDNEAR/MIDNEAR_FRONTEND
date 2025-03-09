@@ -3,7 +3,7 @@
     margin: 0 auto;
     padding: 20px;
     background-color: var(--white);
-    height: 25.56vh;
+
   
     h2 {
       font-size: 18px;
@@ -86,15 +86,18 @@
   }
   
   .register-btn {
-    width: 4.17vw;
-    height: 4.44vh;
-    padding: 0.93vh;
+    width: 8rem;
+    height: 4rem;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    margin: 1rem auto;
     background-color: var(--gray900);
     color: var(--white);
     border: none;
     cursor: pointer;
     font-size: 18px;
-    margin-top: 5px;
   
     &:disabled {
       background-color: var(--gray300);
