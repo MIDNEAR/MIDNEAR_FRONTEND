@@ -11,13 +11,13 @@ export function CheckoutPage({ initialamount, isMember, customerId }) {
     value: initialamount ?? 0,
   });
   const [userInfo, setUserInfo] = useState(() => {
-          try {
-              return JSON.parse(localStorage.getItem("userInfo")) || {};
-          } catch (error) {
-              console.error("userInfo JSON 파싱 오류:", error);
-              return {};
-          }
-      });
+    try {
+      return JSON.parse(localStorage.getItem("userInfo")) || {};
+    } catch (error) {
+      console.error("userInfo JSON 파싱 오류:", error);
+      return {};
+    }
+  });
 
   const [ready, setReady] = useState(false);
   const [widgets, setWidgets] = useState(null);
@@ -32,10 +32,10 @@ export function CheckoutPage({ initialamount, isMember, customerId }) {
 
       setWidgets(widgets);
     }
-  
+
     fetchPaymentWidgets();
   }, [isMember, customerId]);
-  
+
 
   useEffect(() => {
     async function renderPaymentWidgets() {
@@ -70,7 +70,7 @@ export function CheckoutPage({ initialamount, isMember, customerId }) {
           <h1>{amount.value.toLocaleString()}원</h1>
 
           <button
-         className="button" 
+            className="button"
             disabled={!ready}
             onClick={async () => {
               try {

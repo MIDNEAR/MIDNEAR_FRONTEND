@@ -24,7 +24,7 @@ const FindPW = () => {
     });
 
     const [codeError, setCodeError] = useState('');
-    const [serverCode, setServerCode] = useState('123456'); // Mock server-side code for validation
+    const [serverCode, setServerCode] = useState('123456'); 
 
     // 라디오 버튼 변경 시 모든 상태 초기화
     const handleOptionChange = (e) => {
@@ -88,7 +88,6 @@ const FindPW = () => {
         setCodeError('');
     };
 
-    // 인증번호 확인 핸들러
     const handleCodeSubmit = () => {
         if (code === serverCode) {
             setIsCodeVerified(true);

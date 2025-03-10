@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const FindID = () => {
     const navigate = useNavigate();
@@ -13,8 +14,9 @@ const FindID = () => {
     const [code, setCode] = useState('');
     const [isCodeVerified, setIsCodeVerified] = useState(false);
     const [isSubmitEnabled, setIsSubmitEnabled] = useState(false);
-    const [serverCode, setServerCode] = useState('123456'); // Simulated server code
-    const [codeError, setCodeError] = useState(''); // Error message for invalid code
+    const [serverCode, setServerCode] = useState('123456'); 
+    const [codeError, setCodeError] = useState('');
+    const DOMAIN = process.env.REACT_APP_DOMAIN;
 
     const handleOptionChange = (e) => {
         setSelectedOption(e.target.value);
@@ -32,8 +34,18 @@ const FindID = () => {
         e.preventDefault();
         if (isPhoneValid && isNameValid) {
             setPhoneCodeInput(true);
-            setVerificationMessage('인증번호가 전송되었습니다.');
-            setCodeError('');
+            axios
+                .post(`${DOMAIN}/sms/send`, { phoneNum: phone })
+                .then((response) => {
+                    if (response.status === 200) {
+
+                        setCodeError('');
+                    }
+                })
+                .catch((error) => {
+                    console.error('인증 요청 실패:', error.response || error.message);
+                });
+           
         } else {
             handleValid();
         }
@@ -67,15 +79,32 @@ const FindID = () => {
     };
 
     const handleCodeSubmit = () => {
-        if (code === serverCode) {
-            setIsCodeVerified(true);
-            setIsSubmitEnabled(true);
-            setVerificationMessage('');
-            setCodeError('');
-        } else {
-            setCodeError('*정확한 인증번호를 입력해 주세요.');
-        }
+        axios
+        .post(`${DOMAIN}/sms/verify`, { phoneNum: phone, certificationCode: code })
+        .then((response) => {
+            if (response.status === 200) {
+                findId();
+                setCodeError('');
+            }
+        })
+        .catch((error) => {
+            setCodeError('인증번호가 올바르지 않습니다.')
+        });
+
     };
+
+    const findId = () =>  {
+        axios
+        .get(`${DOMAIN}/user/find-id`, { params: { phone } })
+        .then((response) => {
+            if (response.status === 200) {
+                navigate()
+            }
+        })
+        .catch((error) => {
+            console.error(error.message);
+        });
+    }
 
     const handleFindIDSubmit = () => {
         if (isSubmitEnabled) {
@@ -162,7 +191,7 @@ const FindID = () => {
                         </div>
                     )}
 
-                    {codeError && <p className="error_message">{codeError}</p>} {/* Display error message here */}
+                    {codeError && <p className="error_message">{codeError}</p>} 
                     {isCodeVerified && (
                         <p className="success_message">*코드번호 인증이 완료되었습니다.</p>
                     )}
