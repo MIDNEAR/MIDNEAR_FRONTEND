@@ -1,174 +1,138 @@
-import React, { useState, useEffect } from 'react';
-
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const NoticeTableComponent = () => {
-    const [data, setData] = useState([]);
-    const [filter, setFilter] = useState('전체');
-    const [sortOrder, setSortOrder] = useState('최신순');
-    const [searchQuery, setSearchQuery] = useState('');
+    const [noticesTop, setNoticesTop] = useState([]);
+    const [notices, setNotices] = useState([]);
+    const [totalNotice, setTotalNotice] = useState(0);
     const [selectedIds, setSelectedIds] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
+    const [dateRange, setDateRange] = useState("전체");
+    const [searchTerm, setSearchTerm] = useState("");
+
     const itemsPerPage = 10;
-
+    const DOMAIN = process.env.REACT_APP_DOMAIN;
+    const navigate = useNavigate();
+    const location = useLocation();
+    const params = new URLSearchParams(location.search);
+    
     useEffect(() => {
-        fetchNoticeData();
-    }, []);
+        loadFixedNotice();
+        loadUnfixedNotice(currentPage);
+        totalNoticeNum();
+    }, [currentPage, dateRange, searchTerm]);
 
-    const fetchNoticeData = () => {
-        const allData = [
-            {
-                id: 1,
-                title: '신제품 출시 안내',
-                content: '새로운 제품이 출시되었습니다. 많은 관심 부탁드립니다.',
-                date: '2025-01-07 14:00',
-            },
-            {
-                id: 2,
-                title: '서비스 점검 안내',
-                content: '시스템 점검이 예정되어 있으니, 이용에 참고해 주세요.',
-                date: '2025-01-06 13:00',
-            },
-            {
-                id: 3,
-                title: '이벤트 종료 안내',
-                content: '이번 주에 진행된 이벤트가 종료되었습니다. 많은 참여 감사드립니다.',
-                date: '2025-01-05 12:00',
-            },
-        ];
-
-        let filteredData = allData;
-
-        // 날짜 필터 적용
-        const today = new Date();
-        switch (filter) {
-            case '오늘':
-                filteredData = filteredData.filter((item) => new Date(item.date).toDateString() === today.toDateString());
-                break;
-            case '1주일':
-                filteredData = filteredData.filter((item) => new Date(item.date) >= new Date(today.setDate(today.getDate() - 7)));
-                break;
-            case '1개월':
-                filteredData = filteredData.filter((item) => new Date(item.date) >= new Date(today.setMonth(today.getMonth() - 1)));
-                break;
-            case '3개월':
-                filteredData = filteredData.filter((item) => new Date(item.date) >= new Date(today.setMonth(today.getMonth() - 3)));
-                break;
-            default:
-                break;
-        }
-
-        // 검색 적용
-        if (searchQuery) {
-            filteredData = filteredData.filter((item) =>
-                item.title.includes(searchQuery) || item.content.includes(searchQuery)
-            );
-        }
-
-        // 정렬
-        filteredData = filteredData.sort((a, b) => {
-            const dateA = new Date(a.date);
-            const dateB = new Date(b.date);
-            return sortOrder === '최신순' ? dateB - dateA : dateA - dateB;
-        });
-
-        setData(filteredData);
+    // 고정글 불러오기
+    const loadFixedNotice = () => {
+        axios.get(`${DOMAIN}/notice/fixed`)
+            .then((res) => {
+                if (res.status === 200) {
+                    setNoticesTop(res.data.data.map((item) => ({
+                        ...item,
+                        createdDate: item.createdDate.split("T")[0].replace(/-/g, ". "),
+                    })));
+                }
+            })
+            .catch((error) => console.error("고정글 불러오기 실패:", error));
     };
 
+    // 일반글 불러오기
+    const loadUnfixedNotice = (page = 1) => {
+        axios.get(`${DOMAIN}/notice/unfixed`, {
+            params: { page, dateRange, searchText: searchTerm }
+        })
+        .then((res) => {
+            if (res.status === 200) {
+                setNotices(res.data.data.map((item) => ({
+                    ...item,
+                    createdDate: item.createdDate.split("T")[0].replace(/-/g, ". "),
+                })));
+            }
+        })
+        .catch((error) => console.error("일반글 불러오기 실패:", error));
+    };
+
+    // 전체 공지사항 개수 불러오기
+    const totalNoticeNum = () => {
+        axios.get(`${DOMAIN}/notice/totalPageNum`)
+            .then((res) => {
+                if (res.status === 200) {
+                    setTotalNotice(res.data.data);
+                }
+            })
+            .catch((error) => console.error("공지사항 개수 로드 실패:", error));
+    };
+
+    // 삭제 기능
+    const handleDeleteSelected = () => {
+        if (window.confirm("정말로 선택한 항목을 삭제하시겠습니까?")) {
+            setNotices(notices.filter((item) => !selectedIds.includes(item.id)));
+            setSelectedIds([]);
+        }
+    };
+
+    // 필터 변경
     const handleFilterChange = (event) => {
-        const selectedFilter = event.target.value;
-        setFilter(selectedFilter);
-        fetchNoticeData(selectedFilter, sortOrder, searchQuery);
+        setDateRange(event.target.value);
+        setCurrentPage(1);
     };
 
-    const handleSortChange = (event) => {
-        const selectedSortOrder = event.target.value;
-        setSortOrder(selectedSortOrder);
-        fetchNoticeData(filter, selectedSortOrder, searchQuery);
-    };
-
+    // 검색어 변경
     const handleSearchChange = (event) => {
-        const query = event.target.value;
-        setSearchQuery(query);
-        fetchNoticeData(filter, sortOrder, query);
+        setSearchTerm(event.target.value);
     };
 
+    // 체크박스 선택/해제
     const handleCheckboxChange = (id) => {
-        setSelectedIds((prevSelectedIds) =>
-            prevSelectedIds.includes(id)
-                ? prevSelectedIds.filter((selectedId) => selectedId !== id)
-                : [...prevSelectedIds, id]
+        setSelectedIds((prev) => 
+            prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
         );
     };
 
+    // 전체 선택/해제
     const handleSelectAll = () => {
-        if (selectedIds.length === currentItems.length) {
-            setSelectedIds([]);
-        } else {
-            setSelectedIds(currentItems.map((item) => item.id));
-        }
+        setSelectedIds(notices.map((item) => item.id));
     };
 
     const handleDeselectAll = () => {
         setSelectedIds([]);
     };
 
-    const handleDeleteSelected = () => {
-        const confirmDelete = window.confirm("정말로 선택한 항목을 삭제하시겠습니까?");
-        if (confirmDelete) {
-            setData((prevData) => prevData.filter((item) => !selectedIds.includes(item.id)));
-            setSelectedIds([]);
-        }
-    };
-
+    // 페이지 변경
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
 
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
-
-    const totalPages = Math.ceil(data.length / itemsPerPage);
-    const pageNumbers = [];
-    for (let i = 1; i <= totalPages; i++) {
-        pageNumbers.push(i);
-    }
+    // 페이지네이션 계산
+    const totalPages = Math.ceil(totalNotice / itemsPerPage);
 
     return (
-        <div className="manager-notice contents">
+        <div className="manager-notice container">
             <div className="notice-header1">
                 <div className="notice-title">공지사항</div>
                 <div className="notice-controls">
-                <div className="dropdown-container">
-                    <select className="dropdown" value={filter} onChange={handleFilterChange}>
+                    <select className="dropdown" value={dateRange} onChange={handleFilterChange}>
                         <option value="오늘">오늘</option>
                         <option value="1주일">1주일</option>
                         <option value="1개월">1개월</option>
                         <option value="3개월">3개월</option>
                         <option value="전체">전체</option>
                     </select>
-                    </div>
-                <div className="dropdown-container">
-
-                    <select className="notice-dropdown" value={sortOrder} onChange={handleSortChange}>
-                        <option value="최신순">최신순</option>
-                        <option value="오래된순">오래된순</option>
-                    </select>
-                    </div>
                     <div className="notice-search-box">
-                        <div className="notice-square-box">검색</div>
                         <input
                             type="text"
                             className="notice-search-bar"
-                            value={searchQuery}
+                            value={searchTerm}
                             onChange={handleSearchChange}
+                            placeholder="검색"
                         />
                     </div>
                 </div>
             </div>
 
             <div className="notice-table-container">
-                <table className="table">
+                <table className="notice-table">
                     <thead>
                         <tr>
                             <th>제목</th>
@@ -178,21 +142,22 @@ const NoticeTableComponent = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {currentItems.map((item) => (
-                            <tr key={item.id}>
-                                <td>{item.title}</td>
-                                <td>{item.content}</td>
-                                <td>{item.date}</td>
-                                <td>
-                                    <input
-                                        type="checkbox"
-                                        checked={selectedIds.includes(item.id)}
-                                        onChange={() => handleCheckboxChange(item.id)}
-                                    />
-                                </td>
-                            </tr>
-                        ))}
-                        {currentItems.length === 0 && (
+                        {notices.length > 0 ? (
+                            notices.map((item) => (
+                                <tr key={item.id}>
+                                    <td>{item.title}</td>
+                                    <td>{item.content}</td>
+                                    <td>{item.createdDate}</td>
+                                    <td>
+                                        <input
+                                            type="checkbox"
+                                            checked={selectedIds.includes(item.id)}
+                                            onChange={() => handleCheckboxChange(item.id)}
+                                        />
+                                    </td>
+                                </tr>
+                            ))
+                        ) : (
                             <tr>
                                 <td colSpan="4">데이터가 없습니다.</td>
                             </tr>
@@ -202,11 +167,11 @@ const NoticeTableComponent = () => {
             </div>
 
             <div className="notice-pagination">
-                {pageNumbers.map((number) => (
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((number) => (
                     <button
                         key={number}
                         onClick={() => handlePageChange(number)}
-                        className={currentPage === number ? 'active' : ''}
+                        className={currentPage === number ? "active" : ""}
                     >
                         {number}
                     </button>
@@ -214,12 +179,10 @@ const NoticeTableComponent = () => {
             </div>
 
             <div className="notice-btn-group">
-
                 <div className="notice-action-buttons">
-                    <button >선택 글 고정</button>
-                    <button >선택 글 고정 해제</button>
+                    <button>선택 글 고정</button>
+                    <button>선택 글 고정 해제</button>
                 </div>
-
                 <div className="notice-action-buttons">
                     <button onClick={handleSelectAll}>전체 선택</button>
                     <button onClick={handleDeselectAll}>전체 해제</button>

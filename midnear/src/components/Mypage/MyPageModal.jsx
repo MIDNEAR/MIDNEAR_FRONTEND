@@ -18,7 +18,7 @@ const MyPageModal = () => {
 
                 <Link to="/mypage/orderlist/" className='menu_section'>주문내역</Link>
 
-                <Link to="/" div className='menu_section'>취소/반품/교환 내역</Link>
+                <Link to="/" className='menu_section'>취소/반품/교환 내역</Link>
                 
                 <Link to="/mypage/question/list" className='menu_section'>고객지원/1:1문의</Link>
                 

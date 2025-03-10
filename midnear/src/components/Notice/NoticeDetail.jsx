@@ -11,7 +11,6 @@ const NoticeDetail = () => {
     const [notice, setNotice] = useState(null);
     const [nextNotice, setNextNotice] = useState(null);
 
-    // 공지 디테일
     const loadNoticeDetail = async() => {
         await axios.get(`${DOMAIN}/notice/${noticeId}`)
         .then((res)=>{
@@ -77,7 +76,7 @@ const NoticeDetail = () => {
                         <div className='next_list-name'>{nextNotice.title}</div>
                     </Link>
                 ) : (
-                    <div className='next_list-name'>다음 공지가 없습니다.</div> // 데이터 로딩 중일 때 메시지
+                    <div className='next_list-name'>다음 공지가 없습니다.</div>
                 )}
             </div>
             

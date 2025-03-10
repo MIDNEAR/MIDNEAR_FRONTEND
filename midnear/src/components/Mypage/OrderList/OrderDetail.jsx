@@ -101,7 +101,7 @@ const OrderDetail = () => {
                             <div className='box_right_detail'>
                                 <div className='box'>
                                     <button className='order_option'>배송조회</button>
-                                    <Link to="/mypage/orderlist/option" className='order_option'>교환, 반품 신청</Link>
+                                    <Link to={`/mypage/orderlist/option/${orderId}`}  className='order_option'>교환, 반품 신청</Link>
                                     <Link to={`/mypage/orderlist/writingReview?orderProductId=${item.orderProductId}`} state={{item: item, date:formatDate(orderDetail.orderDate)}} className='order_option'>리뷰 작성하기</Link>
                                 </div>
                             </div>

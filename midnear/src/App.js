@@ -68,81 +68,82 @@ function App() {
   const isManagerRoute = location.pathname.startsWith('/manager');
   const token = localStorage.getItem('jwtToken');
 
- 
+
 
 
   return (
     <>
       <AuthProvider>
         {isManagerRoute ? <ManagerHeader /> : <Header />}
+
+
+
+        <Routes>
+          {/* 유저 페이지 */}
+          <Route path="/" element={<Home />} />
+          <Route path="/mypage/userinformaiton/confirm" element={<PasswordConfirm />} />
+          <Route path="/mypage/userinformaiton/userinfo/changing" element={<InfoChange />} />
+          <Route path="/mypage/userinformaiton/password/change" element={<PasswordEnter />} />
+          <Route path="/mypage/userinformaiton/password/changing" element={<PasswordChange />} />
+          <Route path="/mypage/userinformaiton/address" element={<DeliveryAddress />} />
+          <Route path="/mypage/orderlist/writingReview" element={<WritingReview />} />
+          <Route path="/mypage/orderlist/" element={<OrderListBasic />} />
+          <Route path="/mypage/orderlist/detail" element={<OrderDetail />} />
+          <Route path="/mypage/orderlist/option/:Id" element={<SelectContents />} />
+          <Route path="/mypage/orderlist/option/exchange" element={<ExchangeReson />} />
+          <Route path="/mypage/orderlist/option/refund" element={<RefundReson />} />
+          <Route path="/mypage/orderlist/option/exchange/done" element={<ExchangeDone />} />
+          <Route path="/mypage/orderlist/option/refund/done" element={<RefundDone />} />
+          <Route path="/mypage/orderlist/option/ordercancel/application" element={<OrderCancelStart />} />
+          <Route path="/mypage/orderlist/option/ordercancel" element={<OrderCancelReaon />} />
+          <Route path="/mypage/orderlist/option/ordercancel/done" element={<OrderCancelDone />} />
+          <Route path="/mypage/cancellist" element={<CanceledOrder />} />
+          <Route path="/mypage/" element={<MypageMenu />} />
+          <Route path="/noauth/" element={<NoAuth />} />
+          <Route path="/mypage/question/create" element={<Ask />} />
+          <Route path="/mypage/question/list" element={<AskedList />} />
+          <Route path="/mypage/question/detail" element={<AskDetail />} />
+          <Route path="/mypage/colligation" element={<Colligation />} />
+          <Route path="/mypage/colligation/cupon" element={<CuponList />} />
+          <Route path="/mypage/colligation/point" element={<PointList />} />
+          <Route path='/payments' element={<Payments />} />
+
+          <Route path='/shop/:category/:subCategory' element={<AllShop />} />
+          <Route path='/shop/:category' element={<AllShop />} />
+
+          <Route path="user/join" element={<Join />} />
+          <Route path='user/login' element={<Login />} />
+          <Route path='user/find/id' element={<FindID />} />
+          <Route path='user/find/pw' element={<FindPW />} />
+          <Route path='user/change/pw' element={<ChangePW />} />
+          <Route path='user/find/id/showid' element={<Successful />} />
+          <Route path='user/find/id/nonid' element={<Failed />} />
+          <Route path='user/find/pw/change' element={<UntilChange />} />
+          <Route path='/user/change/success' element={<ChangeSuccess />} />
+          <Route path='/user/join/success' element={<SuccessJoin />} />
+
+          <Route path='/products/detail' element={<ProdDetail />} />
+          <Route path='/review/images' element={<ReviewImage />} />
+          <Route path='/order/login' element={<GotoLogin />} />
+          <Route path='/order/pay-succeed' element={<PaySucceed />} />
+          <Route path='/order/pay-failed' element={<PayFailed />} />
+          <Route path='/order/delivery/no-member' element={<NoMemInfo />} />
+          <Route path='/order/delivery/member' element={<MemInfo />} />
+          <Route path='/order/delivery/new-address' element={<NewAddress />} />
+          <Route path='/order/delivery/select-address' element={<SelectAdd />} />
+          <Route path='/others/magazine' element={<MagazineList />} />
+          <Route path='/others/magazine/detail' element={<MagazinDetail />} />
+          <Route path='/others/notice/detail' element={<NoticeDetail />} />
+          <Route path='/others/notice' element={<NoticeList />} />
+
+          {/* 관리자 페이지 */}
+
+          <Route path="/manager/*" element={<Manager />} />
+          <Route path="/manager/Goods/Detail/:name" element={<Detail />} />
+          <Route path='*' element={<None />} />
+
+        </Routes>
       </AuthProvider>
-
-
-      <Routes>
-        {/* 유저 페이지 */}
-        <Route path="/" element={<Home />} />
-        <Route path="/mypage/userinformaiton/confirm" element={<PasswordConfirm />} />
-        <Route path="/mypage/userinformaiton/userinfo/changing" element={<InfoChange />} />
-        <Route path="/mypage/userinformaiton/password/change" element={<PasswordEnter />} />
-        <Route path="/mypage/userinformaiton/password/changing" element={<PasswordChange />} />
-        <Route path="/mypage/userinformaiton/address" element={<DeliveryAddress />} />
-        <Route path="/mypage/orderlist/writingReview" element={<WritingReview />} />
-        <Route path="/mypage/orderlist/" element={<OrderListBasic />} />
-        <Route path="/mypage/orderlist/detail" element={<OrderDetail />} />
-        <Route path="/mypage/orderlist/option" element={<SelectContents />} />
-        <Route path="/mypage/orderlist/option/exchange" element={<ExchangeReson />} />
-        <Route path="/mypage/orderlist/option/refund" element={<RefundReson />} />
-        <Route path="/mypage/orderlist/option/exchange/done" element={<ExchangeDone />} />
-        <Route path="/mypage/orderlist/option/refund/done" element={<RefundDone />} />
-        <Route path="/mypage/orderlist/option/ordercancel/application" element={<OrderCancelStart />} />
-        <Route path="/mypage/orderlist/option/ordercancel" element={<OrderCancelReaon />} />
-        <Route path="/mypage/orderlist/option/ordercancel/done" element={<OrderCancelDone />} />
-        <Route path="/mypage/cancellist" element={<CanceledOrder />} />
-        <Route path="/mypage/" element={<MypageMenu />} />
-        <Route path="/noauth/" element={<NoAuth />} />
-        <Route path="/mypage/question/create" element={<Ask />} />
-        <Route path="/mypage/question/list" element={<AskedList />} />
-        <Route path="/mypage/question/detail" element={<AskDetail />} />
-        <Route path="/mypage/colligation" element={<Colligation />} />
-        <Route path="/mypage/colligation/cupon" element={<CuponList />} />
-        <Route path="/mypage/colligation/point" element={<PointList />} />
-        <Route path='/payments' element = {<Payments/>}/>
-
-        <Route path='/shop/:category/:subCategory' element={<AllShop />} />
-        <Route path='/shop/:category' element={<AllShop />} />
-
-        <Route path="user/join" element={<Join />} />
-        <Route path='user/login' element={<Login />} />
-        <Route path='user/find/id' element={<FindID />} />
-        <Route path='user/find/pw' element={<FindPW />} />
-        <Route path='user/change/pw' element={<ChangePW />} />
-        <Route path='user/find/id/showid' element={<Successful />} />
-        <Route path='user/find/id/nonid' element={<Failed />} />
-        <Route path='user/find/pw/change' element={<UntilChange />} />
-        <Route path='/user/change/success' element={<ChangeSuccess />} />
-        <Route path='/user/join/success' element={<SuccessJoin />} />
-
-        <Route path='/products/detail' element={<ProdDetail />} />
-        <Route path='/review/images' element={<ReviewImage />} />
-        <Route path='/order/login' element={<GotoLogin />} />
-        <Route path='/order/pay-succeed' element={<PaySucceed />} />
-        <Route path='/order/pay-failed' element={<PayFailed />} />
-        <Route path='/order/delivery/no-member' element={<NoMemInfo />} />
-        <Route path='/order/delivery/member' element={<MemInfo />} />
-        <Route path='/order/delivery/new-address' element={<NewAddress />} />
-        <Route path='/order/delivery/select-address' element={<SelectAdd />} />
-        <Route path='/others/magazine' element={<MagazineList />} />
-        <Route path='/others/magazine/detail' element={<MagazinDetail />} />
-        <Route path='/others/notice/detail' element={<NoticeDetail />} />
-        <Route path='/others/notice' element={<NoticeList />} />
-
-        {/* 관리자 페이지 */}
-
-        <Route path="/manager/*" element={<Manager />} />
-        <Route path="/manager/Goods/Detail/:name" element={<Detail />} />
-        <Route path='*' element={<None />} />
-
-      </Routes>
       <Footer />
     </>
   );
