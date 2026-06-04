@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import Nav from './Nav';
 
@@ -6,14 +6,14 @@ const Manager = () => {
     const location = useLocation();
     const path = location.pathname.split('/manager/')[1];
 
-    const ManagerContent = React.lazy(async () => {
-        try {
-            return await import(`./${path}.jsx`);
-        } catch (error) {
-            return import('../Sections/None.jsx'); 
-        }
-
-    });
+    const ManagerContent = useMemo(() => 
+        React.lazy(async () => {
+            try {
+                return await import(`./${path}.jsx`);
+            } catch (error) {
+                return import('../Sections/None.jsx');
+            }
+        }), [path]);
 
     return (
         <div className="manager">
